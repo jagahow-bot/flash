@@ -5,15 +5,19 @@ import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
 import { getDictionary } from "@/lib/i18n/get-dictionary";
 import { getRequestLocale } from "@/lib/i18n/resolve-locale";
 
-const locale = await getRequestLocale();
-const [dict, appDict] = await Promise.all([
-  getDictionary(locale),
-  getAppDictionary(locale),
-]);
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getRequestLocale();
+  const dict = await getDictionary(locale);
+  return buildLandingMetadata(locale, dict);
+}
 
-export const metadata: Metadata = buildLandingMetadata(locale, dict);
+export default async function MarketingPage() {
+  const locale = await getRequestLocale();
+  const [dict, appDict] = await Promise.all([
+    getDictionary(locale),
+    getAppDictionary(locale),
+  ]);
 
-export default function MarketingPage() {
   return (
     <LandingPage
       dict={dict}
