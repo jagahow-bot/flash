@@ -1,0 +1,56 @@
+# Render Blueprint — FLASH Tattoo SaaS
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Setup:
+# 1. Push this repo to GitHub
+# 2. Render Dashboard → New → Blueprint → connect repo (uses this file)
+# 3. Fill secret env vars in the web service (sync: false below)
+# 4. Set NEXT_PUBLIC_APP_URL to your custom domain after DNS is ready
+
+services:
+  - type: web
+    name: flash
+    runtime: node
+    region: singapore
+    plan: starter
+    branch: master
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
+      # --- Firebase (client) — required at BUILD time (NEXT_PUBLIC_*) ---
+      - key: NEXT_PUBLIC_FIREBASE_API_KEY
+        sync: false
+      - key: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+        sync: false
+      - key: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+        sync: false
+      - key: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+        sync: false
+      - key: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+        sync: false
+      - key: NEXT_PUBLIC_FIREBASE_APP_ID
+        sync: false
+      # --- Firebase Admin (server) ---
+      - key: FIREBASE_ADMIN_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_ADMIN_PRIVATE_KEY
+        sync: false
+      # --- AI ---
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-2.0-flash
+      # --- App URL (set to https://your-domain.com in production) ---
+      - key: NEXT_PUBLIC_APP_URL
+        sync: false
+      # --- Email (Resend) ---
+      - key: RESEND_API_KEY
+        sync: false
+      - key: EMAIL_FROM
+        sync: false

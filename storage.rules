@@ -1,0 +1,111 @@
+rules_version = '2';
+
+// 客戶端透過 Firebase Storage SDK 上傳檔案（預約照片、訂金證明等）。
+// 路徑結構見 lib/storage/upload-*.ts
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return firestore.get(/databases/(default)/documents/users/$(request.auth.uid));
+    }
+
+    function userExists() {
+      return signedIn() && userDoc().exists;
+    }
+
+    function userData() {
+      return userDoc().data;
+    }
+
+    function isStudioStaff(studioId) {
+      return userExists()
+        && userData().get('studioId', '') == studioId
+        && (
+          userData().get('role', '') in ['admin', 'artist']
+          || userData().get('roles', []).hasAny(['admin', 'artist'])
+        );
+    }
+
+    // 可提交預約的帳號（純客戶或工作室帳號以客戶身分預約）
+    function canActAsClient() {
+      return userExists() && (
+        userData().get('role', '') in ['client', 'admin', 'artist']
+        || userData().get('roles', []).hasAny(['client', 'admin', 'artist'])
+      );
+    }
+
+    function projectData(projectId) {
+      return firestore.get(/databases/(default)/documents/projects/$(projectId)).data;
+    }
+
+    function isProjectClient(studioId, projectId) {
+      return signedIn()
+        && firestore.exists(/databases/(default)/documents/projects/$(projectId))
+        && projectData(projectId).get('studioId', '') == studioId
+        && projectData(projectId).get('clientId', '') == request.auth.uid;
+    }
+
+    function isValidImageUpload() {
+      return request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    function isValidTemplateUpload() {
+      return request.resource.size < 15 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/.*')
+          || request.resource.contentType == 'application/pdf'
+        );
+    }
+
+    // studios/{studioId}/brand/logo-*.jpg — 工作室 LOGO（門面公開顯示）
+    match /studios/{studioId}/brand/{fileName} {
+      allow read: if true;
+      allow create, update: if isStudioStaff(studioId) && isValidImageUpload();
+      allow delete: if isStudioStaff(studioId);
+    }
+
+    // studios/{studioId}/intake/* — 預約表單部位／參考圖（專案建立前上傳）
+    match /studios/{studioId}/intake/{fileName} {
+      allow read: if isStudioStaff(studioId) || canActAsClient();
+      allow create: if canActAsClient() && isValidImageUpload();
+      allow update, delete: if isStudioStaff(studioId);
+    }
+
+    // studios/{studioId}/document-templates/{documentId}/* — 術前文件範本
+    match /studios/{studioId}/document-templates/{documentId}/{fileName} {
+      allow read: if isStudioStaff(studioId) || canActAsClient();
+      allow create, update: if isStudioStaff(studioId) && isValidTemplateUpload();
+      allow delete: if isStudioStaff(studioId);
+    }
+
+    // studios/{studioId}/projects/{projectId}/{folder}/{fileName}
+    // folder: deposits | sketches | final-photos | pre-session-docs
+    match /studios/{studioId}/projects/{projectId}/{folder}/{fileName} {
+      allow read: if isStudioStaff(studioId) || isProjectClient(studioId, projectId);
+
+      allow create: if (
+        folder == 'deposits'
+        && isProjectClient(studioId, projectId)
+        && isValidImageUpload()
+      ) || (
+        folder == 'pre-session-docs'
+        && isProjectClient(studioId, projectId)
+        && isValidImageUpload()
+      ) || (
+        folder in ['sketches', 'final-photos']
+        && isStudioStaff(studioId)
+        && isValidImageUpload()
+      );
+
+      allow update, delete: if isStudioStaff(studioId);
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

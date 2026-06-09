@@ -1,0 +1,130 @@
+# Tattoo SaaS Platform - MVP 開發指引 (Cursor System Prompt)
+
+## 1. 專案概述 (Project Overview)
+這是一個專為刺青工作室打造的 B2B2C SaaS 預約與專案管理系統。
+核心亮點：透過 AI「虛擬店長」將客人的表單需求轉譯為結構化 Tattoo Brief 並標示商業風險；採用「雙子星視圖 (Twin Views)」，將工作室的後台管理與客端的精緻體驗完全解耦；並內建主/子帳號 (Admin/Artist) 權限架構。
+
+## 2. 技術堆疊 (Tech Stack)
+- **前端：** Next.js 14+ (App Router), React, TypeScript
+- **樣式與 UI：** Tailwind CSS, shadcn/ui, Lucide Icons
+- **後端與資料庫：** Firebase (Auth, Firestore, Storage)
+- **API 與 AI：** Next.js Route Handlers, OpenAI API (使用 Structured Outputs)
+- **表單處理：** react-hook-form + zod
+
+## 3. 路由架構 (Next.js App Router Structure)
+採用子路徑 (Sub-directory) 實現多租戶，請嚴格遵守以下架構：
+- `/(marketing)/page.tsx` : SaaS 系統行銷首頁
+- `/(auth)/login/page.tsx` : 工作室登入頁面
+- `/(dashboard)/setup/page.tsx` : 工作室初始設定精靈 (Onboarding Wizard)
+- `/(dashboard)/dashboard/page.tsx` : 工作室後台首頁 (雙欄式：左側待辦 Kanban，右側日曆與行程)
+- `/[studioSlug]/page.tsx` : 獨立工作室的客端門面
+- `/[studioSlug]/book/page.tsx` : 客端動態需求表單
+- `/[studioSlug]/p/[projectId]/page.tsx` : 客端單一專案時間軸 (唯讀展示 + Action Banner)
+
+## 4. 資料庫與權限架構 (Firestore Schema & RBAC)
+請建立以下 TypeScript 型別與資料庫結構：
+
+### A. Users (`users` collection)
+```typescript
+interface User {
+  uid: string;
+  email: string;
+  role: 'admin' | 'artist' | 'client';
+  studioId?: string; // 綁定的工作室
+}
+B. Studios (studios collection)
+TypeScript
+interface Studio {
+  studioId: string;
+  slug: string; // 獨立網址後綴
+  name: string;
+  bio: string;
+  paymentInfo: string; // 純文字收款資訊 (MVP)
+  acceptsCoverUp: boolean;
+  artists: string[]; // array of userIds
+  careGuide: string; // Rich text
+}
+C. Projects (projects collection)
+TypeScript
+interface Project {
+  projectId: string;
+  studioId: string;
+  artistId: string; 
+  clientId: string;
+  status: 'pending_brief' | 'quoting' | 'pending_payment' | 'booked' | 'completed';
+  
+  // Intake 表單原始資料
+  intakeForm: {
+    placement: string;
+    size: string;
+    style: string;
+    description: string;
+    isCoverUp: boolean;
+    budget: string;
+    availability: string[];
+    notes: string;
+    placementPhotoUrl?: string;
+    referenceUrls?: string[];
+  };
+
+  // AI 虛擬店長生成的 Brief
+  tattooBrief: {
+    summary: string;
+    keyElements: string[];
+    complexity: "Low" | "Medium" | "High";
+    riskFlags: { level: "warning" | "danger"; reason: string; }[];
+    managerNotes: string;
+  };
+
+  // 排程與報價
+  sessionDetails: {
+    sessions: number;
+    hoursPerSession: number;
+    totalPrice: number | string;
+    depositRequired: number | string;
+  };
+  proposedTimeSlots: { startTime: Date; endTime: Date; }[];
+  confirmedTimeSlot?: { startTime: Date; endTime: Date; };
+
+  // 靜態資產與私密筆記
+  sketches: string[]; // URLs
+  finalPhotos: string[]; // URLs
+  privateNotes: string; // 僅限 Artist/Admin 讀寫
+}
+5. 核心模組實作規範 (Implementation Rules)
+模組一：客端動態需求表單 (Intake Form)
+使用 shadcn/ui 表單元件。
+
+必須包含滿 18 歲的法律免責 Checkbox (必填)。
+
+必須包含上傳部位實拍照片的按鈕，提示文案：「建議先用手機內建畫筆將預計刺青的範圍圈出來」。
+
+上傳前需透過前端套件壓縮圖片，再送至 Firebase Storage。
+
+模組二：AI 虛擬店長引擎 (Route Handler)
+在 /api/generate-brief 中，將表單資料與部位圖片丟給 AI。
+
+嚴格要求： 必須設定 Structured Outputs 強制 AI 回傳符合上述 tattooBrief schema 的 JSON。
+
+System Prompt 需具備判斷邏輯（如：小圖微刺青配上蓋圖選項，需觸發 danger 風險警告）。
+
+模組三：工作室後台 (Studio Control Center)
+首頁佈局： 左側占 2/3 為「任務信箱 (Action Inbox)」，以卡片列出 pending_brief 與 pending_payment 的專案；右側占 1/3 為「近期行程」，包含 Mini Calendar 與已確認 (booked) 的專案清單。
+
+專案管理頁： 實作表單讓刺青師輸入報價，並點選行事曆以產生 proposedTimeSlots 給客戶。
+
+模組四：客端專案視圖 (Client Consumer Portal)
+頂部實作 <ActionBanner />，依據 project.status 條件渲染行動呼籲（如：顯示時段選擇按鈕，或顯示工作室的 paymentInfo 文字讓客戶轉帳並上傳截圖）。
+
+採用標準非同步 Fetch 取資料，不強求整頁即時共同編輯，確保體驗滑順且節省資料庫讀取次數。
+
+6. 開發步驟建議 (給 Cursor)
+Init: 初始化 Next.js (App Router), Tailwind, shadcn/ui。建立 Firebase 連線檔。
+
+Auth & Routing: 建立 Middleware 與登入驗證，設定不同角色轉址邏輯。
+
+Database & Schema: 建立 Firestore TypeScript interfaces 與 mock data。
+
+Client Intake Flow: 刻出 [studioSlug]/book 表單與 AI 串接。
+
+Dashboard & UI: 刻出工作室雙欄式首頁與專案管理細節頁。

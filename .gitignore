@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Firebase CLI project binding (copy from .firebaserc.example)
+.firebaserc
 
 # vercel
 .vercel
