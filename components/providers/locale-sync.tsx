@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useAppLocale } from "@/components/providers/locale-provider";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import {
   LOCALE_COOKIE_MAX_AGE,
@@ -27,8 +28,22 @@ function setLocaleCookie(locale: Locale) {
 
 export function LocaleSync() {
   const { firebaseUser, loading } = useAuth();
+  const serverLocale = useAppLocale();
   const router = useRouter();
   const syncedUid = useRef<string | null>(null);
+  const refreshedForCookie = useRef(false);
+
+  useEffect(() => {
+    if (refreshedForCookie.current) {
+      return;
+    }
+
+    const cookieLocale = readLocaleCookie();
+    if (cookieLocale && cookieLocale !== serverLocale) {
+      refreshedForCookie.current = true;
+      router.refresh();
+    }
+  }, [router, serverLocale]);
 
   useEffect(() => {
     if (loading) {

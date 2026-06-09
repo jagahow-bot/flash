@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "送信回数が多すぎます。しばらく経ってから再度お試しください",
     "resendFailed": "再送信に失敗しました。しばらく経ってから再度お試しください",
     "verifyEmailClientExtra": "認証を完了すると、予約リクエストの送信や通知の受け取りが可能になります",
-    "dashboardHomeLabel": "管理画面"
+    "dashboardHomeLabel": "管理画面",
+    "sessionCreateFailed": "ログイン認証に失敗しました",
+    "adminNotConfigured": "サーバーの認証設定が完了していません。管理者にお問い合わせください。",
+    "adminKeyInvalid": "サーバーの認証キーの形式が正しくありません。管理者にお問い合わせください。",
+    "invalidIdToken": "ログイン情報が無効です。再度ログインしてください。",
+    "missingIdToken": "認証トークンがありません",
+    "accountNotFound": "アカウント情報が見つかりません。スタジオ管理者にお問い合わせください。",
+    "accountCannotLogin": "このアカウントではログインできません。スタジオ管理者にお問い合わせください。",
+    "clientAccountCannotLogin": "このアカウントはお客様ログインに使用できません。",
+    "logoutFailed": "ログアウトに失敗しました"
   },
   "shell": {
     "studioDashboard": "FLASH スタジオ管理画面",

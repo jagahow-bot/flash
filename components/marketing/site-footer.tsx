@@ -25,6 +25,7 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
               <li>
                 <Link
                   href="/login"
+                  prefetch={false}
                   className="transition-colors hover:text-foreground"
                 >
                   {dict.footer.login}
@@ -33,6 +34,7 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
               <li>
                 <Link
                   href="/register"
+                  prefetch={false}
                   className="transition-colors hover:text-foreground"
                 >
                   {dict.footer.studioRegister}

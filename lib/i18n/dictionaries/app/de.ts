@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "Zu viele Versuche. Bitte versuchen Sie es später noch einmal.",
     "resendFailed": "Senden fehlgeschlagen. Bitte versuchen Sie es später noch einmal.",
     "verifyEmailClientExtra": "Sie müssen Ihre Email verifizieren, um Anfragen zu senden und Benachrichtigungen zu erhalten.",
-    "dashboardHomeLabel": "Dashboard"
+    "dashboardHomeLabel": "Dashboard",
+    "sessionCreateFailed": "Anmeldeüberprüfung fehlgeschlagen",
+    "adminNotConfigured": "Server-Authentifizierung ist nicht konfiguriert. Bitte kontaktieren Sie den Administrator.",
+    "adminKeyInvalid": "Der Server-Authentifizierungsschlüssel ist ungültig. Bitte kontaktieren Sie den Administrator.",
+    "invalidIdToken": "Ungültige Anmeldedaten. Bitte melden Sie sich erneut an.",
+    "missingIdToken": "Authentifizierungstoken fehlt",
+    "accountNotFound": "Konto nicht gefunden. Bitte kontaktieren Sie den Studio-Administrator.",
+    "accountCannotLogin": "Mit diesem Konto kann keine Anmeldung erfolgen. Bitte kontaktieren Sie den Studio-Administrator.",
+    "clientAccountCannotLogin": "Dieses Konto kann nicht für die Kundenanmeldung verwendet werden.",
+    "logoutFailed": "Abmeldung fehlgeschlagen. Bitte versuchen Sie es erneut."
   },
   "shell": {
     "studioDashboard": "FLASH Studio-Dashboard",

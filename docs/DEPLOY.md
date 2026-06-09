@@ -185,6 +185,29 @@ Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrend
 
 `NEXT_PUBLIC_APP_URL` 未設為正式網址，或修改後未重新部署。
 
+### 可登入 Firebase 但顯示「登入驗證失敗」
+
+代表瀏覽器端 Firebase Auth 成功，但伺服器建立 Session 失敗（`/api/auth/session`）。
+
+1. 開啟 `https://你的網域/api/health`  
+   - `ok: false` → Firebase Admin 未正確設定  
+   - `ok: true` → Admin 正常，請看 Render Logs 的 `Session creation failed`
+
+2. 確認 Render **Runtime** 環境變數（不只是 Build）已設定：
+   - `FIREBASE_ADMIN_CLIENT_EMAIL`
+   - `FIREBASE_ADMIN_PRIVATE_KEY`
+   - `NEXT_PUBLIC_FIREBASE_PROJECT_ID`（須與 Service Account 同一專案）
+
+3. **Private Key 正確貼法（Render 單行）：**
+
+```
+-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBg...(中間全部)...\n-----END PRIVATE KEY-----\n
+```
+
+從 Firebase 下載的 JSON 取 `private_key` 欄位值，原樣貼上（已含 `\n`）即可，**不要**貼整份 JSON。
+
+4. 修改 Admin 相關變數後，在 Render 點 **Manual Deploy** 重新部署。
+
 ### Admin SDK 錯誤
 
 檢查 `FIREBASE_ADMIN_PRIVATE_KEY` 格式（`\n` 換行）與 `client_email` 是否正確。

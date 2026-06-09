@@ -14,12 +14,6 @@ import { resolveAppLocale } from "@/lib/i18n/locale-priority";
 import { getPreferredLocaleFromSession } from "@/lib/i18n/preferred-locale.server";
 
 export async function getRequestLocale(): Promise<Locale> {
-  const headersList = await headers();
-  const headerLocale = headersList.get("x-locale");
-  if (headerLocale && isLocale(headerLocale)) {
-    return headerLocale;
-  }
-
   const cookieStore = await cookies();
   const session = cookieStore.get(SESSION_COOKIE_NAME)?.value;
   const dbLocale = session
@@ -29,7 +23,18 @@ export async function getRequestLocale(): Promise<Locale> {
     cookieStore.get(LOCALE_COOKIE_NAME)?.value,
   );
 
-  return resolveAppLocale(dbLocale, cookieLocale);
+  const resolved = resolveAppLocale(dbLocale, cookieLocale);
+  if (dbLocale || cookieLocale) {
+    return resolved;
+  }
+
+  const headersList = await headers();
+  const headerLocale = headersList.get("x-locale");
+  if (headerLocale && isLocale(headerLocale)) {
+    return headerLocale;
+  }
+
+  return resolved;
 }
 
 export function resolveLocaleFromPathname(pathname: string): Locale {

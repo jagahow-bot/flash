@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "Trop de tentatives d'envoi. Veuillez réessayer plus tard.",
     "resendFailed": "Échec de l'envoi, veuillez réessayer",
     "verifyEmailClientExtra": "Vous devez valider votre adresse pour envoyer des demandes de réservation et recevoir des notifications.",
-    "dashboardHomeLabel": "Tableau de bord"
+    "dashboardHomeLabel": "Tableau de bord",
+    "sessionCreateFailed": "Échec de la vérification de connexion",
+    "adminNotConfigured": "L'authentification du serveur n'est pas configurée. Veuillez contacter l'administrateur.",
+    "adminKeyInvalid": "La clé d'authentification du serveur est invalide. Veuillez contacter l'administrateur.",
+    "invalidIdToken": "Identifiants de connexion invalides. Veuillez vous reconnecter.",
+    "missingIdToken": "Jeton d'authentification manquant",
+    "accountNotFound": "Compte introuvable. Veuillez contacter l'administrateur du studio.",
+    "accountCannotLogin": "Ce compte ne peut pas se connecter. Veuillez contacter l'administrateur du studio.",
+    "clientAccountCannotLogin": "Ce compte ne peut pas être utilisé pour la connexion client.",
+    "logoutFailed": "Échec de la déconnexion. Veuillez réessayer."
   },
   "shell": {
     "studioDashboard": "Tableau de bord FLASH",

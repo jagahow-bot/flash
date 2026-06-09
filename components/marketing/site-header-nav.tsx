@@ -62,11 +62,12 @@ export function SiteHeaderNav({
       <LanguageSwitcher dict={dict} className="hidden sm:inline-flex" />
       <Link
         href="/login"
+        prefetch={false}
         className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
       >
         {dict.header.login}
       </Link>
-      <Link href="/register">
+      <Link href="/register" prefetch={false}>
         <Button size="sm">{dict.header.studioRegister}</Button>
       </Link>
     </nav>

@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "전송 시도가 너무 많습니다. 잠시 후 다시 시도해 주세요.",
     "resendFailed": "재전송에 실패했습니다. 잠시 후 다시 시도해 주세요.",
     "verifyEmailClientExtra": "인증을 완료하셔야 예약 요청 제출 및 알림 수신이 가능합니다.",
-    "dashboardHomeLabel": "대시보드"
+    "dashboardHomeLabel": "대시보드",
+    "sessionCreateFailed": "로그인 인증에 실패했습니다",
+    "adminNotConfigured": "서버 인증 설정이 완료되지 않았습니다. 관리자에게 문의해 주세요.",
+    "adminKeyInvalid": "서버 인증 키 형식이 올바르지 않습니다. 관리자에게 문의해 주세요.",
+    "invalidIdToken": "로그인 자격 증명이 유효하지 않습니다. 다시 로그인해 주세요.",
+    "missingIdToken": "인증 토큰이 없습니다",
+    "accountNotFound": "계정 정보를 찾을 수 없습니다. 스튜디오 관리자에게 문의해 주세요.",
+    "accountCannotLogin": "이 계정으로 로그인할 수 없습니다. 스튜디오 관리자에게 문의해 주세요.",
+    "clientAccountCannotLogin": "이 계정은 고객 로그인에 사용할 수 없습니다.",
+    "logoutFailed": "로그아웃에 실패했습니다"
   },
   "shell": {
     "studioDashboard": "FLASH 스튜디오 대시보드",

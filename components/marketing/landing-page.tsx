@@ -77,12 +77,12 @@ export function LandingPage({
                 </p>
 
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-                  <Link href="/login">
+                  <Link href="/login" prefetch={false}>
                     <Button size="lg" className="w-full min-w-[160px] sm:w-auto">
                       {dict.hero.ctaLogin}
                     </Button>
                   </Link>
-                  <Link href="/register">
+                  <Link href="/register" prefetch={false}>
                     <Button
                       size="lg"
                       variant="outline"
@@ -257,7 +257,7 @@ export function LandingPage({
                 {dict.cta.description}
               </p>
               <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
-                <Link href="/login">
+                <Link href="/login" prefetch={false}>
                   <Button
                     size="lg"
                     variant="secondary"
@@ -266,7 +266,7 @@ export function LandingPage({
                     {dict.cta.loginButton}
                   </Button>
                 </Link>
-                <Link href="/register">
+                <Link href="/register" prefetch={false}>
                   <Button
                     size="lg"
                     variant="outline"

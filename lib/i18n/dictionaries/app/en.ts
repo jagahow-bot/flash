@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "Too many requests. Please try again later",
     "resendFailed": "Failed to resend. Please try again later",
     "verifyEmailClientExtra": "You must verify your Email to send booking requests and receive notifications",
-    "dashboardHomeLabel": "Dashboard"
+    "dashboardHomeLabel": "Dashboard",
+    "sessionCreateFailed": "Login verification failed",
+    "adminNotConfigured": "Server authentication is not configured. Please contact the administrator.",
+    "adminKeyInvalid": "Server authentication key is invalid. Please contact the administrator.",
+    "invalidIdToken": "Invalid login credentials. Please sign in again.",
+    "missingIdToken": "Missing authentication token",
+    "accountNotFound": "Account not found. Please contact the studio administrator.",
+    "accountCannotLogin": "This account cannot log in. Please contact the studio administrator.",
+    "clientAccountCannotLogin": "This account cannot be used for client login.",
+    "logoutFailed": "Logout failed. Please try again."
   },
   "shell": {
     "studioDashboard": "FLASH Studio Dashboard",

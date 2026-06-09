@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "Muitas tentativas de envio. Tente novamente mais tarde",
     "resendFailed": "Falha ao reenviar, tente novamente mais tarde",
     "verifyEmailClientExtra": "Você precisa concluir a verificação para enviar pedidos de agendamento e receber notificações",
-    "dashboardHomeLabel": "Painel"
+    "dashboardHomeLabel": "Painel",
+    "sessionCreateFailed": "Falha na verificação do login",
+    "adminNotConfigured": "A autenticação do servidor não está configurada. Entre em contato com o administrador.",
+    "adminKeyInvalid": "A chave de autenticação do servidor é inválida. Entre em contato com o administrador.",
+    "invalidIdToken": "Credenciais de login inválidas. Faça login novamente.",
+    "missingIdToken": "Token de autenticação ausente",
+    "accountNotFound": "Conta não encontrada. Entre em contato com o administrador do estúdio.",
+    "accountCannotLogin": "Esta conta não pode fazer login. Entre em contato com o administrador do estúdio.",
+    "clientAccountCannotLogin": "Esta conta não pode ser usada para login de cliente.",
+    "logoutFailed": "Falha ao sair. Tente novamente."
   },
   "shell": {
     "studioDashboard": "Painel do Estúdio FLASH",

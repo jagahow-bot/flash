@@ -128,6 +128,15 @@ export interface AppDictionary {
     resendFailed: string;
     verifyEmailClientExtra: string;
     dashboardHomeLabel: string;
+    sessionCreateFailed: string;
+    adminNotConfigured: string;
+    adminKeyInvalid: string;
+    invalidIdToken: string;
+    missingIdToken: string;
+    accountNotFound: string;
+    accountCannotLogin: string;
+    clientAccountCannotLogin: string;
+    logoutFailed: string;
   };
   shell: {
     studioDashboard: string;

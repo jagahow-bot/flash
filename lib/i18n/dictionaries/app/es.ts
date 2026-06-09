@@ -137,7 +137,16 @@ const dictionary = {
     "resendTooMany": "Demasiados reenvíos, inténtalo de nuevo más tarde",
     "resendFailed": "Error al reenviar, inténtalo de nuevo más tarde",
     "verifyEmailClientExtra": "Debes completar la verificación para enviar solicitudes de reserva y recibir notificaciones",
-    "dashboardHomeLabel": "Panel de control"
+    "dashboardHomeLabel": "Panel de control",
+    "sessionCreateFailed": "Error en la verificación del inicio de sesión",
+    "adminNotConfigured": "La autenticación del servidor no está configurada. Contacta al administrador.",
+    "adminKeyInvalid": "La clave de autenticación del servidor no es válida. Contacta al administrador.",
+    "invalidIdToken": "Credenciales de inicio de sesión no válidas. Vuelve a iniciar sesión.",
+    "missingIdToken": "Falta el token de autenticación",
+    "accountNotFound": "Cuenta no encontrada. Contacta al administrador del estudio.",
+    "accountCannotLogin": "Esta cuenta no puede iniciar sesión. Contacta al administrador del estudio.",
+    "clientAccountCannotLogin": "Esta cuenta no se puede usar para el inicio de sesión de clientes.",
+    "logoutFailed": "Error al cerrar sesión. Inténtalo de nuevo."
   },
   "shell": {
     "studioDashboard": "Panel de estudio FLASH",

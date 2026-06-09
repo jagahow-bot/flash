@@ -9,16 +9,26 @@ import {
   normalizeUserRecord,
 } from "@/lib/auth/user-roles";
 import { getPostLoginRedirect } from "@/lib/auth/redirects";
+import { mapSessionCreationError } from "@/lib/auth/session-error";
+import {
+  getAuthMessages,
+  messageForSessionErrorCode,
+} from "@/lib/auth/session-messages.server";
 import { setLocaleCookieOnResponse } from "@/lib/i18n/set-locale-cookie";
 import { createStudioAdminUser } from "@/lib/firestore/users.server";
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
 
 export async function POST(request: NextRequest) {
+  const authMessages = await getAuthMessages(request);
+
   try {
     const { idToken, redirectTo } = await request.json();
 
     if (!idToken || typeof idToken !== "string") {
-      return NextResponse.json({ error: "缺少 idToken" }, { status: 400 });
+      return NextResponse.json(
+        { error: authMessages.missingIdToken, code: "MISSING_ID_TOKEN" },
+        { status: 400 },
+      );
     }
 
     const adminAuth = getAdminAuth();
@@ -30,12 +40,11 @@ export async function POST(request: NextRequest) {
       const email = decoded.email?.trim();
       if (!email) {
         return NextResponse.json(
-          { error: "找不到帳號資料，請聯繫工作室管理員" },
-          { status: 403 }
+          { error: authMessages.accountNotFound, code: "ACCOUNT_NOT_FOUND" },
+          { status: 403 },
         );
       }
 
-      // Firebase Auth 帳號存在但 Firestore 使用者文件被刪除時，自動補建 admin 資料
       await createStudioAdminUser(decoded.uid, email);
       userDoc = await userRef.get();
     }
@@ -43,20 +52,20 @@ export async function POST(request: NextRequest) {
     const user = normalizeUserRecord(
       decoded.uid,
       userDoc.data(),
-      decoded.email ?? ""
+      decoded.email ?? "",
     );
 
     if (!user) {
       return NextResponse.json(
-        { error: "找不到帳號資料，請聯繫工作室管理員" },
-        { status: 403 }
+        { error: authMessages.accountNotFound, code: "ACCOUNT_NOT_FOUND" },
+        { status: 403 },
       );
     }
 
     if (!canActAsClient(user) && !canAccessStudioPortal(user)) {
       return NextResponse.json(
-        { error: "此帳號無法登入，請聯繫工作室管理員" },
-        { status: 403 }
+        { error: authMessages.accountCannotLogin, code: "ACCOUNT_CANNOT_LOGIN" },
+        { status: 403 },
       );
     }
 
@@ -89,11 +98,20 @@ export async function POST(request: NextRequest) {
     return response;
   } catch (error) {
     console.error("Session creation failed:", error);
-    return NextResponse.json({ error: "登入驗證失敗" }, { status: 401 });
+    const mapped = mapSessionCreationError(error);
+    return NextResponse.json(
+      {
+        error: messageForSessionErrorCode(authMessages, mapped.code),
+        code: mapped.code,
+      },
+      { status: mapped.status },
+    );
   }
 }
 
-export async function DELETE() {
+export async function DELETE(request: NextRequest) {
+  const authMessages = await getAuthMessages(request);
+
   try {
     const response = NextResponse.json({ success: true });
     response.cookies.set(SESSION_COOKIE_NAME, "", {
@@ -106,6 +124,9 @@ export async function DELETE() {
     return response;
   } catch (error) {
     console.error("Session deletion failed:", error);
-    return NextResponse.json({ error: "登出失敗" }, { status: 500 });
+    return NextResponse.json(
+      { error: authMessages.logoutFailed, code: "LOGOUT_FAILED" },
+      { status: 500 },
+    );
   }
 }

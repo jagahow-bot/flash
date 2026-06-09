@@ -66,6 +66,7 @@ export function LanguageSwitcher({
   useEffect(() => {
     if (marketingOnly) {
       setCurrentLocale(pathLocale);
+      setLocaleCookie(pathLocale);
     } else {
       const match = document.cookie.match(
         new RegExp(`(?:^|; )${LOCALE_COOKIE_NAME}=([^;]*)`),
