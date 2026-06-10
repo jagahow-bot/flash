@@ -9,9 +9,11 @@ import { getAppointmentDisplay } from "@/lib/project/appointment-display";
 import {
   getClientProjectDescription,
   getClientProjectSize,
+  getClientProjectStatusDisplay,
 } from "@/lib/project/client-project-display";
-import { getClientTimelineLabel } from "@/lib/project/status";
+import { getProjectStatusStyleClass } from "@/lib/project/status-styles";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import { cn } from "@/lib/utils";
 
 function ClientField({
@@ -19,18 +21,35 @@ function ClientField({
   value,
   subValue,
   valueClassName,
+  wrapValue = false,
 }: {
   label: string;
   value: string;
   subValue?: string;
   valueClassName?: string;
+  wrapValue?: boolean;
 }) {
   return (
     <div className="min-w-0">
       <p className="text-xs text-muted-foreground">{label}</p>
-      <p className={cn("truncate text-sm font-medium", valueClassName)}>{value}</p>
+      <p
+        className={cn(
+          "text-sm font-medium",
+          wrapValue ? "break-words leading-snug" : "truncate",
+          valueClassName,
+        )}
+      >
+        {value}
+      </p>
       {subValue ? (
-        <p className="mt-0.5 truncate text-xs text-muted-foreground">{subValue}</p>
+        <p
+          className={cn(
+            "mt-0.5 text-xs text-muted-foreground",
+            wrapValue ? "break-words leading-snug" : "truncate",
+          )}
+        >
+          {subValue}
+        </p>
       ) : null}
     </div>
   );
@@ -40,17 +59,20 @@ export function ClientProjectCard({
   project,
   studioName,
   studioSlug,
+  studio,
   unreadCount = 0,
 }: {
   project: Project;
   studioName: string;
   studioSlug: string;
+  studio?: Studio | null;
   unreadCount?: number;
 }) {
   const dict = useAppDictionary();
   const intake = project.intakeForm;
   const appointment = getAppointmentDisplay(project, dict);
   const description = getClientProjectDescription(project);
+  const status = getClientProjectStatusDisplay(project, dict, studio ?? undefined);
   const empty = dict.common.emptyDash;
 
   const fields = [
@@ -63,11 +85,6 @@ export function ClientProjectCard({
     },
     { key: "size", label: dict.dashboard.size, value: getClientProjectSize(project) },
     {
-      key: "progress",
-      label: dict.clientPortal.progress,
-      value: getClientTimelineLabel(project.status, dict),
-    },
-    {
       key: "appointment",
       label: dict.clientPortal.nextAppointment,
       value: appointment.primary,
@@ -75,6 +92,7 @@ export function ClientProjectCard({
       valueClassName: appointment.isConfirmed
         ? "text-emerald-700 dark:text-emerald-300"
         : undefined,
+      wrapValue: true,
     },
   ] as const;
 
@@ -87,18 +105,35 @@ export function ClientProjectCard({
           "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
       )}
     >
+      <div className="flex w-full items-start justify-end">
+        <span
+          className={cn(
+            "inline-flex max-w-full flex-col rounded-lg px-2.5 py-1 text-xs font-medium leading-snug",
+            getProjectStatusStyleClass(status.styleKey, project.status),
+          )}
+        >
+          <span className="break-words">{status.primary}</span>
+          {status.secondary ? (
+            <span className="mt-0.5 break-words text-[11px] font-normal opacity-90">
+              {status.secondary}
+            </span>
+          ) : null}
+        </span>
+      </div>
+
       <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3">
-        <ClientField label={fields[0].label} value={fields[0].value} />
-        <ClientField label={fields[1].label} value={fields[1].value} />
-        <ClientField label={fields[2].label} value={fields[2].value} />
-        <ClientField label={fields[3].label} value={fields[3].value} />
-        <ClientField label={fields[4].label} value={fields[4].value} />
-        <ClientField
-          label={fields[5].label}
-          value={fields[5].value}
-          subValue={fields[5].subValue}
-          valueClassName={fields[5].valueClassName}
-        />
+        {fields.map((field) => (
+          <ClientField
+            key={field.key}
+            label={field.label}
+            value={field.value}
+            subValue={"subValue" in field ? field.subValue : undefined}
+            valueClassName={
+              "valueClassName" in field ? field.valueClassName : undefined
+            }
+            wrapValue={"wrapValue" in field ? field.wrapValue : false}
+          />
+        ))}
       </div>
 
       {description ? (

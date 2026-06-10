@@ -274,45 +274,56 @@ export function notifyNewDiscussionMessage(
   );
 }
 
-export function notifyQuoteProgressUpdate(
+export async function notifyQuoteProgressUpdate(
   project: Project,
   input: { quoteChanged: boolean; slotsChanged: boolean; isFirstSend: boolean }
-) {
-  if (!input.quoteChanged && !input.slotsChanged) return;
+): Promise<void> {
+  if (!input.quoteChanged && !input.slotsChanged && !input.isFirstSend) {
+    return;
+  }
 
   const event: ProjectNotificationEvent = input.isFirstSend
     ? "quote_ready"
     : "quote_updated";
 
-  dispatch(
-    (async () => {
-      const context = await resolveStudioContext(project);
-      if (!context) return;
+  try {
+    const context = await resolveStudioContext(project);
+    if (!context) {
+      console.warn(
+        `[email] ${event} skipped for ${project.projectId}: studio context unavailable`
+      );
+      return;
+    }
 
-      const recipient = await getClientNotificationRecipient(project);
-      if (!recipient) return;
+    const recipient = await getClientNotificationRecipient(project);
+    if (!recipient) {
+      console.warn(
+        `[email] ${event} skipped for ${project.projectId}: no verified client recipient`
+      );
+      return;
+    }
 
-      await sendLocalizedToRecipient(recipient, (dict) => {
-        const copy = buildQuoteNotificationCopy(
-          dict,
-          context.studio.name,
-          project,
-          input
-        );
+    await sendLocalizedToRecipient(recipient, (dict) => {
+      const copy = buildQuoteNotificationCopy(
+        dict,
+        context.studio.name,
+        project,
+        input
+      );
 
-        return buildProjectEmailForAudience(dict, {
-          studioName: context.studio.name,
-          projectId: project.projectId,
-          studioSlug: context.studio.slug,
-          audience: "client",
-          title: copy.title,
-          body: copy.body,
-        });
+      return buildProjectEmailForAudience(dict, {
+        studioName: context.studio.name,
+        projectId: project.projectId,
+        studioSlug: context.studio.slug,
+        audience: "client",
+        title: copy.title,
+        body: copy.body,
       });
-    })(),
-    event,
-    project.projectId
-  );
+    });
+  } catch (error) {
+    console.error(`[email] ${event} failed for ${project.projectId}:`, error);
+    throw error;
+  }
 }
 
 export function notifySlotReserved(project: Project, studio: Studio) {

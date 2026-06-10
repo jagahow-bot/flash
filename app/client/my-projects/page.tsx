@@ -88,6 +88,7 @@ export default async function MyProjectsPage() {
               project={project}
               studioName={studio!.name}
               studioSlug={studio!.slug}
+              studio={studio}
               unreadCount={unread}
             />
           ))}

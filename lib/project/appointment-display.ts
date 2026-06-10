@@ -10,7 +10,6 @@ import {
   getBookedSessionCount,
   getCurrentSessionIndex,
   getSessionProgressLabel,
-  getTotalSessions,
   hasMoreSessionsToBook,
   isAwaitingSessionDelivery,
   isMultiSession,
@@ -82,17 +81,13 @@ export function getAppointmentDisplay(
     project.proposedTimeSlots &&
     project.proposedTimeSlots.length > 0
   ) {
-    const sessionLabel = isMultiSession(project)
-      ? `${formatMessage(dict.project.arrangingSession, { index: getCurrentSessionIndex(project) })} · `
-      : "";
-
     return {
-      primary: `${sessionLabel}${dict.status.appointment.awaitingClientSlot}`,
-      secondary: `${project.proposedTimeSlots.length}${
-        getTotalSessions(project) > 1
-          ? ` / ${getTotalSessions(project)}`
-          : ""
-      }`,
+      primary: isMultiSession(project)
+        ? formatMessage(dict.project.confirmSession, {
+            index: getCurrentSessionIndex(project),
+          })
+        : dict.project.pickSlot,
+      secondary: dict.project.sessionHistoryAwaitingSlotConfirm,
       isConfirmed: false,
     };
   }

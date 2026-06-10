@@ -449,15 +449,31 @@ export async function PATCH(
       "pending_payment",
     ]);
 
-    if (
-      (quoteChanged || slotsChanged) &&
-      clientQuoteStatuses.has(nextProject.status)
+    const shouldNotifyQuoteProgress =
+      (quoteChanged || slotsChanged || isFirstQuoteSend) &&
+      clientQuoteStatuses.has(nextProject.status);
+
+    if (shouldNotifyQuoteProgress) {
+      try {
+        await notifyQuoteProgressUpdate(nextProject, {
+          quoteChanged: quoteChanged || isFirstQuoteSend,
+          slotsChanged: slotsChanged || isFirstQuoteSend,
+          isFirstSend: isFirstQuoteSend,
+        });
+      } catch (error) {
+        console.error(
+          `Quote notification failed for ${projectId}:`,
+          error
+        );
+      }
+    } else if (
+      isFirstQuoteSend ||
+      ((quoteChanged || slotsChanged) &&
+        !clientQuoteStatuses.has(nextProject.status))
     ) {
-      notifyQuoteProgressUpdate(nextProject, {
-        quoteChanged,
-        slotsChanged,
-        isFirstSend: isFirstQuoteSend,
-      });
+      console.warn(
+        `[email] quote_ready skipped for ${projectId}: status=${nextProject.status}, quoteChanged=${quoteChanged}, slotsChanged=${slotsChanged}, isFirstQuoteSend=${isFirstQuoteSend}`
+      );
     }
 
     if (

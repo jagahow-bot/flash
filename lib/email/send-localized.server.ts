@@ -31,7 +31,17 @@ export async function sendLocalizedToRecipients(
 
   for (const [locale, emails] of byLocale) {
     const dict = await getAppDictionary(locale);
-    await sendEmail({ to: emails, ...(await build(dict)) });
+    const content = await build(dict);
+    const result = await sendEmail({ to: emails, ...content });
+
+    if (!result.sent) {
+      console.warn("[email] not sent to studio recipients", {
+        locale,
+        to: emails,
+        subject: content.subject,
+        reason: result.reason,
+      });
+    }
   }
 }
 
@@ -44,5 +54,14 @@ export async function sendLocalizedToRecipient(
     | Promise<Pick<SendEmailInput, "subject" | "html" | "text">>,
 ): Promise<void> {
   const dict = await getAppDictionary(recipient.locale);
-  await sendEmail({ to: recipient.email, ...(await build(dict)) });
+  const content = await build(dict);
+  const result = await sendEmail({ to: recipient.email, ...content });
+
+  if (!result.sent) {
+    console.warn("[email] not sent to client recipient", {
+      to: recipient.email,
+      subject: content.subject,
+      reason: result.reason,
+    });
+  }
 }

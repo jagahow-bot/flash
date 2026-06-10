@@ -27,9 +27,11 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
   const from = process.env.EMAIL_FROM?.trim();
 
   if (!apiKey || !from) {
-    console.info("[email] skipped (missing RESEND_API_KEY or EMAIL_FROM)", {
+    console.warn("[email] skipped (missing RESEND_API_KEY or EMAIL_FROM)", {
       to: recipients,
       subject: input.subject,
+      hasApiKey: Boolean(apiKey),
+      hasFrom: Boolean(from),
     });
     return { sent: false, skipped: true, reason: "missing_config" };
   }
