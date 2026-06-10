@@ -97,7 +97,7 @@ export function MiniCalendar({
   }
 
   return (
-    <div className="w-[10.5rem] shrink-0 rounded-lg border p-1.5">
+    <div className="w-full shrink-0 rounded-lg border p-1.5 md:w-[10.5rem]">
       <div className="mb-2 flex items-center justify-between">
         <Button
           type="button"

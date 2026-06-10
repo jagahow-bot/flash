@@ -146,7 +146,7 @@ export function SchedulePanel({
       </CardHeader>
       <CardContent>
         <div className="flex flex-col items-stretch gap-3 md:flex-row md:gap-2">
-          <div className="mx-auto w-full max-w-[10.5rem] shrink-0 md:mx-0">
+          <div className="w-full shrink-0 md:max-w-[10.5rem]">
           <MiniCalendar
             viewDate={viewDate}
             onViewDateChange={(date) => {

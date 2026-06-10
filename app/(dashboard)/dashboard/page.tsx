@@ -32,21 +32,18 @@ export default async function DashboardPage() {
         <h1 className="text-2xl font-bold">
           {studio?.name ?? dict.dashboard.titleFallback}
         </h1>
-        <p className="text-muted-foreground">
-          {dict.dashboard.subtitle}
-          {studio?.slug ? (
-            <>
-              {" "}
-              · {dict.dashboard.bookingPageLink}{" "}
-              <a
-                href={`/${studio.slug}/book`}
-                className="text-primary underline-offset-4 hover:underline"
-              >
-                /{studio.slug}/book
-              </a>
-            </>
-          ) : null}
-        </p>
+        <p className="text-muted-foreground">{dict.dashboard.subtitle}</p>
+        {studio?.slug ? (
+          <p className="text-muted-foreground">
+            {dict.dashboard.bookingPageLink}:{" "}
+            <a
+              href={`/${studio.slug}/book`}
+              className="font-semibold text-primary underline underline-offset-4"
+            >
+              /{studio.slug}/book
+            </a>
+          </p>
+        ) : null}
       </div>
 
       <DashboardWorkspace
