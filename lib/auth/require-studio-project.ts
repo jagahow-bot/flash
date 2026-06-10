@@ -1,3 +1,4 @@
+import { isStudioBillingBlocked } from "@/lib/auth/require-active-billing";
 import { getAuthenticatedUser } from "@/lib/auth/session";
 import { canAccessStudioPortal } from "@/lib/auth/user-roles";
 import { getProjectById } from "@/lib/firestore/projects.server";
@@ -10,6 +11,10 @@ export async function requireStudioProjectAccess(
   const user = await getAuthenticatedUser();
 
   if (!user?.studioId || !canAccessStudioPortal(user)) {
+    return null;
+  }
+
+  if (await isStudioBillingBlocked(user.studioId)) {
     return null;
   }
 

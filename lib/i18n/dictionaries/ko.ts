@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "간단한 사용량 기반 요금",
+    subtitle:
+      "고정 월 요금 없음 — FLASH로 예약이 성공했을 때만 비용이 발생합니다.",
+    pricePerBooking: "매월 성공한 예약 건당 USD $3",
+    noMonthlyFee: "고정 월 요금 없음",
+    freeTier: "스튜디오당 첫 30건 예약 무료",
+    footnote:
+      "청구는 스튜디오의 해당 월 성공 예약 건수를 기준으로 합니다. 여러 세션 프로젝트도 예약 확정 시 1건으로 집계됩니다.",
+  },
   faq: {
     title: "자주 묻는 질문",
     subtitle: "타투샵이 자주 묻는 것, 쉬운 답변",

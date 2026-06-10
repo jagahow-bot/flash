@@ -13,6 +13,7 @@
 | Firebase 專案 | 已建立並啟用 Auth、Firestore、Storage |
 | Gemini API Key | AI 虛擬店長 |
 | Resend 帳號 + 已驗證網域 | 交易型 Email |
+| Stripe 帳號（選用，帳單功能） | 工作室用量計費與 webhook |
 | 自訂網域（選用） | 例如 `app.yourstudio.com` |
 
 ---
@@ -135,6 +136,8 @@ npm run seed
 | `NEXT_PUBLIC_APP_URL` | ✅ 正式環境 | `https://你的網域`（無尾隨斜線） |
 | `RESEND_API_KEY` | ✅ | Email 發送 |
 | `EMAIL_FROM` | ✅ | 例如 `FLASH <hello@ink-flash.com>` |
+| `STRIPE_SECRET_KEY` | 帳單功能 | Stripe Dashboard → API keys |
+| `STRIPE_WEBHOOK_SECRET` | 帳單功能 | Stripe → Webhooks → 端點簽章密鑰 |
 
 Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrender.com`）。在尚未綁定自訂網域前，可暫時將 `NEXT_PUBLIC_APP_URL` 設為該 URL；綁定網域後改為正式網址並重新部署。
 
@@ -160,6 +163,46 @@ Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrend
 3. `EMAIL_FROM` 必須使用已驗證網域，例如 `FLASH <hello@ink-flash.com>`
 
 未設定時，Email 相關 API 會靜默略過或記錄錯誤（見 `lib/email/send.server.ts`）。
+
+---
+
+## 5.1 Stripe 帳單（選用）
+
+FLASH 採用**用量計費**：每間工作室前 30 筆成功預約免費，之後每月每筆成功預約 USD $3（無固定月費）。
+
+### 環境變數
+
+| 變數 | 說明 |
+|------|------|
+| `STRIPE_SECRET_KEY` | Stripe Dashboard → Developers → API keys（Secret key） |
+| `STRIPE_WEBHOOK_SECRET` | Webhook 端點的 Signing secret |
+
+未設定時，`/api/webhooks/stripe` 回傳 `501`；工作室仍可使用免費額度，但無法自動扣款。
+
+### Webhook 端點
+
+1. Stripe Dashboard → Developers → Webhooks → Add endpoint
+2. URL：`https://你的網域/api/webhooks/stripe`
+3. 建議訂閱事件：
+   - `invoice.paid` → 恢復 `billingStatus: active`
+   - `invoice.payment_failed` → 設為 `past_due`
+   - `customer.subscription.deleted` → 設為 `suspended`
+   - `checkout.session.completed` → 綁定 `stripeCustomerId`（metadata 需含 `studioId`）
+
+### 暫停邏輯
+
+當 Firestore `studios.billingStatus === 'suspended'` 時：
+
+- 工作室後台（`/dashboard` 等）會導向 `/billing`
+- 工作室 API（`requireStudioAdmin` / `requireStudioProjectAccess`）回傳 403
+
+### 待完成（TODO）
+
+- Stripe Checkout / Customer Portal 串接（`/billing` 頁面 placeholder）
+- 每月依 `completedBookingsCount` 開立 metered invoice
+- `past_due` 寬限期政策
+
+Firestore 欄位：`billingStatus`、`freeBookingsRemaining`、`completedBookingsCount`、`stripeCustomerId`、`stripeSubscriptionId`、`lastBilledMonth`。
 
 ---
 

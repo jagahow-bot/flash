@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import type SignaturePad from "signature_pad";
 import { SignatureCanvas } from "@/components/project/signature-canvas";
+import { ZoomableDocumentPreview } from "@/components/project/zoomable-document-preview";
 import {
   getPreSessionRecords,
   getTemplateByDocumentId,
@@ -25,44 +25,6 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useAppDictionary } from "@/components/providers/locale-provider";
-
-function DocumentTemplatePreview({
-  title,
-  templateFileUrl,
-  openTemplatePdfLabel,
-}: {
-  title: string;
-  templateFileUrl: string;
-  openTemplatePdfLabel: string;
-}) {
-  const isImage =
-    templateFileUrl.match(/\.(png|jpe?g|webp|gif)(\?|$)/i) != null;
-
-  if (isImage) {
-    return (
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-md border bg-muted">
-        <Image
-          src={templateFileUrl}
-          alt={title}
-          fill
-          className="object-contain"
-          unoptimized
-        />
-      </div>
-    );
-  }
-
-  return (
-    <a
-      href={templateFileUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-    >
-      {openTemplatePdfLabel}
-    </a>
-  );
-}
 
 function DocumentCard({
   record,
@@ -103,10 +65,14 @@ function DocumentCard({
 
       {template?.templateFileUrl ? (
         <div className="mt-3">
-          <DocumentTemplatePreview
+          <ZoomableDocumentPreview
+            url={template.templateFileUrl}
             title={record.title}
-            templateFileUrl={template.templateFileUrl}
-            openTemplatePdfLabel={ps.openTemplatePdf}
+            tapToZoomLabel={ps.tapToZoom}
+            closeLabel={c.closeAria}
+            zoomInLabel={ps.zoomIn}
+            zoomOutLabel={ps.zoomOut}
+            openPdfLabel={ps.openTemplatePdf}
           />
         </div>
       ) : null}

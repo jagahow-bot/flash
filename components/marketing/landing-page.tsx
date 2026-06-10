@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   Bot,
   CalendarDays,
+  DollarSign,
   Layers,
   Sparkles,
   Wallet,
@@ -160,6 +161,55 @@ export function LandingPage({
                   );
                 })}
               </div>
+            </div>
+          </section>
+
+          {/* Pricing */}
+          <section
+            id="pricing"
+            className="border-y bg-muted/20 py-16 sm:py-20"
+            aria-labelledby="pricing-heading"
+          >
+            <div className="mx-auto max-w-3xl px-4">
+              <div className="mx-auto max-w-2xl text-center">
+                <div
+                  className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/5 ring-1 ring-primary/10"
+                  aria-hidden="true"
+                >
+                  <DollarSign className="size-6 text-primary" />
+                </div>
+                <h2
+                  id="pricing-heading"
+                  className="text-2xl font-semibold tracking-tight sm:text-3xl"
+                >
+                  {dict.pricing.title}
+                </h2>
+                <p className="mt-3 whitespace-pre-line text-muted-foreground">
+                  {dict.pricing.subtitle}
+                </p>
+              </div>
+
+              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                <Card className="text-center">
+                  <CardHeader>
+                    <CardTitle className="text-base">{dict.pricing.pricePerBooking}</CardTitle>
+                  </CardHeader>
+                </Card>
+                <Card className="text-center">
+                  <CardHeader>
+                    <CardTitle className="text-base">{dict.pricing.noMonthlyFee}</CardTitle>
+                  </CardHeader>
+                </Card>
+                <Card className="text-center">
+                  <CardHeader>
+                    <CardTitle className="text-base">{dict.pricing.freeTier}</CardTitle>
+                  </CardHeader>
+                </Card>
+              </div>
+
+              <p className="mt-6 text-center text-sm text-muted-foreground">
+                {dict.pricing.footnote}
+              </p>
             </div>
           </section>
 

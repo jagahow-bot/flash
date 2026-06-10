@@ -6,11 +6,14 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { type FirebaseError } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from "firebase/auth";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import {
+  getGoogleAuthErrorMessage,
+  signInWithGoogle,
+  useGoogleRedirectSignIn,
+} from "@/lib/auth/google-sign-in";
 import { sendRegistrationVerificationEmail } from "@/lib/auth/send-verification-email";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
@@ -157,22 +160,47 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
     }
   }
 
+  useGoogleRedirectSignIn(
+    async (credential) => {
+      setError(null);
+      setLoading(true);
+
+      try {
+        await completeAuth(await credential.user.getIdToken());
+      } catch (error) {
+        await auth.signOut().catch(() => undefined);
+        setError(getGoogleAuthErrorMessage(error, t) ?? t.googleLoginFailed);
+      } finally {
+        setLoading(false);
+      }
+    },
+    (error) => {
+      void auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
+      setLoading(false);
+    }
+  );
+
   async function handleGoogle() {
     setError(null);
     setLoading(true);
 
     try {
-      const credential = await signInWithPopup(auth, new GoogleAuthProvider());
-      await completeAuth(await credential.user.getIdToken());
-    } catch (error) {
-      await auth.signOut().catch(() => undefined);
-
-      const code = (error as FirebaseError).code;
-      if (code === "auth/popup-closed-by-user") {
+      const credential = await signInWithGoogle();
+      if (!credential) {
         return;
       }
 
-      setError((error as Error).message || t.googleLoginFailed);
+      await completeAuth(await credential.user.getIdToken());
+    } catch (error) {
+      await auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
     } finally {
       setLoading(false);
     }

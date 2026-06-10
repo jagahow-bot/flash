@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "Tarification simple à l'usage",
+    subtitle:
+      "Pas d'abonnement mensuel fixe — vous payez uniquement quand les réservations aboutissent via FLASH.",
+    pricePerBooking: "USD 3 $ par réservation réussie chaque mois",
+    noMonthlyFee: "Pas de frais mensuels fixes",
+    freeTier: "Les 30 premières réservations par studio sont GRATUITES",
+    footnote:
+      "La facturation repose sur le nombre de réservations réussies du studio chaque mois civil. Les projets en plusieurs séances comptent pour une réservation à la confirmation.",
+  },
   faq: {
     title: "Questions fréquentes",
     subtitle: "Ce que les studios demandent souvent, en langage simple",

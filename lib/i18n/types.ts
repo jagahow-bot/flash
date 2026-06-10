@@ -69,6 +69,14 @@ export interface LandingDictionary {
     studioTitle: string;
     studioSteps: LandingStep[];
   };
+  pricing: {
+    title: string;
+    subtitle: string;
+    pricePerBooking: string;
+    noMonthlyFee: string;
+    freeTier: string;
+    footnote: string;
+  };
   faq: {
     title: string;
     subtitle: string;

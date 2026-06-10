@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { ImageUploadZone } from "@/components/intake/image-upload-zone";
+import { ZoomableDocumentPreview } from "@/components/project/zoomable-document-preview";
 import {
   getPreSessionRecords,
   getTemplateByDocumentId,
@@ -149,14 +148,17 @@ export function PreSessionDocumentsPanel({
                   </div>
 
                   {template?.templateFileUrl ? (
-                    <a
-                      href={template.templateFileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-block text-sm text-primary underline-offset-4 hover:underline"
-                    >
-                      {ps.viewBlankTemplate}
-                    </a>
+                    <div className="mt-2">
+                      <ZoomableDocumentPreview
+                        url={template.templateFileUrl}
+                        title={record.title}
+                        tapToZoomLabel={ps.tapToZoom}
+                        closeLabel={c.closeAria}
+                        zoomInLabel={ps.zoomIn}
+                        zoomOutLabel={ps.zoomOut}
+                        openPdfLabel={ps.viewBlankTemplate}
+                      />
+                    </div>
                   ) : null}
 
                   <div className="mt-3">
@@ -223,26 +225,17 @@ export function PreSessionDocumentsPanel({
                 </div>
 
                 {record.fileUrl ? (
-                  record.fileUrl.match(/\.(png|jpe?g|webp|gif)(\?|$)/i) ? (
-                    <div className="relative mt-3 aspect-[4/3] w-full max-w-sm overflow-hidden rounded-md border bg-muted">
-                      <Image
-                        src={record.fileUrl}
-                        alt={record.title}
-                        fill
-                        className="object-contain"
-                        unoptimized
-                      />
-                    </div>
-                  ) : (
-                    <Link
-                      href={record.fileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-2 inline-block text-sm text-primary underline-offset-4 hover:underline"
-                    >
-                      {ps.viewSignedDocument}
-                    </Link>
-                  )
+                  <div className="mt-3 max-w-sm">
+                    <ZoomableDocumentPreview
+                      url={record.fileUrl}
+                      title={record.title}
+                      tapToZoomLabel={ps.tapToZoom}
+                      closeLabel={c.closeAria}
+                      zoomInLabel={ps.zoomIn}
+                      zoomOutLabel={ps.zoomOut}
+                      openPdfLabel={ps.viewSignedDocument}
+                    />
+                  </div>
                 ) : null}
               </div>
             ))

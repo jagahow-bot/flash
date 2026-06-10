@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import { type FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import {
+  getGoogleAuthErrorMessage,
+  signInWithGoogle,
+  useGoogleRedirectSignIn,
+} from "@/lib/auth/google-sign-in";
 import { sendRegistrationVerificationEmail } from "@/lib/auth/send-verification-email";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
@@ -33,6 +38,94 @@ export function RegisterForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  async function completeRegistration(idToken: string, emailVerified: boolean) {
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      await auth.signOut();
+      if (response.status === 409) {
+        setError(t.emailInUse);
+      } else {
+        setError(data.error ?? t.registerFailed);
+      }
+      return;
+    }
+
+    if (!emailVerified) {
+      const user = auth.currentUser;
+      if (user) {
+        await sendRegistrationVerificationEmail(user, "studio");
+      }
+      const verifyUrl = new URL("/verify-email", window.location.origin);
+      const nextRedirect = data.redirect ?? "/setup";
+      verifyUrl.searchParams.set("redirect", nextRedirect);
+      router.push(`${verifyUrl.pathname}${verifyUrl.search}`);
+      router.refresh();
+      return;
+    }
+
+    router.push(data.redirect ?? "/setup");
+    router.refresh();
+  }
+
+  useGoogleRedirectSignIn(
+    async (credential) => {
+      setError(null);
+      setLoading(true);
+
+      try {
+        await completeRegistration(
+          await credential.user.getIdToken(),
+          credential.user.emailVerified
+        );
+      } catch (error) {
+        await auth.signOut().catch(() => undefined);
+        setError(getGoogleAuthErrorMessage(error, t) ?? t.googleLoginFailed);
+      } finally {
+        setLoading(false);
+      }
+    },
+    (error) => {
+      void auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
+      setLoading(false);
+    }
+  );
+
+  async function handleGoogle() {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const credential = await signInWithGoogle();
+      if (!credential) {
+        return;
+      }
+
+      await completeRegistration(
+        await credential.user.getIdToken(),
+        credential.user.emailVerified
+      );
+    } catch (error) {
+      await auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -55,34 +148,11 @@ export function RegisterForm() {
         email,
         password
       );
-      const idToken = await credential.user.getIdToken();
 
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        await auth.signOut();
-        setError(data.error ?? t.registerFailed);
-        return;
-      }
-
-      if (!credential.user.emailVerified) {
-        await sendRegistrationVerificationEmail(credential.user, "studio");
-        const verifyUrl = new URL("/verify-email", window.location.origin);
-        const nextRedirect = data.redirect ?? "/setup";
-        verifyUrl.searchParams.set("redirect", nextRedirect);
-        router.push(`${verifyUrl.pathname}${verifyUrl.search}`);
-        router.refresh();
-        return;
-      }
-
-      router.push(data.redirect ?? "/setup");
-      router.refresh();
+      await completeRegistration(
+        await credential.user.getIdToken(),
+        credential.user.emailVerified
+      );
     } catch (error) {
       await auth.signOut().catch(() => undefined);
 
@@ -110,7 +180,23 @@ export function RegisterForm() {
         <CardTitle>{t.registerStudioTitle}</CardTitle>
         <CardDescription>{t.registerStudioDescription}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          disabled={loading}
+          onClick={handleGoogle}
+          className="w-full"
+        >
+          {t.continueWithGoogle}
+        </Button>
+
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          {t.orUseEmail}
+          <span className="h-px flex-1 bg-border" />
+        </div>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">{c.email}</Label>

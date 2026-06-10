@@ -1,3 +1,4 @@
+import { isStudioBillingBlocked } from "@/lib/auth/require-active-billing";
 import { getAuthenticatedUser } from "@/lib/auth/session";
 import type { User } from "@/types/user";
 
@@ -8,6 +9,10 @@ export async function requireStudioAdmin(): Promise<{
   const user = await getAuthenticatedUser();
 
   if (!user?.studioId || user.role !== "admin") {
+    return null;
+  }
+
+  if (await isStudioBillingBlocked(user.studioId)) {
     return null;
   }
 

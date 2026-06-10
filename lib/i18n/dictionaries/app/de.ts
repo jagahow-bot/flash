@@ -586,7 +586,26 @@ const dictionary = {
     "consentCheckbox": "Ich habe die Dokumente gelesen, stimme dem Inhalt zu und bestätige, dass ich persönlich unterschreibe und alle Angaben korrekt sind.",
     "signHereLabel": "Bitte unterschreiben Sie im Feld unten",
     "submitSignature": "Unterschrift absenden",
-    "submittingSignature": "Wird übertragen..."
+    "submittingSignature": "Wird übertragen...",
+    "tapToZoom": "Tippen zum Vergrößern",
+    "zoomIn": "Vergrößern",
+    "zoomOut": "Verkleinern"
+  },
+  "billing": {
+    "title": "Abrechnung",
+    "description": "FLASH berechnet nach erfolgreichen Buchungen. Nutzung und Zahlungsstatus hier einsehen.",
+    "suspendedTitle": "Konto gesperrt",
+    "suspendedDescription": "Das Studio-Dashboard ist pausiert, bis offene Rechnungen beglichen sind. Support kontaktieren oder Zahlung aktualisieren.",
+    "pastDueTitle": "Zahlung überfällig",
+    "pastDueDescription": "Die letzte Rechnung konnte nicht eingezogen werden. Bitte Zahlungsmethode aktualisieren, um eine Sperre zu vermeiden.",
+    "usageTitle": "Nutzung in diesem Zeitraum",
+    "usageDescription": "Erfolgreiche Buchungen zählen, wenn ein Projekt bestätigt ist (Status: gebucht).",
+    "freeBookingsRemaining": "Verbleibende Gratisbuchungen: {count}",
+    "completedBookingsCount": "Erfolgreiche Buchungen gesamt: {count}",
+    "pricePerBooking": "Nach dem Gratis-Kontingent: USD ${price} pro erfolgreicher Buchung pro Monat",
+    "paymentTitle": "Zahlungsmethode",
+    "paymentDescription": "Stripe-Abrechnungsintegration",
+    "paymentTodo": "Stripe-Kundenportal und automatische Monatsrechnungen folgen hier. TODO: Checkout und nutzungsbasierte Abrechnung anbinden."
   },
   "signature": {
     "clearSignature": "Unterschrift löschen",

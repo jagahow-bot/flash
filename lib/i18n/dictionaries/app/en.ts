@@ -604,7 +604,26 @@ const dictionary = {
     "consentCheckbox": "I have read and agree to the terms in the document. I confirm that I am signing personally and that the information provided is accurate.",
     "signHereLabel": "Please sign below",
     "submitSignature": "Submit Signature",
-    "submittingSignature": "Submitting..."
+    "submittingSignature": "Submitting...",
+    "tapToZoom": "Tap to enlarge",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
+  },
+  "billing": {
+    "title": "Billing",
+    "description": "FLASH charges based on successful bookings. Manage your plan and payment status here.",
+    "suspendedTitle": "Account suspended",
+    "suspendedDescription": "Your studio dashboard is paused until outstanding billing is resolved. Contact support or update payment to restore access.",
+    "pastDueTitle": "Payment past due",
+    "pastDueDescription": "We could not process your latest invoice. Please update your payment method to avoid suspension.",
+    "usageTitle": "Usage this period",
+    "usageDescription": "Successful bookings are counted when a project is confirmed (status: booked).",
+    "freeBookingsRemaining": "Free bookings remaining: {count}",
+    "completedBookingsCount": "Total successful bookings: {count}",
+    "pricePerBooking": "After the free tier: USD ${price} per successful booking per month",
+    "paymentTitle": "Payment method",
+    "paymentDescription": "Stripe billing integration",
+    "paymentTodo": "Stripe Customer Portal and automated monthly invoicing will be available here. TODO: connect Checkout and metered billing."
   },
   "signature": {
     "clearSignature": "Clear",

@@ -605,7 +605,26 @@ const dictionary = {
     "consentCheckbox": "私は上記の書類内容を読み、これに同意します。また、本人による正しい署名であり、提供した情報に誤りがないことを確認します。",
     "signHereLabel": "こちらに署名してください",
     "submitSignature": "署名を送信する",
-    "submittingSignature": "送信中..."
+    "submittingSignature": "送信中...",
+    "tapToZoom": "タップで拡大",
+    "zoomIn": "拡大",
+    "zoomOut": "縮小"
+  },
+  "billing": {
+    "title": "請求・利用状況",
+    "description": "FLASHは成立した予約に基づいて課金されます。ここで利用状況と支払い状態を確認できます。",
+    "suspendedTitle": "アカウント停止中",
+    "suspendedDescription": "未払いの解決までスタジオダッシュボードは利用できません。サポートへ連絡するか、お支払いを更新してください。",
+    "pastDueTitle": "支払い遅延",
+    "pastDueDescription": "最新の請求書の決済に失敗しました。停止を避けるため、お支払い方法を更新してください。",
+    "usageTitle": "今期の利用状況",
+    "usageDescription": "プロジェクトが予約確定（ステータス：予約済み）になった時点で成功予約としてカウントされます。",
+    "freeBookingsRemaining": "残り無料予約：{count}件",
+    "completedBookingsCount": "累計成功予約：{count}件",
+    "pricePerBooking": "無料枠終了後：成功予約1件あたり月額 USD ${price}",
+    "paymentTitle": "お支払い方法",
+    "paymentDescription": "Stripe請求連携",
+    "paymentTodo": "Stripeカスタマーポータルと月次自動請求はここに表示されます。TODO：Checkoutと従量課金を接続。"
   },
   "signature": {
     "clearSignature": "署名をクリア",

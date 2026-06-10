@@ -586,7 +586,26 @@ const dictionary = {
     "consentCheckbox": "본인은 상기 서류의 모든 내용을 읽고 이해하였으며 이에 동의합니다. 본인이 직접 서명함을 확인하며 기재한 사실에 거짓이 없음을 서약합니다.",
     "signHereLabel": "아래 서명란에 직접 서명해 주세요",
     "submitSignature": "서명 제출하기",
-    "submittingSignature": "제출 중..."
+    "submittingSignature": "제출 중...",
+    "tapToZoom": "탭하여 확대",
+    "zoomIn": "확대",
+    "zoomOut": "축소"
+  },
+  "billing": {
+    "title": "결제 및 사용량",
+    "description": "FLASH는 성공한 예약을 기준으로 요금이 부과됩니다. 여기서 사용량과 결제 상태를 확인하세요.",
+    "suspendedTitle": "계정 일시 정지",
+    "suspendedDescription": "미결제가 해결될 때까지 스튜디오 대시보드 이용이 중단됩니다. 지원팀에 문의하거나 결제를 업데이트하세요.",
+    "pastDueTitle": "결제 연체",
+    "pastDueDescription": "최근 청구서 결제에 실패했습니다. 정지를 피하려면 결제 수단을 업데이트하세요.",
+    "usageTitle": "이번 기간 사용량",
+    "usageDescription": "프로젝트가 예약 확정(상태: 예약됨)되면 성공 예약으로 집계됩니다.",
+    "freeBookingsRemaining": "남은 무료 예약: {count}건",
+    "completedBookingsCount": "누적 성공 예약: {count}건",
+    "pricePerBooking": "무료 한도 이후: 성공 예약 건당 월 USD ${price}",
+    "paymentTitle": "결제 수단",
+    "paymentDescription": "Stripe 결제 연동",
+    "paymentTodo": "Stripe 고객 포털과 월별 자동 청구가 여기에 제공됩니다. TODO: Checkout 및 종량제 연결."
   },
   "signature": {
     "clearSignature": "서명 지우기",

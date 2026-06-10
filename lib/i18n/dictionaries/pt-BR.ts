@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "Preços simples por uso",
+    subtitle:
+      "Sem mensalidade fixa — você só paga quando as reservas são confirmadas pelo FLASH.",
+    pricePerBooking: "USD $3 por reserva bem-sucedida a cada mês",
+    noMonthlyFee: "Sem taxa mensal fixa",
+    freeTier: "As primeiras 30 reservas por estúdio são GRÁTIS",
+    footnote:
+      "A cobrança é baseada na quantidade de reservas bem-sucedidas do estúdio em cada mês. Projetos com várias sessões contam como uma reserva na confirmação.",
+  },
   faq: {
     title: "Perguntas frequentes",
     subtitle: "O que estúdios costumam perguntar, em linguagem direta",

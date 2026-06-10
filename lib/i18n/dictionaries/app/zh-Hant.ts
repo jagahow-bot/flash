@@ -652,6 +652,27 @@ const dictionary: AppDictionary = {
     signHereLabel: "請在下方簽名",
     submitSignature: "提交簽署",
     submittingSignature: "提交中...",
+    tapToZoom: "點擊可放大檢視",
+    zoomIn: "放大",
+    zoomOut: "縮小",
+  },
+  billing: {
+    title: "帳單與用量",
+    description: "FLASH 依成功預約計費。在此查看用量與付款狀態。",
+    suspendedTitle: "帳號已暫停",
+    suspendedDescription:
+      "工作室後台已暫停使用，請處理未結帳單或聯絡客服以恢復存取。",
+    pastDueTitle: "付款逾期",
+    pastDueDescription: "最新帳單未能扣款成功，請更新付款方式以免帳號遭暫停。",
+    usageTitle: "本期用量",
+    usageDescription: "專案確認預約（狀態：已預約）時計入成功預約。",
+    freeBookingsRemaining: "剩餘免費預約：{count} 筆",
+    completedBookingsCount: "累計成功預約：{count} 筆",
+    pricePerBooking: "免費額度用畢後：每月每筆成功預約 USD ${price}",
+    paymentTitle: "付款方式",
+    paymentDescription: "Stripe 帳單整合",
+    paymentTodo:
+      "Stripe 客戶入口與每月自動開立發票將在此提供。TODO：串接 Checkout 與用量計費。",
   },
   signature: {
     clearSignature: "清除簽名",

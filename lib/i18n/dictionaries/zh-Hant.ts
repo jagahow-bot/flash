@@ -117,6 +117,15 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "簡單的用量計價",
+    subtitle: "沒有固定月費——只有透過 FLASH 成功預約時才需付費。",
+    pricePerBooking: "每月每筆成功預約 USD $3",
+    noMonthlyFee: "無固定月費",
+    freeTier: "每間工作室前 30 筆預約免費",
+    footnote:
+      "帳單依工作室當月成功預約筆數計算。多次 Session 的專案在確認預約時計為一筆。",
+  },
   faq: {
     title: "常見問題",
     subtitle: "刺青店常問的，白話回答",

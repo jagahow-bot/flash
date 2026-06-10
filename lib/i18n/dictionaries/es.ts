@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "Precios simples según uso",
+    subtitle:
+      "Sin cuota mensual fija: solo pagas cuando las reservas se confirman con FLASH.",
+    pricePerBooking: "USD $3 por reserva exitosa cada mes",
+    noMonthlyFee: "Sin cuota mensual fija",
+    freeTier: "Las primeras 30 reservas por estudio son GRATIS",
+    footnote:
+      "La facturación se basa en las reservas exitosas del estudio cada mes calendario. Los proyectos de varias sesiones cuentan como una reserva al confirmarse.",
+  },
   faq: {
     title: "Preguntas frecuentes",
     subtitle: "Lo que suelen preguntar los estudios, en lenguaje claro",

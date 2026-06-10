@@ -1,8 +1,11 @@
 import type { Locale } from "@/lib/i18n/config";
+import type { StudioBilling, StudioBillingStatus } from "@/types/billing";
 import type { StudioWeeklySchedule } from "@/types/operating-hours";
 import type { StudioClosure } from "@/types/studio-closure";
 import type { StudioOperatingHours } from "@/types/operating-hours";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
+
+export type { StudioBillingStatus };
 
 export interface StudioSocialLinks {
   /** Instagram 帳號（不含 @） */
@@ -41,4 +44,16 @@ export interface Studio {
   socialLinks?: StudioSocialLinks;
   /** FLASH 需求摘要輸出語言（預設 zh-Hant） */
   preferredLocale?: Locale;
+  /** Stripe usage billing — defaults to active for new studios */
+  billingStatus?: StudioBillingStatus;
+  freeBookingsRemaining?: number;
+  completedBookingsCount?: number;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  lastBilledMonth?: string;
 }
+
+export type StudioBillingFields = Pick<
+  Studio,
+  keyof StudioBilling
+>;

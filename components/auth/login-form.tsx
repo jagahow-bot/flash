@@ -6,6 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { type FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import {
+  getGoogleAuthErrorMessage,
+  signInWithGoogle,
+  useGoogleRedirectSignIn,
+} from "@/lib/auth/google-sign-in";
 import { auth } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +35,71 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  async function completeSession(idToken: string) {
+    const response = await fetch("/api/auth/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ idToken, redirectTo }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      await auth.signOut();
+      setError(data.error ?? t.loginFailed);
+      return;
+    }
+
+    router.push(data.redirect ?? "/");
+    router.refresh();
+  }
+
+  useGoogleRedirectSignIn(
+    async (credential) => {
+      setError(null);
+      setLoading(true);
+
+      try {
+        await completeSession(await credential.user.getIdToken());
+      } catch (error) {
+        await auth.signOut().catch(() => undefined);
+        setError(getGoogleAuthErrorMessage(error, t) ?? t.googleLoginFailed);
+      } finally {
+        setLoading(false);
+      }
+    },
+    (error) => {
+      void auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
+      setLoading(false);
+    }
+  );
+
+  async function handleGoogle() {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const credential = await signInWithGoogle();
+      if (!credential) {
+        return;
+      }
+
+      await completeSession(await credential.user.getIdToken());
+    } catch (error) {
+      await auth.signOut().catch(() => undefined);
+      const message = getGoogleAuthErrorMessage(error, t);
+      if (message) {
+        setError(message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
@@ -41,24 +111,7 @@ export function LoginForm() {
         email,
         password,
       );
-      const idToken = await credential.user.getIdToken();
-
-      const response = await fetch("/api/auth/session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ idToken, redirectTo }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        await auth.signOut();
-        setError(data.error ?? t.loginFailed);
-        return;
-      }
-
-      router.push(data.redirect ?? "/");
-      router.refresh();
+      await completeSession(await credential.user.getIdToken());
     } catch (error) {
       const code = (error as FirebaseError).code;
 
@@ -86,7 +139,23 @@ export function LoginForm() {
         <CardTitle>{t.login}</CardTitle>
         <CardDescription>{t.loginDescription}</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-4">
+        <Button
+          type="button"
+          variant="outline"
+          disabled={loading}
+          onClick={handleGoogle}
+          className="w-full"
+        >
+          {t.continueWithGoogle}
+        </Button>
+
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="h-px flex-1 bg-border" />
+          {t.orUseEmail}
+          <span className="h-px flex-1 bg-border" />
+        </div>
+
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <Label htmlFor="email">{dict.common.email}</Label>

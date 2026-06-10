@@ -549,6 +549,25 @@ export interface AppDictionary {
     signHereLabel: string;
     submitSignature: string;
     submittingSignature: string;
+    tapToZoom: string;
+    zoomIn: string;
+    zoomOut: string;
+  };
+  billing: {
+    title: string;
+    description: string;
+    suspendedTitle: string;
+    suspendedDescription: string;
+    pastDueTitle: string;
+    pastDueDescription: string;
+    usageTitle: string;
+    usageDescription: string;
+    freeBookingsRemaining: string;
+    completedBookingsCount: string;
+    pricePerBooking: string;
+    paymentTitle: string;
+    paymentDescription: string;
+    paymentTodo: string;
   };
   signature: {
     clearSignature: string;

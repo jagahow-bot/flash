@@ -126,6 +126,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "Simple, usage-based pricing",
+    subtitle:
+      "No monthly subscription — you only pay when bookings succeed through FLASH.",
+    pricePerBooking: "USD $3 per successful booking each month",
+    noMonthlyFee: "No fixed monthly fee",
+    freeTier: "First 30 bookings per studio are FREE",
+    footnote:
+      "Billing is based on your studio's successful bookings count each calendar month. Multi-session projects count as one booking when confirmed.",
+  },
   faq: {
     title: "FAQ",
     subtitle: "Common tattoo shop questions, plain answers",

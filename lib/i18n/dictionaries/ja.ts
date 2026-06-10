@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "シンプルな従量課金",
+    subtitle:
+      "固定の月額料金はありません——FLASHで予約が成立したときだけお支払い。",
+    pricePerBooking: "毎月、成立した予約1件あたり USD $3",
+    noMonthlyFee: "固定月額なし",
+    freeTier: "スタジオごとに最初の30件の予約は無料",
+    footnote:
+      "請求はスタジオの当月の成立予約数に基づきます。複数セッションの案件も、予約確定時に1件としてカウントされます。",
+  },
   faq: {
     title: "よくある質問",
     subtitle: "タトゥー店がよく聞くことへの、わかりやすい回答",

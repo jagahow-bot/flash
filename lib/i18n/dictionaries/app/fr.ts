@@ -586,7 +586,26 @@ const dictionary = {
     "consentCheckbox": "Je certifie avoir lu et accepté les conditions du document ci-dessus, et confirme signer de ma propre main en fournissant des informations exactes.",
     "signHereLabel": "Veuillez signer ci-dessous",
     "submitSignature": "Envoyer la signature",
-    "submittingSignature": "Envoi..."
+    "submittingSignature": "Envoi...",
+    "tapToZoom": "Appuyer pour agrandir",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière"
+  },
+  "billing": {
+    "title": "Facturation",
+    "description": "FLASH facture selon les réservations réussies. Consultez ici votre usage et le statut de paiement.",
+    "suspendedTitle": "Compte suspendu",
+    "suspendedDescription": "Le tableau de bord studio est en pause jusqu'à régularisation. Contactez le support ou mettez à jour le paiement.",
+    "pastDueTitle": "Paiement en retard",
+    "pastDueDescription": "La dernière facture n'a pas pu être débitée. Mettez à jour votre moyen de paiement pour éviter la suspension.",
+    "usageTitle": "Usage sur la période",
+    "usageDescription": "Les réservations réussies sont comptées à la confirmation du projet (statut : réservé).",
+    "freeBookingsRemaining": "Réservations gratuites restantes : {count}",
+    "completedBookingsCount": "Réservations réussies au total : {count}",
+    "pricePerBooking": "Après le forfait gratuit : USD ${price} par réservation réussie et par mois",
+    "paymentTitle": "Moyen de paiement",
+    "paymentDescription": "Intégration de facturation Stripe",
+    "paymentTodo": "Le portail client Stripe et la facturation mensuelle automatique seront disponibles ici. TODO : connecter Checkout et la facturation à l'usage."
   },
   "signature": {
     "clearSignature": "Effacer",

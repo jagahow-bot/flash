@@ -119,6 +119,16 @@ const dictionary: LandingDictionary = {
       },
     ],
   },
+  pricing: {
+    title: "Einfache nutzungsbasierte Preise",
+    subtitle:
+      "Keine feste Monatsgebühr — Sie zahlen nur, wenn Buchungen über FLASH zustande kommen.",
+    pricePerBooking: "USD $3 pro erfolgreicher Buchung pro Monat",
+    noMonthlyFee: "Keine feste Monatsgebühr",
+    freeTier: "Die ersten 30 Buchungen pro Studio sind KOSTENLOS",
+    footnote:
+      "Die Abrechnung basiert auf der Anzahl erfolgreicher Buchungen Ihres Studios im Kalendermonat. Mehrtermin-Projekte zählen bei Bestätigung als eine Buchung.",
+  },
   faq: {
     title: "Häufige Fragen",
     subtitle: "Was Tattoo-Shops oft fragen — klar beantwortet",

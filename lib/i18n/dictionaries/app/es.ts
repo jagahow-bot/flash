@@ -586,7 +586,26 @@ const dictionary = {
     "consentCheckbox": "He leído y acepto el contenido de los documentos anteriores, confirmo que firmo personalmente y que la información proporcionada es verídica.",
     "signHereLabel": "Por favor firma aquí abajo",
     "submitSignature": "Enviar firma",
-    "submittingSignature": "Enviando..."
+    "submittingSignature": "Enviando...",
+    "tapToZoom": "Toca para ampliar",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar"
+  },
+  "billing": {
+    "title": "Facturación",
+    "description": "FLASH cobra según las reservas exitosas. Consulta aquí tu uso y estado de pago.",
+    "suspendedTitle": "Cuenta suspendida",
+    "suspendedDescription": "El panel del estudio está pausado hasta resolver la facturación pendiente. Contacta soporte o actualiza el pago.",
+    "pastDueTitle": "Pago vencido",
+    "pastDueDescription": "No pudimos procesar tu última factura. Actualiza el método de pago para evitar la suspensión.",
+    "usageTitle": "Uso en este periodo",
+    "usageDescription": "Las reservas exitosas se cuentan cuando un proyecto se confirma (estado: reservado).",
+    "freeBookingsRemaining": "Reservas gratis restantes: {count}",
+    "completedBookingsCount": "Reservas exitosas totales: {count}",
+    "pricePerBooking": "Tras el nivel gratuito: USD ${price} por reserva exitosa al mes",
+    "paymentTitle": "Método de pago",
+    "paymentDescription": "Integración de facturación con Stripe",
+    "paymentTodo": "El portal de cliente de Stripe y la facturación mensual automática estarán aquí. TODO: conectar Checkout y facturación por uso."
   },
   "signature": {
     "clearSignature": "Borrar firma",

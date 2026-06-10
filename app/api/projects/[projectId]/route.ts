@@ -43,6 +43,7 @@ import {
   getProjectById,
   updateProjectFields,
 } from "@/lib/firestore/projects.server";
+import { recordSuccessfulBooking } from "@/lib/billing/record-booking.server";
 import { getStudioById } from "@/lib/firestore/studios.server";
 import type { Project, ProjectStatus } from "@/types/project";
 import type { SessionRecord } from "@/types/session-record";
@@ -311,6 +312,7 @@ export async function PATCH(
       }
 
       await updateProjectFields(projectId, bookedProject);
+      await recordSuccessfulBooking(project.studioId);
 
       notifyDepositConfirmed(bookedProject);
 
@@ -432,6 +434,13 @@ export async function PATCH(
     }
 
     await updateProjectFields(projectId, nextProject);
+
+    if (
+      nextProject.status === "booked" &&
+      project.status !== "booked"
+    ) {
+      await recordSuccessfulBooking(project.studioId);
+    }
 
     const quoteChanged = sessionDetailsChanged(
       project.sessionDetails,

@@ -21,8 +21,15 @@ import { normalizeStudioSocialLinks } from "@/lib/studio/social-links";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
 import { defaultLocale } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
+import { FREE_TIER_BOOKINGS } from "@/lib/billing/constants";
+import type { StudioBillingStatus } from "@/types/billing";
 import type { Studio, StudioSocialLinks } from "@/types/studio";
 import { Timestamp } from "firebase-admin/firestore";
+
+function normalizeBillingStatus(value: unknown): StudioBillingStatus {
+  if (value === "past_due" || value === "suspended") return value;
+  return "active";
+}
 
 function stripUndefined(
   record: Record<string, unknown>
@@ -96,6 +103,27 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       data.socialLinks as StudioSocialLinks | undefined
     ),
     preferredLocale: parseStudioPreferredLocale(data.preferredLocale),
+    billingStatus: normalizeBillingStatus(data.billingStatus),
+    freeBookingsRemaining:
+      typeof data.freeBookingsRemaining === "number"
+        ? Math.max(0, data.freeBookingsRemaining)
+        : FREE_TIER_BOOKINGS,
+    completedBookingsCount:
+      typeof data.completedBookingsCount === "number"
+        ? Math.max(0, data.completedBookingsCount)
+        : 0,
+    stripeCustomerId:
+      typeof data.stripeCustomerId === "string"
+        ? data.stripeCustomerId
+        : undefined,
+    stripeSubscriptionId:
+      typeof data.stripeSubscriptionId === "string"
+        ? data.stripeSubscriptionId
+        : undefined,
+    lastBilledMonth:
+      typeof data.lastBilledMonth === "string"
+        ? data.lastBilledMonth
+        : undefined,
   };
 }
 
@@ -182,6 +210,9 @@ export async function createStudio(
     closures: [],
     operatingHours: weeklyScheduleToOperatingHours(weeklySchedule),
     preferredLocale: input.preferredLocale ?? defaultLocale,
+    billingStatus: "active",
+    freeBookingsRemaining: FREE_TIER_BOOKINGS,
+    completedBookingsCount: 0,
   };
 
   const { studioId: _omit, operatingHours, logoUrl: _logo, ...payload } = studio;
@@ -245,6 +276,12 @@ export async function updateStudioFields(
       | "artists"
       | "preSessionDocuments"
       | "preferredLocale"
+      | "billingStatus"
+      | "freeBookingsRemaining"
+      | "completedBookingsCount"
+      | "stripeCustomerId"
+      | "stripeSubscriptionId"
+      | "lastBilledMonth"
     >
   > & {
     logoUrl?: string | null;
