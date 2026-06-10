@@ -64,10 +64,10 @@ export async function getAppDictionary(locale: Locale): Promise<AppDictionary> {
     return base;
   }
 
-  const module = await appDictionaries[locale]();
+  const localeModule = await appDictionaries[locale]();
   const merged = mergeDictionary(
     base,
-    module.default as Record<string, unknown>,
+    localeModule.default as Record<string, unknown>,
   );
   return withFormatDefaults(locale, merged);
 }

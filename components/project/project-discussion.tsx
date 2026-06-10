@@ -88,12 +88,28 @@ function ProjectDiscussionContent({
   }, [mode, onUnreadCountChange, projectId]);
 
   useEffect(() => {
-    loadMessages()
-      .catch((loadError) => {
-        setError(loadError instanceof Error ? loadError.message : p.loadFailed);
-      })
-      .finally(() => setIsLoading(false));
-  }, [loadMessages]);
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        await loadMessages();
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(
+            loadError instanceof Error ? loadError.message : p.loadFailed
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [loadMessages, p.loadFailed]);
 
   useEffect(() => {
     if (isLoading || unreadCount === 0 || !isExpanded) {

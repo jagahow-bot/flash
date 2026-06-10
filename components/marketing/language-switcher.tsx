@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check, ChevronDown, Globe } from "lucide-react";
 import {
   defaultLocale,
@@ -46,6 +46,24 @@ function readLocaleCookie(): Locale | null {
 
 function setLocaleCookie(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE_NAME}=${encodeURIComponent(locale)};path=/;max-age=${LOCALE_COOKIE_MAX_AGE};SameSite=Lax`;
+  notifyLocaleCookieChange();
+}
+
+function subscribeToLocaleCookie(onStoreChange: () => void) {
+  window.addEventListener("flash-locale-change", onStoreChange);
+  return () => window.removeEventListener("flash-locale-change", onStoreChange);
+}
+
+function notifyLocaleCookieChange() {
+  window.dispatchEvent(new Event("flash-locale-change"));
+}
+
+function useCookieLocale(): Locale | null {
+  return useSyncExternalStore(
+    subscribeToLocaleCookie,
+    () => readLocaleCookie(),
+    () => null,
+  );
 }
 
 async function persistLocaleToProfile(locale: Locale): Promise<void> {
@@ -71,21 +89,26 @@ export function LanguageSwitcher({
   const router = useRouter();
   const marketingOnly = isMarketingOnlyPath(pathname);
   const pathLocale = localeFromPathname(pathname);
-  const [currentLocale, setCurrentLocale] = useState<Locale>(pathLocale);
+  const cookieLocale = useCookieLocale();
+  const [pendingLocale, setPendingLocale] = useState<Locale | null>(null);
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const resolvedLocale: Locale = marketingOnly
+    ? isDefaultMarketingRoot(pathname)
+      ? (cookieLocale ?? defaultLocale)
+      : pathLocale
+    : (cookieLocale ?? defaultLocale);
+
+  if (pendingLocale && pendingLocale === resolvedLocale) {
+    setPendingLocale(null);
+  }
+
+  const currentLocale = pendingLocale ?? resolvedLocale;
+
   useEffect(() => {
-    if (marketingOnly) {
-      if (isDefaultMarketingRoot(pathname)) {
-        // `/` has no locale segment; prefer cookie so switcher matches page content.
-        setCurrentLocale(readLocaleCookie() ?? defaultLocale);
-      } else {
-        setCurrentLocale(pathLocale);
-        setLocaleCookie(pathLocale);
-      }
-    } else {
-      setCurrentLocale(readLocaleCookie() ?? defaultLocale);
+    if (marketingOnly && !isDefaultMarketingRoot(pathname)) {
+      setLocaleCookie(pathLocale);
     }
   }, [marketingOnly, pathLocale, pathname]);
 
@@ -104,7 +127,7 @@ export function LanguageSwitcher({
 
   async function handleAppLocaleChange(locale: Locale) {
     setLocaleCookie(locale);
-    setCurrentLocale(locale);
+    setPendingLocale(locale);
     setOpen(false);
     // Logged-in users: server prefers Firestore over cookie — wait for PATCH
     // before refresh, otherwise the first switch appears to do nothing.

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { SessionSlotCalendar } from "@/components/dashboard/session-slot-calendar";
@@ -116,6 +116,27 @@ export function ProjectQuoteForm({
   const [projectStatus, setProjectStatus] = useState<ProjectStatus>(
     project.status
   );
+  const [syncedProjectStatus, setSyncedProjectStatus] = useState(project.status);
+  if (project.status !== syncedProjectStatus) {
+    setSyncedProjectStatus(project.status);
+    setProjectStatus(project.status);
+  }
+  const pricingSnapshot = [
+    project.projectId,
+    project.status,
+    project.currentSessionIndex,
+    project.sessionDetails?.totalPrice,
+    project.sessionDetails?.depositRequired,
+    project.sessionDetails?.pricedSessionIndex,
+  ].join("|");
+  const [syncedPricingSnapshot, setSyncedPricingSnapshot] =
+    useState(pricingSnapshot);
+  if (pricingSnapshot !== syncedPricingSnapshot) {
+    const pricing = getCurrentSessionPricing(project);
+    setSyncedPricingSnapshot(pricingSnapshot);
+    setTotalPrice(String(pricing?.totalPrice ?? ""));
+    setDepositRequired(String(pricing?.depositRequired ?? ""));
+  }
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -143,23 +164,6 @@ export function ProjectQuoteForm({
     return getBookedSlotsFromProjects(others, artistId || undefined);
   }, [studioProjects, project.projectId, artistId]);
 
-  useEffect(() => {
-    setProjectStatus(project.status);
-  }, [project.status]);
-
-  useEffect(() => {
-    const pricing = getCurrentSessionPricing(project);
-    setTotalPrice(String(pricing?.totalPrice ?? ""));
-    setDepositRequired(String(pricing?.depositRequired ?? ""));
-  }, [
-    project.projectId,
-    project.status,
-    project.currentSessionIndex,
-    project.sessionDetails?.totalPrice,
-    project.sessionDetails?.depositRequired,
-    project.sessionDetails?.pricedSessionIndex,
-  ]);
-
   const sessionCount = Math.max(1, Number(sessions) || 1);
   const sessionHours = Math.max(1, Number(hoursPerSession) || 1);
   const currentSessionIndex = getCurrentSessionIndex(project);
@@ -173,17 +177,23 @@ export function ProjectQuoteForm({
     sessionLabelOptions,
   );
 
-  useEffect(() => {
-    setProposedSlots((current) =>
+  const validProposedSlots = useMemo(
+    () =>
       filterValidSelectedSlots(
-        current,
+        proposedSlots,
         sessionHours,
         effectiveHours,
         occupiedSlots,
         studio.closures
-      )
-    );
-  }, [sessionHours, effectiveHours, occupiedSlots, studio.closures]);
+      ),
+    [
+      proposedSlots,
+      sessionHours,
+      effectiveHours,
+      occupiedSlots,
+      studio.closures,
+    ]
+  );
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -198,7 +208,7 @@ export function ProjectQuoteForm({
     setIsSubmitting(true);
 
     try {
-      const quoteOnly = proposedSlots.length === 0;
+      const quoteOnly = validProposedSlots.length === 0;
       const response = await fetch(`/api/projects/${project.projectId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -210,7 +220,7 @@ export function ProjectQuoteForm({
             totalPrice: Number(totalPrice),
             depositRequired: Number(depositRequired),
           },
-          proposedTimeSlots: proposedSlots.map(slotToPayload),
+          proposedTimeSlots: validProposedSlots.map(slotToPayload),
           currentSessionIndex: getCurrentSessionIndex(project),
           privateNotes,
           ...(quoteOnly ? { quoteOnly: true } : {}),
@@ -251,7 +261,7 @@ export function ProjectQuoteForm({
     projectStatus === "completed";
 
   const submitLabel =
-    proposedSlots.length === 0
+    validProposedSlots.length === 0
       ? q.saveQuoteOnly
       : projectStatus === "pending_payment"
         ? formatMessage(q.updateSessionSlots, {
@@ -393,7 +403,7 @@ export function ProjectQuoteForm({
             occupiedSlots={occupiedSlots}
             clientAvailability={project.intakeForm.availability}
             closures={studio.closures}
-            value={proposedSlots}
+            value={validProposedSlots}
             onChange={setProposedSlots}
             readOnly={readOnly}
           />

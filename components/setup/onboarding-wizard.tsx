@@ -48,6 +48,11 @@ export function OnboardingWizard({ email }: { email: string }) {
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
   const [slugTouched, setSlugTouched] = useState(false);
+  const resolvedSlug = slugTouched
+    ? slug
+    : name
+      ? slugifyStudioName(name)
+      : "";
   const [bookingCode, setBookingCode] = useState("");
   const [bio, setBio] = useState("");
   const [acceptsCoverUp, setAcceptsCoverUp] = useState(true);
@@ -55,9 +60,10 @@ export function OnboardingWizard({ email }: { email: string }) {
     normalizeWeeklySchedule(DEFAULT_WEEKLY_SCHEDULE)
   );
   const [paymentInfo, setPaymentInfo] = useState(s.paymentTemplate);
-  const [slugStatus, setSlugStatus] = useState<
-    "idle" | "checking" | "available" | "taken" | "invalid"
-  >("idle");
+  const [slugAvailability, setSlugAvailability] = useState<{
+    slug: string;
+    status: "available" | "taken" | "idle";
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [createdSlug, setCreatedSlug] = useState<string | null>(null);
@@ -66,42 +72,64 @@ export function OnboardingWizard({ email }: { email: string }) {
     () =>
       bookingCode.trim()
         ? bookingCode.trim().toUpperCase()
-        : getStudioBookingCode({ slug, bookingCode }),
-    [bookingCode, slug]
+        : getStudioBookingCode({ slug: resolvedSlug, bookingCode }),
+    [bookingCode, resolvedSlug]
   );
 
-  useEffect(() => {
-    if (!slugTouched && name) {
-      setSlug(slugifyStudioName(name));
-    }
-  }, [name, slugTouched]);
+  const syncSlugStatus: "idle" | "invalid" | null = !resolvedSlug
+    ? "idle"
+    : !isValidStudioSlug(resolvedSlug)
+      ? "invalid"
+      : null;
+
+  const slugStatus:
+    | "idle"
+    | "checking"
+    | "available"
+    | "taken"
+    | "invalid" =
+    syncSlugStatus ??
+    (slugAvailability?.slug === resolvedSlug
+      ? slugAvailability.status
+      : "checking");
 
   useEffect(() => {
-    if (!slug || !isValidStudioSlug(slug)) {
-      setSlugStatus(slug ? "invalid" : "idle");
+    if (syncSlugStatus !== null) {
       return;
     }
 
-    setSlugStatus("checking");
+    const slugToCheck = resolvedSlug;
+    let cancelled = false;
+
     const timer = window.setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/onboarding/slug?slug=${encodeURIComponent(slug)}`
+          `/api/onboarding/slug?slug=${encodeURIComponent(slugToCheck)}`
         );
         const data = await response.json();
-        setSlugStatus(data.available ? "available" : "taken");
+        if (!cancelled) {
+          setSlugAvailability({
+            slug: slugToCheck,
+            status: data.available ? "available" : "taken",
+          });
+        }
       } catch {
-        setSlugStatus("idle");
+        if (!cancelled) {
+          setSlugAvailability({ slug: slugToCheck, status: "idle" });
+        }
       }
     }, 400);
 
-    return () => window.clearTimeout(timer);
-  }, [slug]);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+    };
+  }, [resolvedSlug, syncSlugStatus]);
 
   function validateStep(current: number): string | null {
     if (current === 1) {
       if (!name.trim()) return s.nameRequired;
-      if (!isValidStudioSlug(slug)) {
+      if (!isValidStudioSlug(resolvedSlug)) {
         return s.slugInvalid;
       }
       if (slugStatus === "taken") return s.slugTaken;
@@ -159,7 +187,7 @@ export function OnboardingWizard({ email }: { email: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          slug,
+          slug: resolvedSlug,
           bookingCode: bookingCode.trim() || undefined,
           bio,
           paymentInfo,
@@ -175,7 +203,8 @@ export function OnboardingWizard({ email }: { email: string }) {
         return;
       }
 
-      const nextSlug = typeof data.slug === "string" ? data.slug : slug;
+      const nextSlug =
+        typeof data.slug === "string" ? data.slug : resolvedSlug;
       setCreatedSlug(nextSlug);
       setStep(4);
     } catch {
@@ -247,7 +276,7 @@ export function OnboardingWizard({ email }: { email: string }) {
                   <span className="text-sm text-muted-foreground">/</span>
                   <Input
                     id="studio-slug"
-                    value={slug}
+                    value={resolvedSlug}
                     onChange={(event) => {
                       setSlugTouched(true);
                       setSlug(
@@ -265,7 +294,7 @@ export function OnboardingWizard({ email }: { email: string }) {
                 {slugStatus === "taken" && (
                   <p className="text-xs text-destructive">{s.slugUnavailable}</p>
                 )}
-                {slugStatus === "invalid" && slug && (
+                {slugStatus === "invalid" && resolvedSlug && (
                   <p className="text-xs text-destructive">{s.slugFormatHint}</p>
                 )}
               </div>
@@ -279,7 +308,7 @@ export function OnboardingWizard({ email }: { email: string }) {
                       event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "")
                     )
                   }
-                  placeholder={getStudioBookingCode({ slug })}
+                  placeholder={getStudioBookingCode({ slug: resolvedSlug })}
                   maxLength={12}
                 />
                 <p className="text-xs text-muted-foreground">
@@ -335,10 +364,10 @@ export function OnboardingWizard({ email }: { email: string }) {
               <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-emerald-900">
                 {s.createdMessage}
               </p>
-              {(createdSlug ?? slug) ? (
+              {(createdSlug ?? resolvedSlug) ? (
                 <p className="text-muted-foreground">
                   {formatMessage(s.bookingUrlPreview, {
-                    slug: createdSlug ?? slug,
+                    slug: createdSlug ?? resolvedSlug,
                   })}
                 </p>
               ) : null}
@@ -352,8 +381,8 @@ export function OnboardingWizard({ email }: { email: string }) {
                 >
                   {s.goToDashboard}
                 </Button>
-                {(createdSlug ?? slug) ? (
-                  <Link href={`/${createdSlug ?? slug}/book`} target="_blank">
+                {(createdSlug ?? resolvedSlug) ? (
+                  <Link href={`/${createdSlug ?? resolvedSlug}/book`} target="_blank">
                     <Button variant="outline" type="button">
                       {s.openBookingPage}
                     </Button>

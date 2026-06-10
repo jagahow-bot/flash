@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  type KeyboardEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { type KeyboardEvent, useRef, useState } from "react";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { DAY_ORDER } from "@/lib/availability/slots";
 import {
@@ -59,13 +54,13 @@ function TimeInputOverwrite({
   const [isEditing, setIsEditing] = useState(false);
   const [digits, setDigits] = useState<string[]>([...EMPTY_DIGITS]);
   const [digitIndex, setDigitIndex] = useState(0);
+  const [lastCommittedValue, setLastCommittedValue] = useState(value);
 
-  useEffect(() => {
-    if (!isEditing) {
-      setDigits([...EMPTY_DIGITS]);
-      setDigitIndex(0);
-    }
-  }, [value, isEditing]);
+  if (!isEditing && value !== lastCommittedValue) {
+    setLastCommittedValue(value);
+    setDigits([...EMPTY_DIGITS]);
+    setDigitIndex(0);
+  }
 
   const displayValue = isEditing
     ? digitsToDisplay(digits)

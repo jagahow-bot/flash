@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { WeeklyScheduleEditor } from "@/components/settings/weekly-schedule-editor";
 import { formatMessage } from "@/lib/i18n/format";
@@ -258,21 +258,23 @@ export function ArtistManagement({
   const c = dict.common;
   const router = useRouter();
   const [isSoloStudio, setIsSoloStudio] = useState(Boolean(studio.isSoloStudio));
+  const [syncedSoloStudio, setSyncedSoloStudio] = useState(studio.isSoloStudio);
+  if (studio.isSoloStudio !== syncedSoloStudio) {
+    setSyncedSoloStudio(studio.isSoloStudio);
+    setIsSoloStudio(Boolean(studio.isSoloStudio));
+  }
   const [artists, setArtists] = useState(initialArtists);
+  const [syncedInitialArtists, setSyncedInitialArtists] = useState(initialArtists);
+  if (initialArtists !== syncedInitialArtists) {
+    setSyncedInitialArtists(initialArtists);
+    setArtists(initialArtists);
+  }
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [soloError, setSoloError] = useState<string | null>(null);
   const [soloSaving, setSoloSaving] = useState(false);
   const [accountNotice, setAccountNotice] = useState<string | null>(null);
   const soloMode = isSoloStudio;
-
-  useEffect(() => {
-    setArtists(initialArtists);
-  }, [initialArtists]);
-
-  useEffect(() => {
-    setIsSoloStudio(Boolean(studio.isSoloStudio));
-  }, [studio.isSoloStudio]);
 
   async function handleSoloStudioChange(checked: boolean) {
     setSoloError(null);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Camera, PenLine } from "lucide-react";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { ImageUploadZone } from "@/components/intake/image-upload-zone";
@@ -80,6 +80,11 @@ export function ProjectAssetsPanel({
   const [sketchRecords, setSketchRecords] = useState(() =>
     getSketchRecords(project)
   );
+  const [syncedProject, setSyncedProject] = useState(project);
+  if (project !== syncedProject) {
+    setSyncedProject(project);
+    setSketchRecords(getSketchRecords(project));
+  }
   const [finalPhotoUrls, setFinalPhotoUrls] = useState(project.finalPhotos);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -107,10 +112,6 @@ export function ProjectAssetsPanel({
     ...project,
     sketches: sketchUrls,
   });
-
-  useEffect(() => {
-    setSketchRecords(getSketchRecords(project));
-  }, [project]);
 
   async function uploadFiles(
     files: File[],

@@ -17,6 +17,6 @@ const dictionaries: Record<
 };
 
 export async function getDictionary(locale: Locale): Promise<LandingDictionary> {
-  const module = await dictionaries[locale]();
-  return module.default;
+  const dictionaryModule = await dictionaries[locale]();
+  return dictionaryModule.default;
 }

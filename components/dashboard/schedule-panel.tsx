@@ -115,6 +115,7 @@ export function SchedulePanel({
   );
   const [viewDate, setViewDate] = useState(() => startOfMonth(new Date()));
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [upcomingCutoff] = useState(() => Date.now());
 
   const calendarEntries = useMemo(
     () => getScheduleCalendarEntries(projects),
@@ -122,12 +123,12 @@ export function SchedulePanel({
   );
 
   const upcomingEntries = useMemo(() => {
-    const now = Date.now();
     return calendarEntries.filter(
       (entry) =>
-        entry.kind !== "completed" && entry.slot.startTime.getTime() >= now
+        entry.kind !== "completed" &&
+        entry.slot.startTime.getTime() >= upcomingCutoff
     );
-  }, [calendarEntries]);
+  }, [calendarEntries, upcomingCutoff]);
 
   const selectedDayEntries = useMemo(() => {
     if (!selectedDate) return [];
