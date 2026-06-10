@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { allLocalePaths, localeHrefLang, locales } from "@/lib/i18n/config";
-import { getSiteUrl } from "@/lib/i18n/site-url";
+import { getRequestSiteUrl } from "@/lib/env/get-request-site-url";
 import { getStudiosForSitemap } from "@/lib/firestore/studios.server";
 
 type SitemapEntry = MetadataRoute.Sitemap[number];
@@ -25,7 +25,7 @@ function buildSamePathLanguageAlternates(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = getSiteUrl();
+  const siteUrl = await getRequestSiteUrl();
   const now = new Date();
   const homeLanguages = buildHomeLanguageAlternates(siteUrl);
 

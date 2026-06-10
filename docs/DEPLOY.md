@@ -133,22 +133,30 @@ npm run seed
 | `FIREBASE_ADMIN_PRIVATE_KEY` | ✅ | Admin SDK 私鑰 |
 | `GEMINI_API_KEY` | ✅ | AI 功能 |
 | `GEMINI_MODEL` | 選填 | 預設 `gemini-2.0-flash` |
-| `NEXT_PUBLIC_APP_URL` | ✅ 正式環境 | `https://你的網域`（無尾隨斜線） |
+| `NEXT_PUBLIC_APP_URL` | ✅ 正式環境 | 正式網域，例如 `https://ink-flash.com`（無尾隨斜線） |
 | `RESEND_API_KEY` | ✅ | Email 發送 |
 | `EMAIL_FROM` | ✅ | 例如 `FLASH <hello@ink-flash.com>` |
 | `STRIPE_SECRET_KEY` | 帳單功能 | Stripe Dashboard → API keys |
 | `STRIPE_WEBHOOK_SECRET` | 帳單功能 | Stripe → Webhooks → 端點簽章密鑰 |
 
-Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrender.com`）。在尚未綁定自訂網域前，可暫時將 `NEXT_PUBLIC_APP_URL` 設為該 URL；綁定網域後改為正式網址並重新部署。
+Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-0r0t.onrender.com`）。在尚未綁定自訂網域前，可暫時將 `NEXT_PUBLIC_APP_URL` 設為該 URL。
+
+**綁定自訂網域後（例如 `ink-flash.com`）必須：**
+
+1. 將 `NEXT_PUBLIC_APP_URL` 改為 `https://ink-flash.com`（不要用 `onrender.com`）
+2. 觸發 **Manual Deploy**（`NEXT_PUBLIC_*` 在 build 時嵌入，只改變數不 redeploy 不會生效）
+
+`sitemap.xml` 與 `robots.txt` 會依請求網域產生正確 URL；但客戶端連結、OG、`metadataBase` 等仍依賴 `NEXT_PUBLIC_APP_URL`，務必設對並重新部署。
 
 ### 4.4 自訂網域
 
 1. Render → 你的 Web Service → **Settings** → **Custom Domains**
 2. 依指示在 DNS 新增 CNAME
-3. 更新 `NEXT_PUBLIC_APP_URL` 為 `https://你的網域`
+3. 更新 `NEXT_PUBLIC_APP_URL` 為 `https://ink-flash.com`（或你的正式網域）
 4. 在 Firebase Authorized domains 加入同一網域
 5. 在 Resend 驗證同一網域（用於 `EMAIL_FROM`）
-6. 觸發 **Manual Deploy**
+6. 觸發 **Manual Deploy**（必做，否則 build 仍嵌入舊的 `NEXT_PUBLIC_APP_URL`）
+7. Google Search Console：重新提交 `https://ink-flash.com/sitemap.xml`，確認 `<loc>` 皆為 `ink-flash.com` 而非 `onrender.com`
 
 ### 4.5 自動部署
 
@@ -215,6 +223,8 @@ Firestore 欄位：`billingStatus`、`freeBookingsRemaining`、`completedBooking
 - [ ] 訂金證明 / 術前文件簽署
 - [ ] Email 驗證連結導向正確（檢查 `NEXT_PUBLIC_APP_URL`）
 - [ ] 交易通知信可送達
+- [ ] `https://ink-flash.com/sitemap.xml` 內所有 URL 使用自訂網域（非 `onrender.com`）
+- [ ] `https://ink-flash.com/robots.txt` 的 `Sitemap:` 指向自訂網域
 
 ---
 
@@ -254,6 +264,17 @@ Firestore 欄位：`billingStatus`、`freeBookingsRemaining`、`completedBooking
 ### Admin SDK 錯誤
 
 檢查 `FIREBASE_ADMIN_PRIVATE_KEY` 格式（`\n` 換行）與 `client_email` 是否正確。
+
+### Google Search Console：Sitemap「不允許的網址」
+
+若 sitemap 出現 `https://flash-xxxx.onrender.com` 而非自訂網域：
+
+1. Render → Environment → 設定 `NEXT_PUBLIC_APP_URL=https://ink-flash.com`
+2. **Manual Deploy** 重新 build
+3. 瀏覽器開啟 `https://ink-flash.com/sitemap.xml`，確認 `<loc>` 與 `hreflang` 皆為 `ink-flash.com`
+4. Search Console → Sitemaps → 重新提交或等待 Google 重新抓取
+
+部署後即使未設 `NEXT_PUBLIC_APP_URL`，透過自訂網域存取 sitemap 也會依請求 host 產生正確 URL；仍建議設好 env 並 redeploy，讓全站 metadata 一致。
 
 ### Free / Starter 方案冷啟動
 
