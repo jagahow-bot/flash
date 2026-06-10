@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "이번 기간 사용량",
     "usageDescription": "프로젝트가 예약 확정(상태: 예약됨)되면 성공 예약으로 집계됩니다.",
     "freeBookingsRemaining": "남은 무료 예약: {count}건",
+    "monthlyBookingsCount": "이번 달 성공 예약 ({month}, UTC): {count}건",
     "completedBookingsCount": "누적 성공 예약: {count}건",
     "pricePerBooking": "무료 한도 이후: 성공 예약 건당 월 USD ${price}",
     "paymentTitle": "결제 수단",

@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "Usage sur la période",
     "usageDescription": "Les réservations réussies sont comptées à la confirmation du projet (statut : réservé).",
     "freeBookingsRemaining": "Réservations gratuites restantes : {count}",
+    "monthlyBookingsCount": "Réservations réussies ce mois-ci ({month}, UTC) : {count}",
     "completedBookingsCount": "Réservations réussies au total : {count}",
     "pricePerBooking": "Après le forfait gratuit : USD ${price} par réservation réussie et par mois",
     "paymentTitle": "Moyen de paiement",

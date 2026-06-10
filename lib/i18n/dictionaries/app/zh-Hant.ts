@@ -667,6 +667,7 @@ const dictionary: AppDictionary = {
     usageTitle: "本期用量",
     usageDescription: "專案確認預約（狀態：已預約）時計入成功預約。",
     freeBookingsRemaining: "剩餘免費預約：{count} 筆",
+    monthlyBookingsCount: "本月成功預約（{month}，UTC）：{count} 筆",
     completedBookingsCount: "累計成功預約：{count} 筆",
     pricePerBooking: "免費額度用畢後：每月每筆成功預約 USD ${price}",
     paymentTitle: "付款方式",

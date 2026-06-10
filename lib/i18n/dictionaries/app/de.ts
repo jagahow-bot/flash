@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "Nutzung in diesem Zeitraum",
     "usageDescription": "Erfolgreiche Buchungen zählen, wenn ein Projekt bestätigt ist (Status: gebucht).",
     "freeBookingsRemaining": "Verbleibende Gratisbuchungen: {count}",
+    "monthlyBookingsCount": "Erfolgreiche Buchungen diesen Monat ({month}, UTC): {count}",
     "completedBookingsCount": "Erfolgreiche Buchungen gesamt: {count}",
     "pricePerBooking": "Nach dem Gratis-Kontingent: USD ${price} pro erfolgreicher Buchung pro Monat",
     "paymentTitle": "Zahlungsmethode",

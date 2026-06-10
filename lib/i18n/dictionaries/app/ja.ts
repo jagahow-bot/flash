@@ -620,6 +620,7 @@ const dictionary = {
     "usageTitle": "今期の利用状況",
     "usageDescription": "プロジェクトが予約確定（ステータス：予約済み）になった時点で成功予約としてカウントされます。",
     "freeBookingsRemaining": "残り無料予約：{count}件",
+    "monthlyBookingsCount": "今月の成功予約（{month}、UTC）：{count}件",
     "completedBookingsCount": "累計成功予約：{count}件",
     "pricePerBooking": "無料枠終了後：成功予約1件あたり月額 USD ${price}",
     "paymentTitle": "お支払い方法",

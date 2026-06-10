@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "Uso en este periodo",
     "usageDescription": "Las reservas exitosas se cuentan cuando un proyecto se confirma (estado: reservado).",
     "freeBookingsRemaining": "Reservas gratis restantes: {count}",
+    "monthlyBookingsCount": "Reservas exitosas este mes ({month}, UTC): {count}",
     "completedBookingsCount": "Reservas exitosas totales: {count}",
     "pricePerBooking": "Tras el nivel gratuito: USD ${price} por reserva exitosa al mes",
     "paymentTitle": "Método de pago",

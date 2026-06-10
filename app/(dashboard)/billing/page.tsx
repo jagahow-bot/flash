@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getAuthenticatedUser } from "@/lib/auth/session";
+import { getCurrentMonthBookingCount } from "@/lib/billing/billing-months.server";
 import { FREE_TIER_BOOKINGS, PRICE_PER_BOOKING_USD } from "@/lib/billing/constants";
 import { getStudioById } from "@/lib/firestore/studios.server";
 import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
@@ -33,6 +34,9 @@ export default async function BillingPage() {
   const isPastDue = studio.billingStatus === "past_due";
   const freeRemaining = studio.freeBookingsRemaining ?? FREE_TIER_BOOKINGS;
   const completedCount = studio.completedBookingsCount ?? 0;
+  const { yearMonth, count: monthlyCount } = await getCurrentMonthBookingCount(
+    user.studioId
+  );
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 p-6">
@@ -67,6 +71,12 @@ export default async function BillingPage() {
           <p>
             {formatMessage(b.freeBookingsRemaining, {
               count: String(freeRemaining),
+            })}
+          </p>
+          <p>
+            {formatMessage(b.monthlyBookingsCount, {
+              count: String(monthlyCount),
+              month: yearMonth,
             })}
           </p>
           <p>

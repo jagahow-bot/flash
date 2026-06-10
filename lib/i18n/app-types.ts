@@ -563,6 +563,7 @@ export interface AppDictionary {
     usageTitle: string;
     usageDescription: string;
     freeBookingsRemaining: string;
+    monthlyBookingsCount: string;
     completedBookingsCount: string;
     pricePerBooking: string;
     paymentTitle: string;

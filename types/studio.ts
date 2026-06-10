@@ -1,5 +1,11 @@
 import type { Locale } from "@/lib/i18n/config";
-import type { StudioBilling, StudioBillingStatus } from "@/types/billing";
+import type {
+  StudioBilling,
+  StudioBillingMonth,
+  StudioBillingStatus,
+} from "@/types/billing";
+
+export type { StudioBillingMonth };
 import type { StudioWeeklySchedule } from "@/types/operating-hours";
 import type { StudioClosure } from "@/types/studio-closure";
 import type { StudioOperatingHours } from "@/types/operating-hours";

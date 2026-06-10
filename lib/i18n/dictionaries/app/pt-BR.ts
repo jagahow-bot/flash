@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "Uso neste período",
     "usageDescription": "Reservas bem-sucedidas são contadas quando um projeto é confirmado (status: reservado).",
     "freeBookingsRemaining": "Reservas gratuitas restantes: {count}",
+    "monthlyBookingsCount": "Reservas bem-sucedidas neste mês ({month}, UTC): {count}",
     "completedBookingsCount": "Total de reservas bem-sucedidas: {count}",
     "pricePerBooking": "Após o tier gratuito: USD ${price} por reserva bem-sucedida por mês",
     "paymentTitle": "Forma de pagamento",

@@ -601,6 +601,7 @@ const dictionary = {
     "usageTitle": "การใช้งานในรอบนี้",
     "usageDescription": "นับการจองที่สำเร็จเมื่อโปรเจกต์ได้รับการยืนยัน (สถานะ: จองแล้ว)",
     "freeBookingsRemaining": "การจองฟรีคงเหลือ: {count}",
+    "monthlyBookingsCount": "การจองที่สำเร็จเดือนนี้ ({month}, UTC): {count}",
     "completedBookingsCount": "การจองที่สำเร็จทั้งหมด: {count}",
     "pricePerBooking": "หลังโควตาฟรี: USD ${price} ต่อการจองที่สำเร็จต่อเดือน",
     "paymentTitle": "วิธีชำระเงิน",
