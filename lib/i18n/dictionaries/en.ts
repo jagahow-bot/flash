@@ -203,11 +203,26 @@ const dictionary: LandingDictionary = {
     tagline: "Tattoo studio booking & project management",
     product: "Product",
     account: "Account",
+    legal: "Legal",
     login: "Log in",
     myProjects: "My bookings",
     studioRegister: "Register studio",
+    privacyPolicy: "Privacy Policy",
+    termsOfService: "Terms of Service",
     rights: "All rights reserved.",
     contactSupportPrefix: "Questions? Email us at ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "Privacy Policy",
+      metaDescription:
+        "How FLASH collects, uses, and protects your personal information on ink-flash.com.",
+    },
+    terms: {
+      metaTitle: "Terms of Service",
+      metaDescription:
+        "Terms and conditions for using the FLASH tattoo studio management platform.",
+    },
   },
 };
 

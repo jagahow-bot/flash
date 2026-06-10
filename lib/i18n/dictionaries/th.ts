@@ -196,11 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "ระบบจองและจัดการโปรเจกต์สำหรับสตูดิโอสัก",
     product: "ผลิตภัณฑ์",
     account: "บัญชี",
+    legal: "กฎหมาย",
     login: "เข้าสู่ระบบ",
     myProjects: "การจองของฉัน",
     studioRegister: "ลงทะเบียนสตูดิโอ",
+    privacyPolicy: "นโยบายความเป็นส่วนตัว",
+    termsOfService: "เงื่อนไขการให้บริการ",
     rights: "สงวนลิขสิทธิ์",
     contactSupportPrefix: "มีคำถาม ส่งอีเมลถึงเราได้ที่ ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "นโยบายความเป็นส่วนตัว",
+      metaDescription:
+        "FLASH เก็บรวบรวม ใช้ และปกป้องข้อมูลส่วนบุคคลของคุณบน ink-flash.com อย่างไร",
+    },
+    terms: {
+      metaTitle: "เงื่อนไขการให้บริการ",
+      metaDescription:
+        "ข้อกำหนดและเงื่อนไขในการใช้แพลตฟอร์มจัดการสตูดิโอสัก FLASH",
+    },
   },
 };
 

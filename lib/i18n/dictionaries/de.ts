@@ -196,11 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "Buchung & Projektverwaltung für Tattoo-Studios",
     product: "Produkt",
     account: "Konto",
+    legal: "Rechtliches",
     login: "Anmelden",
     myProjects: "Meine Buchungen",
     studioRegister: "Studio registrieren",
+    privacyPolicy: "Datenschutz",
+    termsOfService: "Nutzungsbedingungen",
     rights: "Alle Rechte vorbehalten.",
     contactSupportPrefix: "Fragen? Schreiben Sie uns an ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "Datenschutz",
+      metaDescription:
+        "Wie FLASH personenbezogene Daten auf ink-flash.com erhebt, nutzt und schützt.",
+    },
+    terms: {
+      metaTitle: "Nutzungsbedingungen",
+      metaDescription:
+        "Allgemeine Geschäftsbedingungen für die FLASH Tattoo-Studio-Verwaltungsplattform.",
+    },
   },
 };
 

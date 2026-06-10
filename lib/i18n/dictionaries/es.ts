@@ -196,11 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "Reservas y gestión de proyectos para estudios de tatuaje",
     product: "Producto",
     account: "Cuenta",
+    legal: "Legal",
     login: "Iniciar sesión",
     myProjects: "Mis reservas",
     studioRegister: "Registrar estudio",
+    privacyPolicy: "Política de privacidad",
+    termsOfService: "Términos de servicio",
     rights: "Todos los derechos reservados.",
     contactSupportPrefix: "¿Preguntas? Escríbenos a ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "Política de privacidad",
+      metaDescription:
+        "Cómo FLASH recopila, utiliza y protege tu información personal en ink-flash.com.",
+    },
+    terms: {
+      metaTitle: "Términos de servicio",
+      metaDescription:
+        "Términos y condiciones para usar la plataforma de gestión de estudios de tatuaje FLASH.",
+    },
   },
 };
 

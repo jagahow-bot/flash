@@ -196,12 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "タトゥースタジオの予約・案件管理",
     product: "製品",
     account: "アカウント",
+    legal: "法的情報",
     login: "ログイン",
     myProjects: "マイ予約",
     studioRegister: "スタジオ登録",
+    privacyPolicy: "プライバシーポリシー",
+    termsOfService: "利用規約",
     rights: "All rights reserved.",
     contactSupportPrefix: "ご不明な点は ",
     contactSupportSuffix: " までお問い合わせください",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "プライバシーポリシー",
+      metaDescription:
+        "FLASH が ink-flash.com で個人情報をどのように収集・利用・保護するかを説明します。",
+    },
+    terms: {
+      metaTitle: "利用規約",
+      metaDescription: "FLASH タトゥースタジオ管理プラットフォームの利用条件。",
+    },
   },
 };
 

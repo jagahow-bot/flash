@@ -196,12 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "타투 스튜디오 예약 및 프로젝트 관리",
     product: "제품",
     account: "계정",
+    legal: "법적 고지",
     login: "로그인",
     myProjects: "내 예약",
     studioRegister: "스튜디오 등록",
+    privacyPolicy: "개인정보 처리방침",
+    termsOfService: "서비스 약관",
     rights: "All rights reserved.",
     contactSupportPrefix: "문의 사항은 ",
     contactSupportSuffix: " 으로 보내주세요",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "개인정보 처리방침",
+      metaDescription:
+        "FLASH가 ink-flash.com에서 개인정보를 수집·이용·보호하는 방법을 설명합니다.",
+    },
+    terms: {
+      metaTitle: "서비스 약관",
+      metaDescription: "FLASH 타투 스튜디오 관리 플랫폼 이용 약관.",
+    },
   },
 };
 

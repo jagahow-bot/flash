@@ -92,11 +92,24 @@ export interface LandingDictionary {
     tagline: string;
     product: string;
     account: string;
+    legal: string;
     login: string;
     myProjects: string;
     studioRegister: string;
+    privacyPolicy: string;
+    termsOfService: string;
     rights: string;
     contactSupportPrefix: string;
     contactSupportSuffix?: string;
+  };
+  legal: {
+    privacy: {
+      metaTitle: string;
+      metaDescription: string;
+    };
+    terms: {
+      metaTitle: string;
+      metaDescription: string;
+    };
   };
 }

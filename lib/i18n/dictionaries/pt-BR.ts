@@ -196,11 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "Agendamento e gestão de projetos para estúdios de tatuagem",
     product: "Produto",
     account: "Conta",
+    legal: "Legal",
     login: "Entrar",
     myProjects: "Meus agendamentos",
     studioRegister: "Cadastrar estúdio",
+    privacyPolicy: "Política de Privacidade",
+    termsOfService: "Termos de Serviço",
     rights: "Todos os direitos reservados.",
     contactSupportPrefix: "Dúvidas? Envie um e-mail para ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "Política de Privacidade",
+      metaDescription:
+        "Como a FLASH coleta, usa e protege suas informações pessoais no ink-flash.com.",
+    },
+    terms: {
+      metaTitle: "Termos de Serviço",
+      metaDescription:
+        "Termos e condições para usar a plataforma de gestão de estúdios de tatuagem FLASH.",
+    },
   },
 };
 

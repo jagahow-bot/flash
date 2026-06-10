@@ -196,11 +196,26 @@ const dictionary: LandingDictionary = {
     tagline: "Réservation et gestion de projets pour studios de tatouage",
     product: "Produit",
     account: "Compte",
+    legal: "Mentions légales",
     login: "Connexion",
     myProjects: "Mes réservations",
     studioRegister: "Inscrire un studio",
+    privacyPolicy: "Politique de confidentialité",
+    termsOfService: "Conditions d'utilisation",
     rights: "Tous droits réservés.",
     contactSupportPrefix: "Des questions ? Écrivez-nous à ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "Politique de confidentialité",
+      metaDescription:
+        "Comment FLASH collecte, utilise et protège vos données personnelles sur ink-flash.com.",
+    },
+    terms: {
+      metaTitle: "Conditions d'utilisation",
+      metaDescription:
+        "Conditions générales d'utilisation de la plateforme de gestion de studio de tatouage FLASH.",
+    },
   },
 };
 

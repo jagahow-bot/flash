@@ -193,11 +193,25 @@ const dictionary: LandingDictionary = {
     tagline: "刺青工作室預約與案件管理",
     product: "產品",
     account: "帳號",
+    legal: "法律",
     login: "登入",
     myProjects: "我的預約",
     studioRegister: "註冊工作室",
+    privacyPolicy: "隱私權政策",
+    termsOfService: "服務條款",
     rights: "保留所有權利。",
     contactSupportPrefix: "有任何問題請寄信詢問 ",
+  },
+  legal: {
+    privacy: {
+      metaTitle: "隱私權政策",
+      metaDescription:
+        "了解 FLASH 如何在 ink-flash.com 收集、使用與保護您的個人資料。",
+    },
+    terms: {
+      metaTitle: "服務條款",
+      metaDescription: "使用 FLASH 刺青工作室管理平台的條款與條件。",
+    },
   },
 };
 
