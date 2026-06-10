@@ -104,9 +104,9 @@ export function SessionSlotCalendar({
         )}
       </p>
 
-      <div className="flex flex-row items-stretch gap-2">
-        {/* Compact month calendar (left) */}
-        <div className="w-[10.5rem] shrink-0 rounded-lg border p-1.5">
+      <div className="flex flex-col items-stretch gap-3 md:flex-row md:gap-2">
+        {/* Compact month calendar (top on mobile, left on md+) */}
+        <div className="mx-auto w-full max-w-[10.5rem] shrink-0 rounded-lg border p-1.5 md:mx-0 md:w-[10.5rem]">
           <div className="mb-2 flex items-center justify-between">
             <Button
               type="button"

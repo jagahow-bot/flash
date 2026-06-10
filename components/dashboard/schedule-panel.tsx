@@ -145,7 +145,8 @@ export function SchedulePanel({
         <CardDescription>{s.scheduleDescription}</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-row items-stretch gap-2">
+        <div className="flex flex-col items-stretch gap-3 md:flex-row md:gap-2">
+          <div className="mx-auto w-full max-w-[10.5rem] shrink-0 md:mx-0">
           <MiniCalendar
             viewDate={viewDate}
             onViewDateChange={(date) => {
@@ -157,6 +158,7 @@ export function SchedulePanel({
             calendarEntries={calendarEntries}
             closures={closures}
           />
+          </div>
 
           <div className="flex min-h-[10rem] min-w-0 flex-1 flex-col rounded-lg border">
             {selectedDate ? (

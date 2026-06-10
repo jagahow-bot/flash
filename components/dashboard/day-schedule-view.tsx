@@ -189,7 +189,7 @@ export function DayScheduleView({
             : s.dayOff}
         </p>
       ) : (
-        <div className="flex min-h-0 flex-1 flex-row gap-2">
+        <div className="flex min-h-0 flex-1 flex-col gap-3 md:flex-row md:gap-2">
           <div className="flex min-w-0 flex-[3] flex-col gap-1">
             <p className="text-xs font-medium text-muted-foreground">
               {s.scheduleOverview}
@@ -245,7 +245,7 @@ export function DayScheduleView({
             </div>
           </div>
 
-          <div className="flex min-w-0 flex-[4] flex-col gap-1 border-l pl-2">
+          <div className="flex min-w-0 flex-[4] flex-col gap-1 border-t pt-3 md:border-l md:border-t-0 md:pl-2 md:pt-0">
             <p className="text-xs font-medium leading-snug">
               {s.selectSlots}
               {startOptions.length > 0 && (

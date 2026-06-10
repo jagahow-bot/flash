@@ -29,18 +29,18 @@ export function DashboardShell({
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b px-6 py-4">
-        <div className="flex items-center justify-between gap-4">
-          <div>
+      <header className="border-b px-4 py-4 sm:px-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <div className="min-w-0">
             <p className="text-sm text-muted-foreground">{dict.shell.studioDashboard}</p>
-            <p className="font-medium">
+            <p className="truncate font-medium">
               {user.email}{" "}
               <span className="text-muted-foreground">
                 （{getRoleLabel(user.role, dict)}）
               </span>
             </p>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
             <LanguageSwitcher dict={switcherDict} className="hidden sm:block" />
             <Link
               href={marketingHomeHref}
