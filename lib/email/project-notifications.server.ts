@@ -1,11 +1,14 @@
 import { buildProjectEmail } from "@/lib/email/templates/project-notifications";
 import {
-  getClientNotificationEmail,
-  getStudioNotificationEmails,
+  getClientNotificationRecipient,
+  getStudioNotificationRecipients,
 } from "@/lib/email/recipients.server";
-import { sendEmail } from "@/lib/email/send.server";
-import { defaultLocale } from "@/lib/i18n/config";
-import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
+import {
+  sendLocalizedToRecipient,
+  sendLocalizedToRecipients,
+} from "@/lib/email/send-localized.server";
+import type { ResolvedAppDictionary } from "@/lib/i18n/get-app-dictionary";
+import { formatMessage } from "@/lib/i18n/format";
 import { getStudioById } from "@/lib/firestore/studios.server";
 import { formatDepositDeadline } from "@/lib/project/format";
 import { getClientDisplayName } from "@/lib/project/client-display";
@@ -94,32 +97,115 @@ function dispatch(
   });
 }
 
+function formatCountHint(dict: ResolvedAppDictionary, count: number): string {
+  if (count <= 1) {
+    return "";
+  }
+
+  return formatMessage(dict.email.countHint, { count });
+}
+
+function formatQuoteSessionHint(
+  dict: ResolvedAppDictionary,
+  project: Project
+): string {
+  const sessionIndex = project.currentSessionIndex ?? 1;
+  const totalSessions = project.sessionDetails?.sessions ?? 1;
+
+  if (totalSessions <= 1) {
+    return "";
+  }
+
+  return formatMessage(dict.email.quoteSessionHint, {
+    sessionIndex,
+    totalSessions,
+  });
+}
+
+function buildQuoteNotificationCopy(
+  dict: ResolvedAppDictionary,
+  studioName: string,
+  project: Project,
+  input: { quoteChanged: boolean; slotsChanged: boolean; isFirstSend: boolean }
+) {
+  const sessionHint = formatQuoteSessionHint(dict, project);
+  const values = { studioName, sessionHint };
+
+  if (input.isFirstSend) {
+    return {
+      title: dict.email.quoteFirstSend.title,
+      body: formatMessage(dict.email.quoteFirstSend.body, values),
+    };
+  }
+
+  if (input.quoteChanged && input.slotsChanged) {
+    return {
+      title: dict.email.quoteUpdatedBoth.title,
+      body: formatMessage(dict.email.quoteUpdatedBoth.body, values),
+    };
+  }
+
+  if (input.slotsChanged) {
+    return {
+      title: dict.email.quoteSlotsUpdated.title,
+      body: formatMessage(dict.email.quoteSlotsUpdated.body, values),
+    };
+  }
+
+  return {
+    title: dict.email.quotePriceUpdated.title,
+    body: formatMessage(dict.email.quotePriceUpdated.body, values),
+  };
+}
+
+function buildProjectEmailForAudience(
+  dict: ResolvedAppDictionary,
+  input: {
+    studioName: string;
+    projectId: string;
+    studioSlug: string;
+    audience: "client" | "studio";
+    title: string;
+    body: string;
+  }
+) {
+  return buildProjectEmail({
+    dict,
+    locale: dict.locale,
+    ...input,
+  });
+}
+
 export function notifyNewIntake(project: Project) {
   dispatch(
     (async () => {
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const recipients = await getStudioNotificationEmails(project.studioId);
+      const recipients = await getStudioNotificationRecipients(project.studioId);
       if (recipients.length === 0) return;
 
-      const dict = await getAppDictionary(defaultLocale);
       const clientUser = await getUserById(project.clientId);
-      const clientName = getClientDisplayName(
-        project,
-        clientUser,
-        dict.project,
-      );
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "studio",
-        title: "收到新的預約需求",
-        body: `${clientName} 已送出預約需求（${project.projectId}），請至後台查看 FLASH 需求摘要並開始報價。`,
-      });
 
-      await sendEmail({ to: recipients, ...email });
+      await sendLocalizedToRecipients(recipients, (dict) => {
+        const clientName = getClientDisplayName(
+          project,
+          clientUser,
+          dict.project,
+        );
+
+        return buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "studio",
+          title: dict.email.newIntake.title,
+          body: formatMessage(dict.email.newIntake.body, {
+            clientName,
+            projectId: project.projectId,
+          }),
+        });
+      });
     })(),
     "new_intake",
     project.projectId
@@ -143,78 +229,49 @@ export function notifyNewDiscussionMessage(
         input.body.length > 120 ? `${input.body.slice(0, 120)}…` : input.body;
 
       if (input.authorRole === "client") {
-        const recipients = await getStudioNotificationEmails(project.studioId);
+        const recipients = await getStudioNotificationRecipients(
+          project.studioId
+        );
         if (recipients.length === 0) return;
 
-        const email = buildProjectEmail({
-          studioName: context.studio.name,
-          projectId: project.projectId,
-          studioSlug: context.studio.slug,
-          audience: "studio",
-          title: "預約有新留言",
-          body: `${input.authorLabel} 在 ${project.projectId} 留下訊息：\n「${preview}」`,
-        });
-
-        await sendEmail({ to: recipients, ...email });
+        await sendLocalizedToRecipients(recipients, (dict) =>
+          buildProjectEmailForAudience(dict, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+            studioSlug: context.studio.slug,
+            audience: "studio",
+            title: dict.email.discussionClientMessage.title,
+            body: formatMessage(dict.email.discussionClientMessage.body, {
+              authorLabel: input.authorLabel,
+              projectId: project.projectId,
+              preview,
+            }),
+          })
+        );
         return;
       }
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: "工作室回覆了您的留言",
-        body: `${context.studio.name} 在預約 ${project.projectId} 回覆：\n「${preview}」`,
-      });
-
-      await sendEmail({ to: clientEmail, ...email });
+      await sendLocalizedToRecipient(recipient, (dict) =>
+        buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: dict.email.discussionStudioReply.title,
+          body: formatMessage(dict.email.discussionStudioReply.body, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+            preview,
+          }),
+        })
+      );
     })(),
     "new_discussion_message",
     project.projectId
   );
-}
-
-function buildQuoteNotificationCopy(
-  studioName: string,
-  project: Project,
-  input: { quoteChanged: boolean; slotsChanged: boolean; isFirstSend: boolean }
-) {
-  const sessionIndex = project.currentSessionIndex ?? 1;
-  const totalSessions = project.sessionDetails?.sessions ?? 1;
-  const sessionHint =
-    totalSessions > 1
-      ? `（第 ${sessionIndex} 次報價，共 ${totalSessions} 次；每次分開計價）`
-      : "";
-
-  if (input.isFirstSend) {
-    return {
-      title: "報價與時段已送出",
-      body: `${studioName} 已提供報價與可預約時段${sessionHint}，請登入查看並確認。`,
-    };
-  }
-
-  if (input.quoteChanged && input.slotsChanged) {
-    return {
-      title: "報價與時段已更新",
-      body: `${studioName} 已更新報價與可預約時段${sessionHint}，請登入查看並確認。`,
-    };
-  }
-
-  if (input.slotsChanged) {
-    return {
-      title: "可預約時段已更新",
-      body: `${studioName} 已更新可預約時段${sessionHint}，請登入查看並擇一確認。`,
-    };
-  }
-
-  return {
-    title: "報價已更新",
-    body: `${studioName} 已更新報價${sessionHint}，請登入查看。`,
-  };
 }
 
 export function notifyQuoteProgressUpdate(
@@ -232,25 +289,26 @@ export function notifyQuoteProgressUpdate(
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const copy = buildQuoteNotificationCopy(
-        context.studio.name,
-        project,
-        input
-      );
+      await sendLocalizedToRecipient(recipient, (dict) => {
+        const copy = buildQuoteNotificationCopy(
+          dict,
+          context.studio.name,
+          project,
+          input
+        );
 
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: copy.title,
-        body: copy.body,
+        return buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: copy.title,
+          body: copy.body,
+        });
       });
-
-      await sendEmail({ to: clientEmail, ...email });
     })(),
     event,
     project.projectId
@@ -260,58 +318,77 @@ export function notifyQuoteProgressUpdate(
 export function notifySlotReserved(project: Project, studio: Studio) {
   dispatch(
     (async () => {
-      const clientEmail = await getClientNotificationEmail(project);
+      const clientRecipient = await getClientNotificationRecipient(project);
       const slot = getActiveProjectTimeSlot(project);
 
-      if (!clientEmail || !slot || !project.depositDeadlineAt) {
+      if (!clientRecipient || !slot || !project.depositDeadlineAt) {
         return;
       }
 
-      const dict = await getAppDictionary(defaultLocale);
-      const slotLabel = formatSessionSlotLabel(
-        project,
-        slot,
-        getCurrentSessionIndex(project),
-        dict,
-      );
-      const deadlineLabel = formatDepositDeadline(
-        project.depositDeadlineAt,
-        dict.dates,
-      );
+      await sendLocalizedToRecipient(clientRecipient, async (dict) => {
+        const slotLabel = formatSessionSlotLabel(
+          project,
+          slot,
+          getCurrentSessionIndex(project),
+          dict,
+        );
+        const deadlineLabel = formatDepositDeadline(
+          project.depositDeadlineAt!,
+          dict.dates,
+        );
 
-      const clientEmailContent = buildProjectEmail({
-        studioName: studio.name,
-        projectId: project.projectId,
-        studioSlug: studio.slug,
-        audience: "client",
-        title: "時段已保留，請完成訂金轉帳",
-        body: `您已選定時段：${slotLabel}。\n請於 ${deadlineLabel} 前完成訂金轉帳，逾期將自動取消預約。`,
+        return buildProjectEmailForAudience(dict, {
+          studioName: studio.name,
+          projectId: project.projectId,
+          studioSlug: studio.slug,
+          audience: "client",
+          title: dict.email.slotReservedClient.title,
+          body: formatMessage(dict.email.slotReservedClient.body, {
+            slotLabel,
+            deadlineLabel,
+          }),
+        });
       });
 
-      await sendEmail({ to: clientEmail, ...clientEmailContent });
-
-      const studioRecipients = await getStudioNotificationEmails(project.studioId);
+      const studioRecipients = await getStudioNotificationRecipients(
+        project.studioId
+      );
       if (studioRecipients.length === 0) {
         return;
       }
 
       const clientUser = await getUserById(project.clientId);
-      const clientName = getClientDisplayName(
-        project,
-        clientUser,
-        dict.project,
-      );
 
-      const studioEmailContent = buildProjectEmail({
-        studioName: studio.name,
-        projectId: project.projectId,
-        studioSlug: studio.slug,
-        audience: "studio",
-        title: "客戶已選定時段",
-        body: `${clientName} 已選定時段（${slotLabel}），訂金期限至 ${deadlineLabel}。`,
+      await sendLocalizedToRecipients(studioRecipients, async (dict) => {
+        const slotLabel = formatSessionSlotLabel(
+          project,
+          slot,
+          getCurrentSessionIndex(project),
+          dict,
+        );
+        const deadlineLabel = formatDepositDeadline(
+          project.depositDeadlineAt!,
+          dict.dates,
+        );
+        const clientName = getClientDisplayName(
+          project,
+          clientUser,
+          dict.project,
+        );
+
+        return buildProjectEmailForAudience(dict, {
+          studioName: studio.name,
+          projectId: project.projectId,
+          studioSlug: studio.slug,
+          audience: "studio",
+          title: dict.email.slotReservedStudio.title,
+          body: formatMessage(dict.email.slotReservedStudio.body, {
+            clientName,
+            slotLabel,
+            deadlineLabel,
+          }),
+        });
       });
-
-      await sendEmail({ to: studioRecipients, ...studioEmailContent });
     })(),
     "slot_reserved",
     project.projectId
@@ -324,37 +401,39 @@ export function notifyDepositDeadlineExpired(
 ) {
   dispatch(
     (async () => {
-      const clientEmail = await getClientNotificationEmail(project);
-      const studioRecipients = await getStudioNotificationEmails(project.studioId);
+      const clientRecipient = await getClientNotificationRecipient(project);
+      const studioRecipients = await getStudioNotificationRecipients(
+        project.studioId
+      );
 
-      const body =
-        `預約 ${project.projectId} 因未於期限內完成訂金轉帳，時段保留已取消。` +
-        `請重新選擇可預約時段。`;
-
-      if (clientEmail) {
-        const clientEmailContent = buildProjectEmail({
-          studioName: studio.name,
-          projectId: project.projectId,
-          studioSlug: studio.slug,
-          audience: "client",
-          title: "預約已逾期取消",
-          body,
-        });
-
-        await sendEmail({ to: clientEmail, ...clientEmailContent });
+      if (clientRecipient) {
+        await sendLocalizedToRecipient(clientRecipient, (dict) =>
+          buildProjectEmailForAudience(dict, {
+            studioName: studio.name,
+            projectId: project.projectId,
+            studioSlug: studio.slug,
+            audience: "client",
+            title: dict.email.depositExpiredClient.title,
+            body: formatMessage(dict.email.depositExpiredClient.body, {
+              projectId: project.projectId,
+            }),
+          })
+        );
       }
 
       if (studioRecipients.length > 0) {
-        const studioEmailContent = buildProjectEmail({
-          studioName: studio.name,
-          projectId: project.projectId,
-          studioSlug: studio.slug,
-          audience: "studio",
-          title: "客戶訂金逾期，預約已取消",
-          body: `預約 ${project.projectId} 因客戶未於期限內完成訂金轉帳，時段已釋放。`,
-        });
-
-        await sendEmail({ to: studioRecipients, ...studioEmailContent });
+        await sendLocalizedToRecipients(studioRecipients, (dict) =>
+          buildProjectEmailForAudience(dict, {
+            studioName: studio.name,
+            projectId: project.projectId,
+            studioSlug: studio.slug,
+            audience: "studio",
+            title: dict.email.depositExpiredStudio.title,
+            body: formatMessage(dict.email.depositExpiredStudio.body, {
+              projectId: project.projectId,
+            }),
+          })
+        );
       }
     })(),
     "deposit_deadline_expired",
@@ -368,27 +447,30 @@ export function notifyDepositSubmitted(project: Project) {
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const recipients = await getStudioNotificationEmails(project.studioId);
+      const recipients = await getStudioNotificationRecipients(project.studioId);
       if (recipients.length === 0) return;
 
-      const dict = await getAppDictionary(defaultLocale);
       const clientUser = await getUserById(project.clientId);
-      const clientName = getClientDisplayName(
-        project,
-        clientUser,
-        dict.project,
-      );
 
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "studio",
-        title: "客戶已上傳訂金證明",
-        body: `${clientName} 已確認時段並上傳訂金證明（${project.projectId}），請至後台審核。`,
+      await sendLocalizedToRecipients(recipients, (dict) => {
+        const clientName = getClientDisplayName(
+          project,
+          clientUser,
+          dict.project,
+        );
+
+        return buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "studio",
+          title: dict.email.depositSubmitted.title,
+          body: formatMessage(dict.email.depositSubmitted.body, {
+            clientName,
+            projectId: project.projectId,
+          }),
+        });
       });
-
-      await sendEmail({ to: recipients, ...email });
     })(),
     "deposit_submitted",
     project.projectId
@@ -406,22 +488,23 @@ export function notifySketchesUploaded(
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const countHint =
-        input.newCount > 1 ? `（共 ${input.newCount} 張）` : "";
-
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: "工作室已上傳設計稿",
-        body: `${context.studio.name} 已為預約 ${project.projectId} 上傳設計稿${countHint}，請登入查看並確認。`,
-      });
-
-      await sendEmail({ to: clientEmail, ...email });
+      await sendLocalizedToRecipient(recipient, (dict) =>
+        buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: dict.email.sketchesUploaded.title,
+          body: formatMessage(dict.email.sketchesUploaded.body, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+            countHint: formatCountHint(dict, input.newCount),
+          }),
+        })
+      );
     })(),
     "sketches_uploaded",
     project.projectId
@@ -439,22 +522,23 @@ export function notifyFinalPhotosUploaded(
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const countHint =
-        input.newCount > 1 ? `（共 ${input.newCount} 張）` : "";
-
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: "工作室已上傳成品照",
-        body: `${context.studio.name} 已上傳您的刺青成品照${countHint}（預約 ${project.projectId}），請至預約頁查看。`,
-      });
-
-      await sendEmail({ to: clientEmail, ...email });
+      await sendLocalizedToRecipient(recipient, (dict) =>
+        buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: dict.email.finalPhotosUploaded.title,
+          body: formatMessage(dict.email.finalPhotosUploaded.body, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+            countHint: formatCountHint(dict, input.newCount),
+          }),
+        })
+      );
     })(),
     "final_photos_uploaded",
     project.projectId
@@ -478,19 +562,22 @@ export function notifyProjectCompleted(project: Project) {
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: "預約已完成",
-        body: `${context.studio.name} 已將預約 ${project.projectId} 標記為完成，請至預約頁查看成品照與術後照護指引。`,
-      });
-
-      await sendEmail({ to: clientEmail, ...email });
+      await sendLocalizedToRecipient(recipient, (dict) =>
+        buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: dict.email.projectCompleted.title,
+          body: formatMessage(dict.email.projectCompleted.body, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+          }),
+        })
+      );
     })(),
     "project_completed",
     project.projectId
@@ -503,27 +590,29 @@ export function notifyDepositConfirmed(project: Project) {
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const sessionIndex = getCurrentSessionIndex(project);
-      const hasMoreSessions = hasMoreSessionsToBook(project);
-      const body = hasMoreSessions
-        ? `${context.studio.name} 已確認第 ${sessionIndex} 次 Session 訂金，預約已成立。請準時抵達；工作室會於施作前提供設計稿供您確認，施作完成後上傳成品照，再安排下一次 Session。`
-        : `${context.studio.name} 已確認訂金，您的預約（${project.projectId}）已成立。`;
+      await sendLocalizedToRecipient(recipient, (dict) => {
+        const sessionIndex = getCurrentSessionIndex(project);
+        const hasMoreSessions = hasMoreSessionsToBook(project);
+        const template = hasMoreSessions
+          ? dict.email.depositConfirmedMulti
+          : dict.email.depositConfirmedSingle;
 
-      const title = hasMoreSessions ? "本次 Session 預約已成立" : "預約已成立";
-
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title,
-        body,
+        return buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: template.title,
+          body: formatMessage(template.body, {
+            studioName: context.studio.name,
+            projectId: project.projectId,
+            sessionIndex,
+          }),
+        });
       });
-
-      await sendEmail({ to: clientEmail, ...email });
     })(),
     "deposit_confirmed",
     project.projectId
@@ -536,26 +625,30 @@ export function notifySessionDeliveryComplete(project: Project) {
       const context = await resolveStudioContext(project);
       if (!context) return;
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const sessionIndex = getCurrentSessionIndex(project);
-      const totalSessions = getTotalSessions(project);
-      const body =
-        totalSessions > 1
-          ? `${context.studio.name} 已完成第 ${sessionIndex - 1} 次 Session 作品交付。第 ${sessionIndex} 次 Session 的報價與時段準備好後會再通知您。`
-          : `${context.studio.name} 已完成作品交付，報價與時段準備好後會再通知您。`;
+      await sendLocalizedToRecipient(recipient, (dict) => {
+        const sessionIndex = getCurrentSessionIndex(project);
+        const totalSessions = getTotalSessions(project);
+        const template =
+          totalSessions > 1
+            ? dict.email.nextSessionReadyMulti
+            : dict.email.nextSessionReadySingle;
 
-      const email = buildProjectEmail({
-        studioName: context.studio.name,
-        projectId: project.projectId,
-        studioSlug: context.studio.slug,
-        audience: "client",
-        title: "可安排下一次 Session",
-        body,
+        return buildProjectEmailForAudience(dict, {
+          studioName: context.studio.name,
+          projectId: project.projectId,
+          studioSlug: context.studio.slug,
+          audience: "client",
+          title: template.title,
+          body: formatMessage(template.body, {
+            studioName: context.studio.name,
+            sessionIndex,
+            previousSession: sessionIndex - 1,
+          }),
+        });
       });
-
-      await sendEmail({ to: clientEmail, ...email });
     })(),
     "next_session_ready",
     project.projectId
@@ -573,43 +666,53 @@ export function notifyPreSessionDocumentCompleted(
   dispatch(
     (async () => {
       if (input.completionMethod === "client_signature") {
-        const recipients = await getStudioNotificationEmails(project.studioId);
+        const recipients = await getStudioNotificationRecipients(
+          project.studioId
+        );
         if (recipients.length === 0) return;
 
-        const dict = await getAppDictionary(defaultLocale);
         const clientUser = await getUserById(project.clientId);
-        const clientName = getClientDisplayName(
-          project,
-          clientUser,
-          dict.project,
-        );
 
-        const email = buildProjectEmail({
-          studioName: studio.name,
-          projectId: project.projectId,
-          studioSlug: studio.slug,
-          audience: "studio",
-          title: "客戶已完成術前文件簽署",
-          body: `${clientName} 已線上簽署「${input.documentTitle}」（預約 ${project.projectId}），請至後台查看存檔。`,
+        await sendLocalizedToRecipients(recipients, (dict) => {
+          const clientName = getClientDisplayName(
+            project,
+            clientUser,
+            dict.project,
+          );
+
+          return buildProjectEmailForAudience(dict, {
+            studioName: studio.name,
+            projectId: project.projectId,
+            studioSlug: studio.slug,
+            audience: "studio",
+            title: dict.email.preSessionSignedStudio.title,
+            body: formatMessage(dict.email.preSessionSignedStudio.body, {
+              clientName,
+              documentTitle: input.documentTitle,
+              projectId: project.projectId,
+            }),
+          });
         });
-
-        await sendEmail({ to: recipients, ...email });
         return;
       }
 
-      const clientEmail = await getClientNotificationEmail(project);
-      if (!clientEmail) return;
+      const recipient = await getClientNotificationRecipient(project);
+      if (!recipient) return;
 
-      const email = buildProjectEmail({
-        studioName: studio.name,
-        projectId: project.projectId,
-        studioSlug: studio.slug,
-        audience: "client",
-        title: "術前文件已存檔",
-        body: `${studio.name} 已上傳並存檔您的「${input.documentTitle}」（預約 ${project.projectId}），請至預約頁查看。`,
-      });
-
-      await sendEmail({ to: clientEmail, ...email });
+      await sendLocalizedToRecipient(recipient, (dict) =>
+        buildProjectEmailForAudience(dict, {
+          studioName: studio.name,
+          projectId: project.projectId,
+          studioSlug: studio.slug,
+          audience: "client",
+          title: dict.email.preSessionArchivedClient.title,
+          body: formatMessage(dict.email.preSessionArchivedClient.body, {
+            studioName: studio.name,
+            documentTitle: input.documentTitle,
+            projectId: project.projectId,
+          }),
+        })
+      );
     })(),
     "pre_session_document_completed",
     project.projectId

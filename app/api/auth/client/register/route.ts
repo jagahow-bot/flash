@@ -10,6 +10,7 @@ import {
   UserAlreadyExistsError,
 } from "@/lib/firestore/users.server";
 import { getAdminAuth } from "@/lib/firebase-admin";
+import { seedPreferredLocaleFromCookie } from "@/lib/i18n/seed-preferred-locale.server";
 
 export async function POST(request: NextRequest) {
   let uid: string | null = null;
@@ -40,6 +41,12 @@ export async function POST(request: NextRequest) {
             ? redirectTo
             : "/";
 
+        const preferredLocale = await seedPreferredLocaleFromCookie(
+          request,
+          existing.uid,
+          existing.preferredLocale,
+        );
+
         return createSessionResponse(idToken, {
           redirect,
           user: {
@@ -47,6 +54,7 @@ export async function POST(request: NextRequest) {
             email: existing.email,
             role: existing.role,
             studioId: existing.studioId,
+            preferredLocale,
           },
         });
       }
@@ -77,6 +85,12 @@ export async function POST(request: NextRequest) {
         ? redirectTo
         : "/";
 
+    const preferredLocale = await seedPreferredLocaleFromCookie(
+      request,
+      user.uid,
+      user.preferredLocale,
+    );
+
     return createSessionResponse(idToken, {
       redirect,
       user: {
@@ -84,6 +98,7 @@ export async function POST(request: NextRequest) {
         email: user.email,
         role: user.role,
         studioId: user.studioId,
+        preferredLocale,
       },
     });
   } catch (error) {

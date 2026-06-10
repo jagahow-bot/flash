@@ -134,7 +134,7 @@ npm run seed
 | `GEMINI_MODEL` | 選填 | 預設 `gemini-2.0-flash` |
 | `NEXT_PUBLIC_APP_URL` | ✅ 正式環境 | `https://你的網域`（無尾隨斜線） |
 | `RESEND_API_KEY` | ✅ | Email 發送 |
-| `EMAIL_FROM` | ✅ | 例如 `FLASH <notifications@yourdomain.com>` |
+| `EMAIL_FROM` | ✅ | 例如 `FLASH <hello@ink-flash.com>` |
 
 Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrender.com`）。在尚未綁定自訂網域前，可暫時將 `NEXT_PUBLIC_APP_URL` 設為該 URL；綁定網域後改為正式網址並重新部署。
 
@@ -157,7 +157,7 @@ Render 會自動注入 `RENDER_EXTERNAL_URL`（例如 `https://flash-xxxx.onrend
 
 1. [resend.com](https://resend.com) 建立 API Key → 填入 `RESEND_API_KEY`
 2. Domains → 驗證發信網域（DNS TXT / MX）
-3. `EMAIL_FROM` 必須使用已驗證網域，例如 `FLASH <notifications@mail.yourdomain.com>`
+3. `EMAIL_FROM` 必須使用已驗證網域，例如 `FLASH <hello@ink-flash.com>`
 
 未設定時，Email 相關 API 會靜默略過或記錄錯誤（見 `lib/email/send.server.ts`）。
 

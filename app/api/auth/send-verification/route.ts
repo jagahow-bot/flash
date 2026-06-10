@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { sanitizeRedirectTo } from "@/lib/auth/sanitize-redirect";
 import { sendVerificationEmailViaResend } from "@/lib/auth/send-verification-email.server";
+import { resolveRecipientLocale } from "@/lib/email/resolve-recipient-locale.server";
 import { getAdminAuth } from "@/lib/firebase-admin";
+import { getUserById } from "@/lib/firestore/users.server";
 
 const bodySchema = z.object({
   idToken: z.string().min(1),
@@ -30,6 +32,7 @@ export async function POST(request: NextRequest) {
       email,
       audience,
       redirectTo: sanitizeRedirectTo(redirectTo),
+      locale: resolveRecipientLocale(await getUserById(decoded.uid)),
     });
 
     if (result.skipped) {

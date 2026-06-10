@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth/session-messages.server";
 import { getUserById } from "@/lib/firestore/users.server";
 import { getAdminAuth } from "@/lib/firebase-admin";
+import { seedPreferredLocaleFromCookie } from "@/lib/i18n/seed-preferred-locale.server";
 
 export async function POST(request: NextRequest) {
   const authMessages = await getAuthMessages(request);
@@ -47,6 +48,12 @@ export async function POST(request: NextRequest) {
         ? redirectTo
         : "/";
 
+    const preferredLocale = await seedPreferredLocaleFromCookie(
+      request,
+      user.uid,
+      user.preferredLocale,
+    );
+
     return createSessionResponse(idToken, {
       redirect,
       user: {
@@ -54,7 +61,7 @@ export async function POST(request: NextRequest) {
         email: user.email,
         role: user.role,
         studioId: user.studioId,
-        preferredLocale: user.preferredLocale,
+        preferredLocale,
       },
     });
   } catch (error) {

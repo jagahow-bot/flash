@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import type { EmailDictionary } from "@/lib/i18n/email-types";
 import type { ProjectStatus } from "@/types/project";
 import type { DayOfWeek, TimePeriod } from "@/types/operating-hours";
 import type { TattooComplexity, SizeEstimateConfidence } from "@/types/tattoo-brief";
@@ -771,4 +772,5 @@ export interface AppDictionary {
   marketing: {
     audienceZhHant: string;
   };
+  email?: EmailDictionary;
 }

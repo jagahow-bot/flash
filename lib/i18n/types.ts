@@ -88,5 +88,7 @@ export interface LandingDictionary {
     myProjects: string;
     studioRegister: string;
     rights: string;
+    contactSupportPrefix: string;
+    contactSupportSuffix?: string;
   };
 }

@@ -1,10 +1,17 @@
 import type { Locale } from "@/lib/i18n/config";
 import { defaultLocale } from "@/lib/i18n/config";
 import type { AppDictionary } from "@/lib/i18n/app-types";
+import { getEmailDictionary } from "@/lib/i18n/dictionaries/email";
 import {
   DATE_DICTIONARIES,
   PRICE_FORMAT_BY_LOCALE,
 } from "@/lib/i18n/dictionary-dates";
+
+type ResolvedAppDictionary = AppDictionary & {
+  email: NonNullable<AppDictionary["email"]>;
+};
+
+export type { ResolvedAppDictionary };
 
 const appDictionaries: Record<Locale, () => Promise<{ default: unknown }>> = {
   "zh-Hant": () => import("@/lib/i18n/dictionaries/app/zh-Hant"),
@@ -53,21 +60,31 @@ function withFormatDefaults(locale: Locale, dict: AppDictionary): AppDictionary 
   };
 }
 
-export async function getAppDictionary(locale: Locale): Promise<AppDictionary> {
+export async function getAppDictionary(
+  locale: Locale,
+): Promise<ResolvedAppDictionary> {
   const baseModule = await appDictionaries[defaultLocale]();
-  const base = withFormatDefaults(
-    defaultLocale,
-    baseModule.default as AppDictionary,
-  );
+  const defaultEmail = await getEmailDictionary(defaultLocale);
+  const base = withFormatDefaults(defaultLocale, {
+    ...(baseModule.default as AppDictionary),
+    email: defaultEmail,
+  });
 
   if (locale === defaultLocale) {
-    return base;
+    return base as ResolvedAppDictionary;
   }
 
-  const localeModule = await appDictionaries[locale]();
+  const [localeModule, email] = await Promise.all([
+    appDictionaries[locale](),
+    getEmailDictionary(locale),
+  ]);
   const merged = mergeDictionary(
     base,
     localeModule.default as Record<string, unknown>,
   );
-  return withFormatDefaults(locale, merged);
+  return withFormatDefaults(locale, {
+    ...merged,
+    email,
+    locale,
+  }) as ResolvedAppDictionary;
 }

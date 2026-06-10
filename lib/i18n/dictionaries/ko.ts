@@ -190,6 +190,8 @@ const dictionary: LandingDictionary = {
     myProjects: "내 예약",
     studioRegister: "스튜디오 등록",
     rights: "All rights reserved.",
+    contactSupportPrefix: "문의 사항은 ",
+    contactSupportSuffix: " 으로 보내주세요",
   },
 };
 

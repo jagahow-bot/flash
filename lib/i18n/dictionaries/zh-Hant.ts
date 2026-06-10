@@ -188,6 +188,7 @@ const dictionary: LandingDictionary = {
     myProjects: "我的預約",
     studioRegister: "註冊工作室",
     rights: "保留所有權利。",
+    contactSupportPrefix: "有任何問題請寄信詢問 ",
   },
 };
 

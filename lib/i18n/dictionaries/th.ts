@@ -190,6 +190,7 @@ const dictionary: LandingDictionary = {
     myProjects: "การจองของฉัน",
     studioRegister: "ลงทะเบียนสตูดิโอ",
     rights: "สงวนลิขสิทธิ์",
+    contactSupportPrefix: "มีคำถาม ส่งอีเมลถึงเราได้ที่ ",
   },
 };
 

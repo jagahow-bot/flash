@@ -190,6 +190,7 @@ const dictionary: LandingDictionary = {
     myProjects: "Meus agendamentos",
     studioRegister: "Cadastrar estúdio",
     rights: "Todos os direitos reservados.",
+    contactSupportPrefix: "Dúvidas? Envie um e-mail para ",
   },
 };
 

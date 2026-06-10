@@ -14,6 +14,7 @@ import {
   getAuthMessages,
   messageForSessionErrorCode,
 } from "@/lib/auth/session-messages.server";
+import { seedPreferredLocaleFromCookie } from "@/lib/i18n/seed-preferred-locale.server";
 import { setLocaleCookieOnResponse } from "@/lib/i18n/set-locale-cookie";
 import { createStudioAdminUser } from "@/lib/firestore/users.server";
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
@@ -69,6 +70,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const preferredLocale = await seedPreferredLocaleFromCookie(
+      request,
+      user.uid,
+      user.preferredLocale,
+    );
+
     const sessionCookie = await adminAuth.createSessionCookie(idToken, {
       expiresIn: SESSION_MAX_AGE_MS,
     });
@@ -91,8 +98,8 @@ export async function POST(request: NextRequest) {
       sameSite: "lax",
     });
 
-    if (user.preferredLocale) {
-      setLocaleCookieOnResponse(response, user.preferredLocale);
+    if (preferredLocale) {
+      setLocaleCookieOnResponse(response, preferredLocale);
     }
 
     return response;

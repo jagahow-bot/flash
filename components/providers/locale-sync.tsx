@@ -71,13 +71,26 @@ export function LocaleSync() {
         const data = (await response.json()) as { locale?: string | null };
         const profileLocale =
           data.locale && isLocale(data.locale) ? data.locale : null;
+        const cookieLocale = readLocaleCookie();
+
+        if (!profileLocale && cookieLocale && !cancelled) {
+          const patchResponse = await fetch("/api/user/locale", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ locale: cookieLocale }),
+          });
+          if (patchResponse.ok && !cancelled) {
+            router.refresh();
+          }
+          syncedUid.current = firebaseUser!.uid;
+          return;
+        }
 
         if (!profileLocale || cancelled) {
           syncedUid.current = firebaseUser!.uid;
           return;
         }
 
-        const cookieLocale = readLocaleCookie();
         // Only seed cookie from profile when none exists — do not clobber an
         // explicit choice from the language switcher (cookie vs profile mismatch).
         if (!cookieLocale) {

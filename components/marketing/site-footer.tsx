@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { LandingDictionary } from "@/lib/i18n/types";
+import { SUPPORT_EMAIL } from "@/lib/email/support-email";
 import { LanguageSwitcher } from "@/components/marketing/language-switcher";
 
 export function SiteFooter({ dict }: { dict: LandingDictionary }) {
@@ -82,9 +83,21 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
           </nav>
         </div>
 
-        <p className="mt-10 border-t pt-6 text-center text-xs text-muted-foreground">
-          © {year} FLASH. {dict.footer.rights}
-        </p>
+        <div className="mt-10 border-t pt-6 text-center text-xs text-muted-foreground">
+          <p>
+            {dict.footer.contactSupportPrefix}
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              className="transition-colors hover:text-foreground"
+            >
+              {SUPPORT_EMAIL}
+            </a>
+            {dict.footer.contactSupportSuffix}
+          </p>
+          <p className="mt-2">
+            © {year} FLASH. {dict.footer.rights}
+          </p>
+        </div>
       </div>
     </footer>
   );

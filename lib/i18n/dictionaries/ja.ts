@@ -190,6 +190,8 @@ const dictionary: LandingDictionary = {
     myProjects: "マイ予約",
     studioRegister: "スタジオ登録",
     rights: "All rights reserved.",
+    contactSupportPrefix: "ご不明な点は ",
+    contactSupportSuffix: " までお問い合わせください",
   },
 };
 

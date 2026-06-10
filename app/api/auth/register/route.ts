@@ -11,6 +11,8 @@ import {
   UserAlreadyExistsError,
 } from "@/lib/firestore/users.server";
 import { getAdminAuth } from "@/lib/firebase-admin";
+import { seedPreferredLocaleFromCookie } from "@/lib/i18n/seed-preferred-locale.server";
+import { setLocaleCookieOnResponse } from "@/lib/i18n/set-locale-cookie";
 
 export async function POST(request: NextRequest) {
   let uid: string | null = null;
@@ -59,6 +61,12 @@ export async function POST(request: NextRequest) {
       throw new Error("Failed to load user after registration");
     }
 
+    const preferredLocale = await seedPreferredLocaleFromCookie(
+      request,
+      user.uid,
+      user.preferredLocale,
+    );
+
     const response = NextResponse.json({
       redirect: getPostLoginRedirect(user),
     });
@@ -70,6 +78,10 @@ export async function POST(request: NextRequest) {
       path: "/",
       sameSite: "lax",
     });
+
+    if (preferredLocale) {
+      setLocaleCookieOnResponse(response, preferredLocale);
+    }
 
     return response;
   } catch (error) {

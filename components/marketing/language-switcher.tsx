@@ -109,6 +109,7 @@ export function LanguageSwitcher({
   useEffect(() => {
     if (marketingOnly && !isDefaultMarketingRoot(pathname)) {
       setLocaleCookie(pathLocale);
+      void persistLocaleToProfile(pathLocale);
     }
   }, [marketingOnly, pathLocale, pathname]);
 
