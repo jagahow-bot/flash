@@ -314,7 +314,7 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
                 id="instagram"
                 value={instagram}
                 onChange={(event) => setInstagram(event.target.value)}
-                placeholder="mohen.tattoo"
+                placeholder=""
               />
               <p className="text-xs text-muted-foreground">{s.instagramNoAt}</p>
             </div>

@@ -324,7 +324,7 @@ const dictionary: AppDictionary = {
     whatsappSameAsPhone: "同樣使用此手機作為 WhatsApp 聯絡方式",
     whatsappSamePhoneSuffix: "（同手機）",
     socialOptional: "社群帳號（選填）",
-    facebookPlaceholder: "username",
+    facebookPlaceholder: "",
     ageConfirm:
       "我確認已年滿 18 歲，並同意提供上述資訊供工作室評估需求",
     ageConfirmLegal:
@@ -575,9 +575,9 @@ const dictionary: AppDictionary = {
     socialLinksTitle: "社群連結",
     socialLinksDescription: "選填。讓客人在預約頁快速找到您的社群帳號",
     instagramNoAt: "不需加 @",
-    facebookPlaceholder: "username",
-    linePlaceholder: "LINE ID 或官方帳號連結",
-    threadsPlaceholder: "帳號名稱",
+    facebookPlaceholder: "",
+    linePlaceholder: "",
+    threadsPlaceholder: "",
     aftercareTitle: "術後照護",
     aftercareDescription: "刺青完成後顯示給客戶的照護指引",
     saveSettings: "儲存設定",

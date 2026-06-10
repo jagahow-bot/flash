@@ -513,7 +513,7 @@ export function IntakeForm({ studio, projectId, initialIntake }: IntakeFormProps
           <div className="grid gap-4 border-t border-border/60 pt-4 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <Label htmlFor="instagram">Instagram</Label>
-              <Input id="instagram" placeholder="@username" {...register("instagram")} />
+              <Input id="instagram" placeholder="" {...register("instagram")} />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="facebook">Facebook</Label>
@@ -521,11 +521,11 @@ export function IntakeForm({ studio, projectId, initialIntake }: IntakeFormProps
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="line">LINE ID</Label>
-              <Input id="line" placeholder="line_id" {...register("line")} />
+              <Input id="line" placeholder="" {...register("line")} />
             </div>
             <div className="flex flex-col gap-2">
               <Label htmlFor="threads">Threads</Label>
-              <Input id="threads" placeholder="@username" {...register("threads")} />
+              <Input id="threads" placeholder="" {...register("threads")} />
             </div>
           </div>
         </CardContent>
