@@ -32,6 +32,18 @@ function isMarketingOnlyPath(pathname: string): boolean {
   return false;
 }
 
+function isDefaultMarketingRoot(pathname: string): boolean {
+  return pathname === "/" || pathname === "";
+}
+
+function readLocaleCookie(): Locale | null {
+  const match = document.cookie.match(
+    new RegExp(`(?:^|; )${LOCALE_COOKIE_NAME}=([^;]*)`),
+  );
+  const value = match?.[1] ? decodeURIComponent(match[1]) : null;
+  return value && locales.includes(value as Locale) ? (value as Locale) : null;
+}
+
 function setLocaleCookie(locale: Locale) {
   document.cookie = `${LOCALE_COOKIE_NAME}=${encodeURIComponent(locale)};path=/;max-age=${LOCALE_COOKIE_MAX_AGE};SameSite=Lax`;
 }
@@ -65,25 +77,17 @@ export function LanguageSwitcher({
 
   useEffect(() => {
     if (marketingOnly) {
-      setCurrentLocale(pathLocale);
-      setLocaleCookie(pathLocale);
-    } else {
-      const match = document.cookie.match(
-        new RegExp(`(?:^|; )${LOCALE_COOKIE_NAME}=([^;]*)`),
-      );
-      const cookieLocale = match?.[1]
-        ? decodeURIComponent(match[1])
-        : null;
-      if (
-        cookieLocale &&
-        locales.includes(cookieLocale as Locale)
-      ) {
-        setCurrentLocale(cookieLocale as Locale);
+      if (isDefaultMarketingRoot(pathname)) {
+        // `/` has no locale segment; prefer cookie so switcher matches page content.
+        setCurrentLocale(readLocaleCookie() ?? defaultLocale);
       } else {
-        setCurrentLocale(defaultLocale);
+        setCurrentLocale(pathLocale);
+        setLocaleCookie(pathLocale);
       }
+    } else {
+      setCurrentLocale(readLocaleCookie() ?? defaultLocale);
     }
-  }, [marketingOnly, pathLocale]);
+  }, [marketingOnly, pathLocale, pathname]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

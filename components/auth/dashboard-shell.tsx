@@ -4,8 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoutButton } from "@/components/auth/logout-button";
 import { LanguageSwitcher } from "@/components/marketing/language-switcher";
-import { useAppDictionary } from "@/components/providers/locale-provider";
+import {
+  useAppDictionary,
+  useAppLocale,
+} from "@/components/providers/locale-provider";
 import { getRoleLabel } from "@/lib/copy";
+import { localePath } from "@/lib/i18n/config";
 import { appDictToSwitcherDict } from "@/lib/i18n/switcher-dictionary";
 import type { User } from "@/types/user";
 import { cn } from "@/lib/utils";
@@ -19,6 +23,8 @@ export function DashboardShell({
 }) {
   const pathname = usePathname();
   const dict = useAppDictionary();
+  const locale = useAppLocale();
+  const marketingHomeHref = localePath(locale);
   const switcherDict = appDictToSwitcherDict(dict);
 
   return (
@@ -37,14 +43,16 @@ export function DashboardShell({
           <div className="flex shrink-0 items-center gap-2">
             <LanguageSwitcher dict={switcherDict} className="hidden sm:block" />
             <Link
-              href="/"
+              href={marketingHomeHref}
               className={cn(
                 "rounded-lg border border-input px-3 py-1.5 text-sm transition-colors hover:bg-muted",
               )}
             >
               {dict.common.home}
             </Link>
-            <LogoutButton>{dict.common.logout}</LogoutButton>
+            <LogoutButton redirectTo={marketingHomeHref}>
+              {dict.common.logout}
+            </LogoutButton>
           </div>
         </div>
         <nav className="mt-4 flex flex-wrap gap-2">

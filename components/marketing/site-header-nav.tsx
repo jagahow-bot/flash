@@ -49,7 +49,7 @@ export function SiteHeaderNav({
             </Button>
           </Link>
         ) : null}
-        <LogoutButton />
+        <LogoutButton redirectTo={homeHref} />
       </nav>
     );
   }
