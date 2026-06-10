@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
-import { allLocalePaths, localeHrefLang } from "@/lib/i18n/config";
+import { allLocalePaths, localeHrefLang, locales } from "@/lib/i18n/config";
 import { getSiteUrl } from "@/lib/i18n/site-url";
-import { listPublicStudioSlugs } from "@/lib/firestore/studios.server";
+import { getStudiosForSitemap } from "@/lib/firestore/studios.server";
 
-function buildLanguageAlternates(siteUrl: string) {
+type SitemapEntry = MetadataRoute.Sitemap[number];
+
+function buildHomeLanguageAlternates(siteUrl: string): Record<string, string> {
   const languages: Record<string, string> = {};
   for (const { locale, path } of allLocalePaths()) {
     languages[localeHrefLang[locale]] =
@@ -12,26 +14,66 @@ function buildLanguageAlternates(siteUrl: string) {
   return languages;
 }
 
+function buildSamePathLanguageAlternates(
+  siteUrl: string,
+  path: string,
+): Record<string, string> {
+  const url = `${siteUrl}${path}`;
+  return Object.fromEntries(
+    locales.map((locale) => [localeHrefLang[locale], url]),
+  );
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
-  const lastModified = new Date();
-  const languages = buildLanguageAlternates(siteUrl);
+  const now = new Date();
+  const homeLanguages = buildHomeLanguageAlternates(siteUrl);
 
-  const marketingEntries = allLocalePaths().map(({ path }) => ({
+  const marketingEntries: SitemapEntry[] = allLocalePaths().map(({ path }) => ({
     url: `${siteUrl}${path === "/" ? "" : path}`,
-    lastModified,
-    changeFrequency: "weekly" as const,
+    lastModified: now,
+    changeFrequency: "weekly",
     priority: path === "/" ? 1 : 0.9,
-    alternates: { languages },
+    alternates: { languages: homeLanguages },
   }));
 
-  const studioSlugs = await listPublicStudioSlugs();
-  const studioEntries = studioSlugs.map((slug) => ({
+  const legalPaths = ["/privacy", "/terms"] as const;
+  const legalEntries: SitemapEntry[] = legalPaths.map((path) => ({
+    url: `${siteUrl}${path}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.5,
+    alternates: { languages: buildSamePathLanguageAlternates(siteUrl, path) },
+  }));
+
+  // Low-priority auth landing pages (excludes protected /client/* flows).
+  const authEntries: SitemapEntry[] = [
+    {
+      url: `${siteUrl}/login`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${siteUrl}/register`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+  ];
+
+  const studios = await getStudiosForSitemap();
+  const studioEntries: SitemapEntry[] = studios.map(({ slug, lastModified }) => ({
     url: `${siteUrl}/${slug}`,
-    lastModified,
-    changeFrequency: "weekly" as const,
+    lastModified: lastModified ?? now,
+    changeFrequency: "weekly",
     priority: 0.7,
   }));
 
-  return [...marketingEntries, ...studioEntries];
+  return [
+    ...marketingEntries,
+    ...legalEntries,
+    ...authEntries,
+    ...studioEntries,
+  ];
 }

@@ -221,20 +221,57 @@ export async function createStudio(
   return studio;
 }
 
-export async function listPublicStudioSlugs(): Promise<string[]> {
-  const slugs = new Set(mockStudios.map((studio) => studio.slug));
+export interface StudioSitemapEntry {
+  slug: string;
+  lastModified?: Date;
+}
+
+function parseFirestoreDate(value: unknown): Date | undefined {
+  if (value instanceof Timestamp) {
+    return value.toDate();
+  }
+  return undefined;
+}
+
+function isPublicStudioForSitemap(data: Record<string, unknown>): boolean {
+  const slug = String(data.slug ?? "").trim();
+  if (!slug) return false;
+  if (data.billingStatus === "suspended") return false;
+  return true;
+}
+
+/** Published studio storefronts for SEO sitemap (Firestore + mock fallbacks). */
+export async function getStudiosForSitemap(): Promise<StudioSitemapEntry[]> {
+  const bySlug = new Map<string, StudioSitemapEntry>();
+
+  for (const studio of mockStudios) {
+    bySlug.set(studio.slug, { slug: studio.slug });
+  }
 
   try {
     const snapshot = await getAdminDb().collection(COLLECTIONS.studios).get();
     for (const doc of snapshot.docs) {
-      const slug = String((doc.data() as { slug?: string }).slug ?? "");
-      if (slug) slugs.add(slug);
+      const data = doc.data() as Record<string, unknown>;
+      if (!isPublicStudioForSitemap(data)) continue;
+
+      const slug = String(data.slug).trim();
+      bySlug.set(slug, {
+        slug,
+        lastModified:
+          parseFirestoreDate(data.updatedAt) ??
+          parseFirestoreDate(data.createdAt),
+      });
     }
   } catch (error) {
-    console.error("Failed to fetch studio slugs for sitemap:", error);
+    console.error("Failed to fetch studios for sitemap:", error);
   }
 
-  return [...slugs];
+  return [...bySlug.values()].sort((a, b) => a.slug.localeCompare(b.slug));
+}
+
+export async function listPublicStudioSlugs(): Promise<string[]> {
+  const studios = await getStudiosForSitemap();
+  return studios.map((studio) => studio.slug);
 }
 
 export async function getStudioBySlug(slug: string): Promise<Studio | null> {
