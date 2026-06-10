@@ -198,20 +198,18 @@ export function WeeklyScheduleEditor({
         <p className="text-sm text-muted-foreground">{description}</p>
       ) : null}
 
-      <div className="overflow-x-auto pb-1">
-        <div className="inline-grid min-w-full grid-cols-7 gap-1.5 sm:gap-2">
-          {DAY_ORDER.map((day) => {
-            const daySchedule = schedule[day] ?? { ...DEFAULT_WEEKDAY };
-            return (
-              <DayColumn
-                key={day}
-                day={day}
-                schedule={daySchedule}
-                onChange={(patch) => onChange(updateDay(schedule, day, patch))}
-              />
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-7 md:gap-2">
+        {DAY_ORDER.map((day) => {
+          const daySchedule = schedule[day] ?? { ...DEFAULT_WEEKDAY };
+          return (
+            <DayColumn
+              key={day}
+              day={day}
+              schedule={daySchedule}
+              onChange={(patch) => onChange(updateDay(schedule, day, patch))}
+            />
+          );
+        })}
       </div>
 
       <p className="text-xs text-muted-foreground">{s.timeInputHint}</p>
@@ -243,14 +241,16 @@ function DayColumn({
   return (
     <div
       className={cn(
-        "flex min-w-[4.25rem] flex-col items-center gap-1.5 rounded-lg border border-border/60 bg-muted/20 px-1.5 py-2 sm:min-w-[4.75rem] sm:px-2",
+        "flex w-full flex-row items-center gap-2 rounded-lg border border-border/60 bg-muted/20 px-2.5 py-2 md:min-w-[4.75rem] md:flex-col md:items-center md:gap-1.5 md:px-2",
         schedule.closed && "bg-muted/40",
         hasError && "border-destructive/40"
       )}
     >
-      <span className="text-xs font-medium sm:text-sm">{dates.weekdays[day]}</span>
+      <span className="w-9 shrink-0 text-xs font-medium md:w-auto md:text-sm">
+        {dates.weekdays[day]}
+      </span>
 
-      <label className="flex cursor-pointer items-center gap-1">
+      <label className="flex shrink-0 cursor-pointer items-center gap-1 md:justify-center">
         <Checkbox
           checked={schedule.closed}
           onCheckedChange={(checked) => onChange({ closed: checked === true })}
@@ -260,13 +260,15 @@ function DayColumn({
       </label>
 
       {schedule.closed ? (
-        <span className="flex h-[4.25rem] items-center text-[10px] text-muted-foreground sm:text-xs">
+        <span className="flex flex-1 items-center justify-end text-[10px] text-muted-foreground md:h-[4.25rem] md:justify-center md:text-xs">
           {s.restDay}
         </span>
       ) : (
-        <div className="flex w-full flex-col gap-1">
-          <div className="flex flex-col gap-0.5">
-            <span className="text-center text-[10px] text-muted-foreground">{s.startTime}</span>
+        <div className="flex min-w-0 flex-1 flex-row gap-2 md:w-full md:flex-col md:gap-1">
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+            <span className="text-[10px] text-muted-foreground md:text-center">
+              {s.startTime}
+            </span>
             <TimeInputOverwrite
               id={`start-${day}`}
               value={schedule.start}
@@ -275,8 +277,10 @@ function DayColumn({
             />
           </div>
 
-          <div className="flex flex-col gap-0.5">
-            <span className="text-center text-[10px] text-muted-foreground">{s.endTime}</span>
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+            <span className="text-[10px] text-muted-foreground md:text-center">
+              {s.endTime}
+            </span>
             <TimeInputOverwrite
               id={`end-${day}`}
               value={schedule.end}
