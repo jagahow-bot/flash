@@ -8,7 +8,7 @@ export const PROJECT_STATUS_STYLES: Record<Project["status"], string> = {
     "bg-violet-100 text-violet-900 dark:bg-violet-950 dark:text-violet-200",
   booked: "bg-emerald-100 text-emerald-900 dark:bg-emerald-950 dark:text-emerald-200",
   completed: "bg-muted text-muted-foreground",
-  cancelled: "bg-muted text-muted-foreground line-through",
+  cancelled: "bg-muted text-muted-foreground",
 };
 
 export const PROJECT_SUB_STATUS_STYLES: Record<string, string> = {

@@ -105,7 +105,7 @@ export function ClientProjectCard({
           "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
       )}
     >
-      <div className="flex w-full items-start justify-end">
+      <div className="flex w-full items-start justify-start">
         <span
           className={cn(
             "inline-flex max-w-full flex-col rounded-lg px-2.5 py-1 text-xs font-medium leading-snug",

@@ -43,7 +43,7 @@ export function SiteHeaderNav({
 
   const desktopNavClass =
     "hidden items-center justify-end gap-1 text-sm md:flex md:gap-2";
-  const mobileLinkClass = "w-full justify-start";
+  const mobileLinkClass = "w-full justify-center";
 
   if (isAuthenticated) {
     return (
