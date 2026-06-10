@@ -747,6 +747,8 @@ export interface AppDictionary {
     step3Description: string;
     step4Description: string;
     studioNamePlaceholder: string;
+    slugPlaceholder: string;
+    bookingCodePlaceholder: string;
     slugAvailable: string;
     slugUnavailable: string;
     slugFormatHint: string;

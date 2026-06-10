@@ -14,7 +14,6 @@ import {
 import {
   formatBookingDateKey,
   formatBookingNumber,
-  getStudioBookingCode,
 } from "@/lib/project/booking-number";
 import { slugifyStudioName, isValidStudioSlug } from "@/lib/studio/slug";
 import type { StudioWeeklySchedule } from "@/types/operating-hours";
@@ -72,8 +71,8 @@ export function OnboardingWizard({ email }: { email: string }) {
     () =>
       bookingCode.trim()
         ? bookingCode.trim().toUpperCase()
-        : getStudioBookingCode({ slug: resolvedSlug, bookingCode }),
-    [bookingCode, resolvedSlug]
+        : s.bookingCodePlaceholder,
+    [bookingCode, s.bookingCodePlaceholder]
   );
 
   const syncSlugStatus: "idle" | "invalid" | null = !resolvedSlug
@@ -283,7 +282,7 @@ export function OnboardingWizard({ email }: { email: string }) {
                         event.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "")
                       );
                     }}
-                    placeholder="mohen-tattoo"
+                    placeholder={s.slugPlaceholder}
                     required
                   />
                   <span className="text-sm text-muted-foreground">/book</span>
@@ -308,7 +307,7 @@ export function OnboardingWizard({ email }: { email: string }) {
                       event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, "")
                     )
                   }
-                  placeholder={getStudioBookingCode({ slug: resolvedSlug })}
+                  placeholder={s.bookingCodePlaceholder}
                   maxLength={12}
                 />
                 <p className="text-xs text-muted-foreground">
