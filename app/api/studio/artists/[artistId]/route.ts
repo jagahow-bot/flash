@@ -62,12 +62,18 @@ export async function PATCH(
       temporaryPassword = provision?.temporaryPassword;
     }
 
+    const temporaryPasswordUpdate =
+      updates.userEmail !== undefined
+        ? temporaryPassword ?? null
+        : undefined;
+
     await updateArtistFields(artistId, access.studioId, {
       displayName: updates.displayName,
       styles: updates.styles,
       bio: updates.bio,
       isActive: updates.isActive,
       userEmail: resolvedUserEmail,
+      temporaryPassword: temporaryPasswordUpdate,
       weeklySchedule:
         updates.weeklySchedule === undefined
           ? undefined

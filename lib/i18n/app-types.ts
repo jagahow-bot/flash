@@ -728,6 +728,9 @@ export interface AppDictionary {
     personalHoursBadge: string;
     studioHoursBadge: string;
     accountCreatedNotice: string;
+    temporaryPasswordLabel: string;
+    copyTemporaryPassword: string;
+    temporaryPasswordHint: string;
   };
   setup: {
     stepStudio: string;

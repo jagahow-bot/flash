@@ -29,6 +29,10 @@ function normalizeArtist(docId: string, data: Record<string, unknown>): Artist {
     styles: Array.isArray(data.styles) ? (data.styles as string[]) : [],
     bio: typeof data.bio === "string" ? data.bio : undefined,
     isActive: data.isActive !== false,
+    temporaryPassword:
+      typeof data.temporaryPassword === "string"
+        ? data.temporaryPassword
+        : undefined,
     weeklySchedule,
     operatingHours: weeklySchedule
       ? weeklyScheduleToOperatingHours(weeklySchedule)
@@ -97,6 +101,34 @@ export async function createArtist(
   return { artistId: ref.id, ...artist };
 }
 
+export async function clearArtistTemporaryPasswordByEmail(
+  userEmail: string,
+  studioId?: string
+): Promise<void> {
+  const normalized = normalizeUserEmail(userEmail);
+  const db = getAdminDb();
+  const snapshot = studioId
+    ? await db
+        .collection(COLLECTIONS.artists)
+        .where("studioId", "==", studioId)
+        .where("userEmail", "==", normalized)
+        .get()
+    : await db
+        .collection(COLLECTIONS.artists)
+        .where("userEmail", "==", normalized)
+        .get();
+
+  if (snapshot.empty) {
+    return;
+  }
+
+  const batch = db.batch();
+  for (const doc of snapshot.docs) {
+    batch.update(doc.ref, { temporaryPassword: FieldValue.delete() });
+  }
+  await batch.commit();
+}
+
 export async function updateArtistFields(
   artistId: string,
   studioId: string,
@@ -105,11 +137,12 @@ export async function updateArtistFields(
   > & {
     weeklySchedule?: StudioWeeklySchedule | null;
     userEmail?: string | null;
+    temporaryPassword?: string | null;
   }
 ): Promise<void> {
   const ref = getAdminDb().collection(COLLECTIONS.artists).doc(artistId);
   const doc = await ref.get();
-  const { weeklySchedule, userEmail, ...rest } = fields;
+  const { weeklySchedule, userEmail, temporaryPassword, ...rest } = fields;
   const payload: Record<string, unknown> = stripUndefined(
     rest as Record<string, unknown>
   );
@@ -117,9 +150,16 @@ export async function updateArtistFields(
   if (userEmail === null) {
     payload.userEmail = FieldValue.delete();
     payload.userId = FieldValue.delete();
+    payload.temporaryPassword = FieldValue.delete();
   } else if (userEmail !== undefined) {
     payload.userEmail = userEmail;
     payload.userId = FieldValue.delete();
+  }
+
+  if (temporaryPassword === null) {
+    payload.temporaryPassword = FieldValue.delete();
+  } else if (temporaryPassword !== undefined) {
+    payload.temporaryPassword = temporaryPassword;
   }
 
   if (weeklySchedule === null) {

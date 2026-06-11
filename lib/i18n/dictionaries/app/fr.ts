@@ -765,7 +765,10 @@ const dictionary = {
     "unboundEmail": "Aucun Email associé",
     "personalHoursBadge": "· Horaires personnalisés",
     "studioHoursBadge": "· Horaires par défaut du studio",
-    "accountCreatedNotice": "Le compte du tatoueur a bien été créé. Mot de passe temporaire : {password} (Veuillez l'inviter à se connecter sur /login pour le modifier au plus vite)"
+    "accountCreatedNotice": "Le compte du tatoueur a bien été créé. Mot de passe temporaire : {password} (Veuillez l'inviter à se connecter sur /login pour le modifier au plus vite)",
+    "temporaryPasswordLabel": "Mot de passe temporaire",
+    "copyTemporaryPassword": "Copier le mot de passe",
+    "temporaryPasswordHint": "À partager avec le tatoueur. Retiré de cette liste après connexion."
   },
   "setup": {
     "stepStudio": "Infos studio",

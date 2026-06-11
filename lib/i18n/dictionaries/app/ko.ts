@@ -765,7 +765,10 @@ const dictionary = {
     "unboundEmail": "아직 연결된 로그인 Email이 없습니다",
     "personalHoursBadge": "· 개별 영업시간 적용 중",
     "studioHoursBadge": "· 스튜디오 공통 시간 적용 중",
-    "accountCreatedNotice": "아티스트 대시보드 전용 계정이 새로 생성되었습니다. 임시 비밀번호: {password} (아티스트에게 /login 주소에서 첫 로그인 후 즉시 암호를 변경하도록 안내해 주시기 바랍니다)"
+    "accountCreatedNotice": "아티스트 대시보드 전용 계정이 새로 생성되었습니다. 임시 비밀번호: {password} (아티스트에게 /login 주소에서 첫 로그인 후 즉시 암호를 변경하도록 안내해 주시기 바랍니다)",
+    "temporaryPasswordLabel": "임시 비밀번호",
+    "copyTemporaryPassword": "비밀번호 복사",
+    "temporaryPasswordHint": "아티스트와 공유하세요. 로그인 후 이 목록에서 제거됩니다."
   },
   "setup": {
     "stepStudio": "스튜디오 상세 프로필",

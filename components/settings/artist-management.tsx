@@ -37,6 +37,54 @@ function formatStyles(styles: string[]): string {
   return styles.join("、");
 }
 
+function ArtistTemporaryPassword({
+  password,
+}: {
+  password: string;
+}) {
+  const dict = useAppDictionary();
+  const ar = dict.artists;
+  const c = dict.common;
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(password);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
+    }
+  }
+
+  return (
+    <div className="mt-2 flex flex-col gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 dark:border-amber-900 dark:bg-amber-950/40">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-medium text-amber-950 dark:text-amber-100">
+            {ar.temporaryPasswordLabel}
+          </p>
+          <p className="font-mono text-sm text-amber-950 dark:text-amber-100">
+            {password}
+          </p>
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="shrink-0 border-amber-300 bg-white hover:bg-amber-100 dark:border-amber-800 dark:bg-amber-950 dark:hover:bg-amber-900"
+          onClick={handleCopy}
+        >
+          {copied ? c.copied : ar.copyTemporaryPassword}
+        </Button>
+      </div>
+      <p className="text-xs text-amber-800 dark:text-amber-200/80">
+        {ar.temporaryPasswordHint}
+      </p>
+    </div>
+  );
+}
+
 type ArtistSaveResult = {
   temporaryPassword?: string;
 };
@@ -466,6 +514,11 @@ export function ArtistManagement({
                           ? ar.personalHoursBadge
                           : ar.studioHoursBadge}
                       </p>
+                      {artist.temporaryPassword ? (
+                        <ArtistTemporaryPassword
+                          password={artist.temporaryPassword}
+                        />
+                      ) : null}
                     </div>
                     <Button
                       type="button"

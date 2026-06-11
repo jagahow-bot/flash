@@ -8,6 +8,8 @@ export interface Artist {
   studioId: string;
   /** 綁定的後台登入 Email，可選 */
   userEmail?: string;
+  /** 自動建立帳號時的臨時密碼；登入後清除 */
+  temporaryPassword?: string;
   displayName: string;
   styles: string[];
   bio?: string;

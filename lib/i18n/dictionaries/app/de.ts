@@ -765,7 +765,10 @@ const dictionary = {
     "unboundEmail": "Keine Login-Email verknüpft",
     "personalHoursBadge": "· Eigene Arbeitszeiten",
     "studioHoursBadge": "· Studio-Öffnungszeiten",
-    "accountCreatedNotice": "Login-Konto für Tätowierer erstellt. Temporäres Passwort: {password} (Bitte teilen Sie dem Tätowierer mit, sich unter /login anzumelden und das Passwort umgehend zu ändern)"
+    "accountCreatedNotice": "Login-Konto für Tätowierer erstellt. Temporäres Passwort: {password} (Bitte teilen Sie dem Tätowierer mit, sich unter /login anzumelden und das Passwort umgehend zu ändern)",
+    "temporaryPasswordLabel": "Temporäres Passwort",
+    "copyTemporaryPassword": "Passwort kopieren",
+    "temporaryPasswordHint": "Mit dem Tätowierer teilen. Wird nach dem Login aus dieser Liste entfernt."
   },
   "setup": {
     "stepStudio": "Studio-Details",

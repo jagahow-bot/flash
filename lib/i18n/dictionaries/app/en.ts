@@ -783,7 +783,10 @@ const dictionary = {
     "unboundEmail": "No login Email linked",
     "personalHoursBadge": " · Personal hours",
     "studioHoursBadge": " · Studio hours",
-    "accountCreatedNotice": "Login account created. Temporary password: {password} (Ask them to log in at /login and change it immediately)"
+    "accountCreatedNotice": "Login account created. Temporary password: {password} (Ask them to log in at /login and change it immediately)",
+    "temporaryPasswordLabel": "Temporary password",
+    "copyTemporaryPassword": "Copy password",
+    "temporaryPasswordHint": "Share with the artist. Removed from this list after they log in."
   },
   "setup": {
     "stepStudio": "Studio Profile",

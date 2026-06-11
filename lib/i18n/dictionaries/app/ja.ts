@@ -785,7 +785,10 @@ const dictionary = {
     "unboundEmail": "ログイン用Emailが紐付けられていません",
     "personalHoursBadge": "・ 個別の営業時間",
     "studioHoursBadge": "・ スタジオの営業時間を適用",
-    "accountCreatedNotice": "アーティスト用のログインアカウントを作成しました。一時パスワード：{password}（相手に /login からログインし、速やかにパスワードを変更するようお伝えください）"
+    "accountCreatedNotice": "アーティスト用のログインアカウントを作成しました。一時パスワード：{password}（相手に /login からログインし、速やかにパスワードを変更するようお伝えください）",
+    "temporaryPasswordLabel": "一時パスワード",
+    "copyTemporaryPassword": "パスワードをコピー",
+    "temporaryPasswordHint": "アーティストに共有してください。ログイン後、この一覧から削除されます。"
   },
   "setup": {
     "stepStudio": "スタジオ情報",

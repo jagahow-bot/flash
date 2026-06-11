@@ -859,6 +859,9 @@ const dictionary: AppDictionary = {
     studioHoursBadge: "· 沿用工作室時段",
     accountCreatedNotice:
       "已為刺青師建立登入帳號。臨時密碼：{password}（請通知對方至 /login 登入並盡快修改密碼）",
+    temporaryPasswordLabel: "臨時密碼",
+    copyTemporaryPassword: "複製密碼",
+    temporaryPasswordHint: "請分享給刺青師；對方登入後將從此列表移除。",
   },
   setup: {
     stepStudio: "工作室資料",

@@ -55,6 +55,7 @@ export async function POST(request: NextRequest) {
       styles: data.styles,
       bio: data.bio,
       userEmail: provision?.userEmail,
+      temporaryPassword: provision?.temporaryPassword,
       isActive: true,
       weeklySchedule:
         data.weeklySchedule === null

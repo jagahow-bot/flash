@@ -6,6 +6,7 @@ import {
 import {
   canAccessStudioPortal,
   canActAsClient,
+  hasUserRole,
   normalizeUserRecord,
 } from "@/lib/auth/user-roles";
 import { getPostLoginRedirect } from "@/lib/auth/redirects";
@@ -16,6 +17,7 @@ import {
 } from "@/lib/auth/session-messages.server";
 import { seedPreferredLocaleFromCookie } from "@/lib/i18n/seed-preferred-locale.server";
 import { setLocaleCookieOnResponse } from "@/lib/i18n/set-locale-cookie";
+import { clearArtistTemporaryPasswordByEmail } from "@/lib/firestore/artists.server";
 import { createStudioAdminUser } from "@/lib/firestore/users.server";
 import { getAdminAuth, getAdminDb } from "@/lib/firebase-admin";
 
@@ -75,6 +77,10 @@ export async function POST(request: NextRequest) {
       user.uid,
       user.preferredLocale,
     );
+
+    if (hasUserRole(user, "artist") && user.email) {
+      await clearArtistTemporaryPasswordByEmail(user.email, user.studioId);
+    }
 
     const sessionCookie = await adminAuth.createSessionCookie(idToken, {
       expiresIn: SESSION_MAX_AGE_MS,
