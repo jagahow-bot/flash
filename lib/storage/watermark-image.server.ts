@@ -27,8 +27,8 @@ function buildWatermarkSvg(
 ): string {
   const fontSize = Math.round(Math.max(14, Math.min(width, height) / 28));
   const lineGap = Math.round(fontSize * 1.35);
-  const tileWidth = Math.round(Math.max(width, fontSize * 12));
-  const tileHeight = Math.round(lineGap * 3.2);
+  const tileWidth = Math.round(Math.max(width * 1.35, fontSize * 20));
+  const tileHeight = Math.round(lineGap * 5.5);
   const line1 = escapeSvgText(text.studioName);
   const line2 = escapeSvgText(text.bookingUrl);
 
