@@ -75,6 +75,9 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
 
   const isRegister = mode === "register";
 
+  const studioRegisterHref = `/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+  const clientRegisterHref = `/client/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+
   async function completeAuth(
     idToken: string,
     options?: { needsEmailVerification?: boolean }
@@ -286,20 +289,27 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
             <>
               {t.hasAccount}{" "}
               <Link
-                href={`/login${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
+                href={`/client/login${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
                 className="text-foreground underline-offset-4 hover:underline"
               >
-                {t.login}
+                {t.clientLogin}
               </Link>
             </>
           ) : (
             <>
               {t.noClientAccount}{" "}
               <Link
-                href={`/client/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
+                href={clientRegisterHref}
                 className="text-foreground underline-offset-4 hover:underline"
               >
                 {t.clientRegisterLink}
+              </Link>
+              <span aria-hidden="true"> · </span>
+              <Link
+                href={studioRegisterHref}
+                className="text-foreground underline-offset-4 hover:underline"
+              >
+                {t.registerStudio}
               </Link>
             </>
           )}

@@ -35,6 +35,9 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const studioRegisterHref = `/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+  const clientRegisterHref = `/client/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+
   async function completeSession(idToken: string) {
     const response = await fetch("/api/auth/session", {
       method: "POST",
@@ -190,10 +193,17 @@ export function LoginForm() {
           <p className="text-center text-sm text-muted-foreground">
             {t.noAccount}{" "}
             <Link
-              href="/register"
+              href={studioRegisterHref}
               className="text-foreground underline-offset-4 hover:underline"
             >
               {t.registerStudio}
+            </Link>
+            <span aria-hidden="true"> · </span>
+            <Link
+              href={clientRegisterHref}
+              className="text-foreground underline-offset-4 hover:underline"
+            >
+              {t.clientRegister}
             </Link>
           </p>
         </form>
