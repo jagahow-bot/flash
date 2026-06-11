@@ -63,6 +63,8 @@ const studioUpdateSchema = z.object({
   socialLinks: z.union([studioSocialLinksSchema, z.null()]).optional(),
   preferredLocale: z.enum(locales).optional(),
   watermarkSketches: z.boolean().optional(),
+  flashBookingEnabled: z.boolean().optional(),
+  flashUniformPrice: z.number().min(0).nullable().optional(),
 });
 
 export async function PATCH(request: NextRequest) {

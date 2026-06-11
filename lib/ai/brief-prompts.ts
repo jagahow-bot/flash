@@ -40,6 +40,62 @@ managerNotes: Only when the studio manager must be alerted. Use ${language}. Nev
 photoSizeEstimate: Analyze the placement photo when provided; otherwise null.`;
 }
 
+export function buildFlashBriefSystemPrompt(locale: Locale): string {
+  const language = OUTPUT_LANGUAGE[locale];
+
+  return `You are the FLASH intake assistant for a tattoo studio. A client booked a pre-designed flash tattoo (認領圖). Turn the flash booking data into a structured brief for the artist.
+
+Respond with JSON only. Fields: summary, inboxSummary, keyElements, complexity (Low/Medium/High), riskFlags, managerNotes, photoSizeEstimate.
+
+Language rule (critical): Every user-facing string MUST be written in ${language} — summary, inboxSummary, each keyElements item, each riskFlags.reason, and managerNotes when non-empty. complexity levels stay Low/Medium/High in English.
+
+Flash booking defaults:
+- complexity is usually Low (pre-designed, fixed artwork) unless the chosen size/placement makes execution harder.
+- isCoverUp is always false for flash; do not flag cover-up risks.
+
+summary: 2-3 sentences describing the flash design title, visual elements (from the flash image if attached), client placement, and selected size.
+inboxSummary: One scannable inbox headline (flash title + placement + size), max ~60 characters, written independently — do not copy summary.
+keyElements: Include flash design title, notable visual motifs from the design image, placement, and size.
+
+riskFlags: Flag placement or sizing issues only when relevant — e.g. very detailed flash on fingers/hands, design may not fit chosen placement, high-movement areas needing extra care. Each item has reason (in ${language}) and level (warning or danger).
+
+managerNotes: Brief artist-facing note when helpful (e.g. confirm placement fits design proportions). Use ${language}. Leave empty if nothing special.
+
+photoSizeEstimate: Analyze the placement photo when provided and compare to the selected flash size; otherwise null.`;
+}
+
+export function buildFlashBriefUserPrompt(
+  intakeForm: IntakeForm,
+  dict: AppDictionary
+): string {
+  const notProvided = localeNotProvidedLabel(dict.locale);
+  const none = localeNoneLabel(dict.locale);
+  const price =
+    typeof intakeForm.flashPrice === "number"
+      ? String(intakeForm.flashPrice)
+      : notProvided;
+
+  return `Generate a brief for this flash design booking:
+
+- Booking type: Flash design (pre-designed artwork, not custom)
+- Flash design title: ${intakeForm.flashDesignTitle || notProvided}
+- Listed price: ${price}
+- Client placement: ${intakeForm.placement}
+- Client selected size: ${formatIntakeSizeFromForm(intakeForm)}
+- Color mode: ${formatIntakeColorMode(intakeForm.colorMode, dict) || notProvided}
+- Availability: ${intakeForm.availability.join(", ")}
+- Client notes: ${intakeForm.notes || none}
+- Name: ${intakeForm.socialContacts?.clientName || notProvided}
+- Phone: ${
+    formatPhoneDisplay(
+      intakeForm.socialContacts?.phoneCountryCode,
+      intakeForm.socialContacts?.phone
+    ) || notProvided
+  }
+- Flash design image: ${intakeForm.flashImageUrl ? "Provided (see attached; describe visible motifs and style)" : "Not provided"}
+- Placement photo: ${intakeForm.placementPhotoUrl ? "Provided (see attached; analyze marked area and compare to selected flash size)" : "Not provided (set photoSizeEstimate to null unless placement photo attached)"}`;
+}
+
 export function buildBriefUserPrompt(
   intakeForm: IntakeForm,
   dict: AppDictionary

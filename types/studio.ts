@@ -55,6 +55,10 @@ export interface Studio {
    * 未設定時視為 `true`（預設開啟）。
    */
   watermarkSketches?: boolean;
+  /** 是否開放客戶認領圖預約 */
+  flashBookingEnabled?: boolean;
+  /** 認領圖統一價格；個別設計 price 為 null 時使用此價格 */
+  flashUniformPrice?: number | null;
   /** Stripe usage billing — defaults to active for new studios */
   billingStatus?: StudioBillingStatus;
   freeBookingsRemaining?: number;

@@ -36,7 +36,16 @@ export interface ClientSocialContacts {
   threads?: string;
 }
 
+export type BookingType = "custom" | "flash";
+
 export interface IntakeForm {
+  /** 預約類型；舊資料缺省為 custom */
+  bookingType?: BookingType;
+  flashDesignId?: string;
+  flashDesignTitle?: string;
+  flashImageUrl?: string;
+  /** 認領圖成交價（送出時鎖定） */
+  flashPrice?: number;
   placement: string;
   size: string;
   /** 尺寸單位；舊資料缺省視為 cm */

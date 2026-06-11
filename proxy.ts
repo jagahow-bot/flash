@@ -7,6 +7,7 @@ import {
   defaultLocale,
   localeFromPathname,
   localeRouteSegments,
+  stripLocalePrefixFromPathname,
   type Locale,
 } from "@/lib/i18n/config";
 import {
@@ -67,6 +68,19 @@ async function withLocaleHeader(request: NextRequest, pathname: string) {
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const stripped = stripLocalePrefixFromPathname(pathname);
+  if (stripped) {
+    const url = request.nextUrl.clone();
+    url.pathname = stripped.pathname;
+    const redirect = NextResponse.redirect(url);
+    redirect.headers.set(
+      "Set-Cookie",
+      `${LOCALE_COOKIE_NAME}=${encodeURIComponent(stripped.locale)}; Path=/; Max-Age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`,
+    );
+    return redirect;
+  }
+
   const session = request.cookies.get(SESSION_COOKIE_NAME)?.value;
   const { requestHeaders, locale } = await withLocaleHeader(request, pathname);
 

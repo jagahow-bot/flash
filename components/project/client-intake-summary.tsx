@@ -8,6 +8,7 @@ import {
 } from "@/lib/phone/format";
 import { formatAvailabilitySlot } from "@/lib/availability/slots";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import { formatMessage } from "@/lib/i18n/format";
 import { SocialContactLinks } from "@/components/project/social-contact-links";
 import { buildContactLinkItems } from "@/lib/social/contact-links";
 import {
@@ -63,6 +64,8 @@ function formatWhatsappDisplay(
 export function ClientIntakeSummary({ intakeForm }: { intakeForm: IntakeForm }) {
   const dict = useAppDictionary();
   const b = dict.booking;
+  const f = dict.flash;
+  const isFlash = intakeForm.bookingType === "flash";
   const slotLabels = {
     days: b.availabilityDays,
     periods: b.availabilityPeriods,
@@ -73,6 +76,35 @@ export function ClientIntakeSummary({ intakeForm }: { intakeForm: IntakeForm }) 
 
   return (
     <div className="flex flex-col gap-4 text-sm">
+      {isFlash && (
+        <div className="flex flex-col gap-3 rounded-lg border border-border/60 p-3">
+          <Field label={f.bookingTypeLabel} value={f.flashBookingLabel} />
+          <Field
+            label={f.designTitle}
+            value={intakeForm.flashDesignTitle}
+          />
+          {intakeForm.flashPrice != null && (
+            <Field
+              label={f.priceLabel}
+              value={formatMessage(dict.common.priceFormat, {
+                amount: intakeForm.flashPrice,
+              })}
+            />
+          )}
+          {intakeForm.flashImageUrl && (
+            <div>
+              <p className="text-xs text-muted-foreground">{f.designImage}</p>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={intakeForm.flashImageUrl}
+                alt={intakeForm.flashDesignTitle ?? f.designTitle}
+                className="mt-2 max-h-48 rounded-lg object-contain"
+              />
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={b.placement} value={intakeForm.placement} />
         <Field label={b.size} value={formatIntakeSizeFromForm(intakeForm)} />

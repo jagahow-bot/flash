@@ -75,6 +75,13 @@ service firebase.storage {
       allow update, delete: if isStudioStaff(studioId);
     }
 
+    // studios/{studioId}/flash-designs/* — 認領圖（工作室後台上傳、客端預約瀏覽）
+    match /studios/{studioId}/flash-designs/{fileName} {
+      allow read: if true;
+      allow create, update: if isStudioStaff(studioId) && isValidImageUpload();
+      allow delete: if isStudioStaff(studioId);
+    }
+
     // studios/{studioId}/document-templates/{documentId}/* — 術前文件範本
     match /studios/{studioId}/document-templates/{documentId}/{fileName} {
       allow read: if isStudioStaff(studioId) || canActAsClient();

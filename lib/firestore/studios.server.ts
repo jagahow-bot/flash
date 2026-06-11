@@ -104,6 +104,13 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
     ),
     preferredLocale: parseStudioPreferredLocale(data.preferredLocale),
     watermarkSketches: data.watermarkSketches !== false,
+    flashBookingEnabled: Boolean(data.flashBookingEnabled),
+    flashUniformPrice:
+      data.flashUniformPrice === null
+        ? null
+        : typeof data.flashUniformPrice === "number"
+          ? Math.max(0, data.flashUniformPrice)
+          : undefined,
     billingStatus: normalizeBillingStatus(data.billingStatus),
     freeBookingsRemaining:
       typeof data.freeBookingsRemaining === "number"

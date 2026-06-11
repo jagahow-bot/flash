@@ -1,15 +1,12 @@
-/** Client intake uploads via /api/intake/upload (session auth + Admin SDK). */
-export async function uploadIntakeImage(
-  studioId: string,
-  file: File,
-  folder: "placement" | "references"
+/** Studio-admin only (via /api/studio/flash-designs/upload). */
+export async function uploadFlashDesignImage(
+  _studioId: string,
+  file: File
 ): Promise<string> {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("studioId", studioId);
-  formData.append("folder", folder);
 
-  const response = await fetch("/api/intake/upload", {
+  const response = await fetch("/api/studio/flash-designs/upload", {
     method: "POST",
     body: formData,
   });

@@ -23,13 +23,11 @@ import {
   intakeToFormValues,
   buildSocialContacts,
   TATTOO_STYLE_PRESETS,
-  CLIENT_GENDER_OPTIONS,
   resolveStyleValue,
   type IntakeFormValues,
   type IntakeFormEditValues,
 } from "@/lib/validations/intake-form";
-import { AvailabilityPicker } from "@/components/intake/availability-picker";
-import { PhoneNumberField } from "@/components/intake/phone-number-field";
+import { BookingSharedSection } from "@/components/intake/booking-shared-section";
 import { DEFAULT_PHONE_COUNTRY_CODE } from "@/lib/phone/country-codes";
 import { cn } from "@/lib/utils";
 import { compressImage, compressImages } from "@/lib/storage/compress-image";
@@ -112,7 +110,6 @@ export function IntakeForm({ studio, projectId, initialIntake }: IntakeFormProps
 
   const isCoverUp = watch("isCoverUp");
   const stylePreset = watch("stylePreset");
-  const whatsappSameAsPhone = watch("whatsappSameAsPhone");
 
   async function onSubmit(values: IntakeFormValues | IntakeFormEditValues) {
     setSubmitError(null);
@@ -404,159 +401,17 @@ export function IntakeForm({ studio, projectId, initialIntake }: IntakeFormProps
             </p>
           )}
 
-          <div className="flex flex-col gap-2">
-            <Label>{b.availability} *</Label>
-            <Controller
-              name="availability"
-              control={control}
-              render={({ field }) => (
-                <AvailabilityPicker
-                  operatingHours={studio.operatingHours}
-                  value={field.value}
-                  onChange={field.onChange}
-                  error={errors.availability?.message}
-                />
-              )}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="notes">{b.notes}</Label>
-            <Textarea id="notes" placeholder={b.notesPlaceholder} rows={2} {...register("notes")} />
-          </div>
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{b.contactSection}</CardTitle>
-          <CardDescription>{b.contactSectionDescription}</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="clientName">{b.name} *</Label>
-              <Input
-                id="clientName"
-                placeholder={b.namePlaceholder}
-                autoComplete="name"
-                {...register("clientName")}
-              />
-              {errors.clientName && (
-                <p className="text-sm text-destructive">
-                  {errors.clientName.message}
-                </p>
-              )}
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="gender">{b.gender} *</Label>
-              <select
-                id="gender"
-                className={cn(
-                  "h-8 w-full rounded-lg border border-input bg-transparent px-2.5 text-sm outline-none",
-                  "focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
-                  "dark:bg-input/30"
-                )}
-                {...register("gender")}
-              >
-                <option value="" disabled>
-                  {b.selectGender}
-                </option>
-                {CLIENT_GENDER_OPTIONS.map((option) => (
-                  <option key={option} value={option}>
-                    {b.genderOptions[option] ?? option}
-                  </option>
-                ))}
-              </select>
-              {errors.gender && (
-                <p className="text-sm text-destructive">{errors.gender.message}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <PhoneNumberField
-              control={control}
-              register={register}
-              countryCodeName="phoneCountryCode"
-              phoneName="phone"
-              label={b.phone}
-              phoneId="phone"
-              placeholder="912 345 678"
-            />
-            <label className="flex items-center gap-2 text-sm">
-              <Controller
-                name="whatsappSameAsPhone"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    checked={field.value === true}
-                    onCheckedChange={(checked) => field.onChange(checked === true)}
-                  />
-                )}
-              />
-              {b.whatsappSameAsPhone}
-            </label>
-            {!whatsappSameAsPhone && (
-              <PhoneNumberField
-                control={control}
-                register={register}
-                countryCodeName="whatsappCountryCode"
-                phoneName="whatsapp"
-                label={b.whatsapp}
-                phoneId="whatsapp"
-                placeholder="912 345 678"
-              />
-            )}
-          </div>
-
-          <div className="grid gap-4 border-t border-border/60 pt-4 sm:grid-cols-2">
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="instagram">Instagram</Label>
-              <Input id="instagram" placeholder="" {...register("instagram")} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="facebook">Facebook</Label>
-              <Input id="facebook" placeholder={b.facebookPlaceholder} {...register("facebook")} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="line">LINE ID</Label>
-              <Input id="line" placeholder="" {...register("line")} />
-            </div>
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="threads">Threads</Label>
-              <Input id="threads" placeholder="" {...register("threads")} />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {!isEdit && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-start gap-2">
-              <Controller
-                name="ageConfirmed"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    checked={field.value === true}
-                    onCheckedChange={(checked) => field.onChange(checked === true)}
-                  />
-                )}
-              />
-              <Label className="leading-relaxed font-normal">
-                {b.ageConfirmLegal} *
-              </Label>
-            </div>
-            {"ageConfirmed" in errors && errors.ageConfirmed && (
-              <p className="mt-2 text-sm text-destructive">
-                {errors.ageConfirmed.message}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
+      <BookingSharedSection
+        studio={studio}
+        control={control}
+        register={register}
+        watch={watch}
+        errors={errors}
+        showAgeConsent={!isEdit}
+      />
 
       {submitError && (
         <p className="text-center text-sm text-destructive" role="alert">

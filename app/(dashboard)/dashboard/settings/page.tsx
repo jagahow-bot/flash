@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { FlashDesignsManager } from "@/components/settings/flash-designs-manager";
 import { StudioSettingsForm } from "@/components/settings/studio-settings-form";
 import { getAuthenticatedUser } from "@/lib/auth/session";
 import { getStudioById } from "@/lib/firestore/studios.server";
@@ -33,6 +34,7 @@ export default async function StudioSettingsPage() {
         <p className="text-muted-foreground">{s.pageSubtitle}</p>
       </div>
 
+      <FlashDesignsManager studio={studio} />
       <StudioSettingsForm studio={studio} />
     </div>
   );

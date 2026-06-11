@@ -1,6 +1,6 @@
 import { notFound, redirect } from "next/navigation";
 import { ClientSessionBar } from "@/components/client/client-session-bar";
-import { IntakeForm } from "@/components/intake/intake-form";
+import { BookingFlow } from "@/components/intake/booking-flow";
 import { StudioBrandHeader } from "@/components/studio/studio-brand-header";
 import { StudioSocialLinks } from "@/components/studio/studio-social-links";
 import { canActAsClient } from "@/lib/auth/user-roles";
@@ -46,7 +46,7 @@ export default async function BookPage({
 
       <div className="bg-background">
         <div className="mx-auto max-w-2xl px-4 py-10">
-          <IntakeForm studio={studio} />
+          <BookingFlow studio={studio} />
         </div>
       </div>
     </main>

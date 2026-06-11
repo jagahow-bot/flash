@@ -91,6 +91,23 @@ export function localeFromPathname(pathname: string): Locale {
   return defaultLocale;
 }
 
+/** Strip a marketing locale prefix from app paths (e.g. `/en/cooltatt/book` → `/cooltatt/book`). */
+export function stripLocalePrefixFromPathname(pathname: string): {
+  locale: Locale;
+  pathname: string;
+} | null {
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts.length < 2) return null;
+
+  const locale = segmentToLocale[parts[0].toLowerCase()];
+  if (!locale) return null;
+
+  return {
+    locale,
+    pathname: `/${parts.slice(1).join("/")}`,
+  };
+}
+
 export function allLocalePaths(): { locale: Locale; path: string }[] {
   return locales.map((locale) => ({
     locale,

@@ -21,6 +21,11 @@ export const socialContactsSchema = z
   .optional();
 
 export const intakeFormBodySchema = z.object({
+  bookingType: z.enum(["custom", "flash"]).optional(),
+  flashDesignId: z.string().optional(),
+  flashDesignTitle: z.string().optional(),
+  flashImageUrl: z.string().optional(),
+  flashPrice: z.number().optional(),
   placement: z.string().min(1),
   size: z.string().min(1),
   sizeUnit: z.enum(SIZE_UNITS).optional(),

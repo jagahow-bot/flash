@@ -9,6 +9,7 @@ export const COLLECTIONS = {
 /** Subcollections under `studios/{studioId}`. */
 export const STUDIO_SUBCOLLECTIONS = {
   billingMonths: "billingMonths",
+  flashDesigns: "flashDesigns",
 } as const;
 
 export type CollectionName = (typeof COLLECTIONS)[keyof typeof COLLECTIONS];
