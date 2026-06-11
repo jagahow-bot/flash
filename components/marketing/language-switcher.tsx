@@ -93,6 +93,7 @@ export function LanguageSwitcher({
   const [pendingLocale, setPendingLocale] = useState<Locale | null>(null);
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const userLocaleChangeRef = useRef(false);
 
   const resolvedLocale: Locale = marketingOnly
     ? isDefaultMarketingRoot(pathname)
@@ -107,6 +108,9 @@ export function LanguageSwitcher({
   const currentLocale = pendingLocale ?? resolvedLocale;
 
   useEffect(() => {
+    if (userLocaleChangeRef.current) {
+      return;
+    }
     if (marketingOnly && !isDefaultMarketingRoot(pathname)) {
       setLocaleCookie(pathLocale);
       void persistLocaleToProfile(pathLocale);
@@ -137,13 +141,29 @@ export function LanguageSwitcher({
   }
 
   async function handleMarketingLocaleChange(locale: Locale) {
+    userLocaleChangeRef.current = true;
     setLocaleCookie(locale);
     setPendingLocale(locale);
     setOpen(false);
     await persistLocaleToProfile(locale);
-    router.push(localePath(locale));
-    router.refresh();
+    const href = localePath(locale);
+    if (pathname === href) {
+      router.refresh();
+      userLocaleChangeRef.current = false;
+    } else {
+      router.push(href);
+    }
   }
+
+  useEffect(() => {
+    if (!userLocaleChangeRef.current || !pendingLocale) {
+      return;
+    }
+    const pathLocaleAfterNav = localeFromPathname(pathname);
+    if (pathLocaleAfterNav === pendingLocale) {
+      userLocaleChangeRef.current = false;
+    }
+  }, [pathname, pendingLocale]);
 
   return (
     <div ref={containerRef} className={cn("relative", className)}>
