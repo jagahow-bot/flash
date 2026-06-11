@@ -510,6 +510,8 @@ const dictionary = {
     "briefLanguageLabel": "AI 요약 언어",
     "briefLanguageDescription": "FLASH가 생성하는 요약은 이 언어로 작성됩니다",
     "acceptsCoverUp": "커버업 시술 가능",
+    "watermarkSketchesLabel": "스케치 업로드 워터마크",
+    "watermarkSketchesDescription": "업로드한 스케치에 스튜디오 이름과 예약 링크를 자동으로 넣어 디자인을 보호하고 예약을 유도합니다",
     "weeklyHoursTitle": "주간 영업시간",
     "weeklyHoursDescription": "정기 휴무일을 체크하거나 요일별 시작 및 종료 시간(24시간제)을 설정해 주세요.",
     "closuresTitle": "스튜디오 임시 휴무",

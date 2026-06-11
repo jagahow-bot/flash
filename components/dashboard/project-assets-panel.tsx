@@ -7,7 +7,10 @@ import { useAppDictionary } from "@/components/providers/locale-provider";
 import { ImageUploadZone } from "@/components/intake/image-upload-zone";
 import { formatMessage } from "@/lib/i18n/format";
 import { compressImages } from "@/lib/storage/compress-image";
-import { uploadProjectAsset } from "@/lib/storage/upload-project-asset";
+import {
+  uploadProjectAsset,
+  type ProjectAssetFolder,
+} from "@/lib/storage/upload-project-asset";
 import type { Project } from "@/types/project";
 import { ProjectAssetsGallery } from "@/components/project/project-assets-gallery";
 import { SketchTimeline } from "@/components/project/sketch-timeline";
@@ -113,10 +116,34 @@ export function ProjectAssetsPanel({
     sketches: sketchUrls,
   });
 
-  async function uploadFiles(
-    files: File[],
-    folder: "sketches" | "final-photos"
-  ) {
+  async function uploadSketchFiles(files: File[]): Promise<string[]> {
+    const compressed = await compressImages(files);
+    const uploaded = await Promise.all(
+      compressed.map(async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        const response = await fetch(
+          `/api/projects/${project.projectId}/sketches`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        const data = (await response.json()) as { url?: string; error?: string };
+
+        if (!response.ok || !data.url) {
+          throw new Error(data.error ?? err.uploadSketchFailed);
+        }
+
+        return data.url;
+      })
+    );
+    return uploaded;
+  }
+
+  async function uploadFiles(files: File[], folder: ProjectAssetFolder) {
     const compressed = await compressImages(files);
     const uploaded = await Promise.all(
       compressed.map((file) =>
@@ -134,7 +161,7 @@ export function ProjectAssetsPanel({
     setIsSavingSketches(true);
 
     try {
-      const uploaded = await uploadFiles(sketchFiles, "sketches");
+      const uploaded = await uploadSketchFiles(sketchFiles);
       const trimmedNote = sketchNote.trim();
       const appendPayload = uploaded.map((url) => ({
         url,

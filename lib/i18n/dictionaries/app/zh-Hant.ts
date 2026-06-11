@@ -560,6 +560,9 @@ const dictionary: AppDictionary = {
     briefLanguageDescription:
       "FLASH 虛擬店長產生的需求摘要將以此語言撰寫",
     acceptsCoverUp: "接受蓋圖需求",
+    watermarkSketchesLabel: "設計稿上傳浮水印",
+    watermarkSketchesDescription:
+      "上傳設計稿時自動加上工作室名稱與預約連結，協助保護作品並引導客人預約",
     weeklyHoursTitle: "每週營業時段",
     weeklyHoursDescription:
       "勾選休息日，或分別設定開始與結束時間（24 小時制）",

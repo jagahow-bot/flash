@@ -103,6 +103,7 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       data.socialLinks as StudioSocialLinks | undefined
     ),
     preferredLocale: parseStudioPreferredLocale(data.preferredLocale),
+    watermarkSketches: data.watermarkSketches !== false,
     billingStatus: normalizeBillingStatus(data.billingStatus),
     freeBookingsRemaining:
       typeof data.freeBookingsRemaining === "number"
@@ -210,6 +211,7 @@ export async function createStudio(
     closures: [],
     operatingHours: weeklyScheduleToOperatingHours(weeklySchedule),
     preferredLocale: input.preferredLocale ?? defaultLocale,
+    watermarkSketches: true,
     billingStatus: "active",
     freeBookingsRemaining: FREE_TIER_BOOKINGS,
     completedBookingsCount: 0,
@@ -313,6 +315,7 @@ export async function updateStudioFields(
       | "artists"
       | "preSessionDocuments"
       | "preferredLocale"
+      | "watermarkSketches"
       | "billingStatus"
       | "freeBookingsRemaining"
       | "completedBookingsCount"

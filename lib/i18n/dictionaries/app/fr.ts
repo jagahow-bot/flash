@@ -510,6 +510,8 @@ const dictionary = {
     "briefLanguageLabel": "Langue du résumé IA",
     "briefLanguageDescription": "Les résumés générés par FLASH seront rédigés dans cette langue",
     "acceptsCoverUp": "Accepte les projets de recouvrement (cover-up)",
+    "watermarkSketchesLabel": "Filigrane sur les croquis",
+    "watermarkSketchesDescription": "Ajoute automatiquement le nom du studio et le lien de réservation aux croquis téléversés pour protéger les créations et encourager les réservations",
     "weeklyHoursTitle": "Horaires hebdomadaires",
     "weeklyHoursDescription": "Cochez les jours de fermeture ou définissez les heures de début et de fin (format 24h)",
     "closuresTitle": "Fermetures exceptionnelles",

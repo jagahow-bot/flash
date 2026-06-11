@@ -528,6 +528,8 @@ const dictionary = {
     "briefLanguageLabel": "AI要約の言語",
     "briefLanguageDescription": "FLASHが生成する要約はこの言語で作成されます",
     "acceptsCoverUp": "カバーアップのご要望を受け付ける",
+    "watermarkSketchesLabel": "デザイン稿に透かしを入れる",
+    "watermarkSketchesDescription": "アップロードしたデザイン稿にスタジオ名と予約リンクを自動で重ね、作品を保護し予約へ誘導します",
     "weeklyHoursTitle": "毎週の営業時間",
     "weeklyHoursDescription": "定休日にチェックを入れるか、または営業開始時間と終了時間を個別に設定してください（24時間表記）",
     "closuresTitle": "スタジオ休業日",

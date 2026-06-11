@@ -62,6 +62,7 @@ const studioUpdateSchema = z.object({
   preSessionDocuments: z.array(preSessionDocumentSchema).optional(),
   socialLinks: z.union([studioSocialLinksSchema, z.null()]).optional(),
   preferredLocale: z.enum(locales).optional(),
+  watermarkSketches: z.boolean().optional(),
 });
 
 export async function PATCH(request: NextRequest) {

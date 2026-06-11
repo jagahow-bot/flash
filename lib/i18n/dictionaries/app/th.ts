@@ -510,6 +510,8 @@ const dictionary = {
     "briefLanguageLabel": "ภาษาสรุป AI",
     "briefLanguageDescription": "สรุปที่สร้างโดย FLASH จะเขียนในภาษานี้",
     "acceptsCoverUp": "รับงานแก้สักทับรอยเดิม",
+    "watermarkSketchesLabel": "ใส่ลายน้ำบนภาพร่าง",
+    "watermarkSketchesDescription": "เพิ่มชื่อสตูดิโอและลิงก์จองอัตโนมัติเมื่ออัปโหลดภาพร่าง เพื่อปกป้องผลงานและชวนลูกค้าจอง",
     "weeklyHoursTitle": "เวลาทำการรายสัปดาห์",
     "weeklyHoursDescription": "เลือกวันหยุด หรือตั้งค่าเวลาเปิดและปิดสำหรับแต่ละวัน (รูปแบบ 24 ชั่วโมง)",
     "closuresTitle": "วันปิดทำการของสตูดิโอ",

@@ -57,6 +57,9 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
   );
   const [careGuide, setCareGuide] = useState(studio.careGuide);
   const [acceptsCoverUp, setAcceptsCoverUp] = useState(studio.acceptsCoverUp);
+  const [watermarkSketches, setWatermarkSketches] = useState(
+    studio.watermarkSketches !== false
+  );
   const [weeklySchedule, setWeeklySchedule] = useState<StudioWeeklySchedule>(
     normalizeWeeklySchedule(studio.weeklySchedule)
   );
@@ -122,6 +125,7 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
           depositDeadlineDays: parsedDeadlineDays,
           careGuide,
           acceptsCoverUp,
+          watermarkSketches,
           weeklySchedule,
           closures,
           logoUrl: nextLogoUrl,
@@ -244,6 +248,20 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
             />
             {s.acceptsCoverUp}
           </label>
+          <div className="flex flex-col gap-1">
+            <label className="flex items-center gap-2 text-sm">
+              <Checkbox
+                checked={watermarkSketches}
+                onCheckedChange={(checked) =>
+                  setWatermarkSketches(checked === true)
+                }
+              />
+              {s.watermarkSketchesLabel}
+            </label>
+            <p className="text-xs text-muted-foreground pl-6">
+              {s.watermarkSketchesDescription}
+            </p>
+          </div>
         </CardContent>
       </Card>
 

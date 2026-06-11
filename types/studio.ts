@@ -50,6 +50,11 @@ export interface Studio {
   socialLinks?: StudioSocialLinks;
   /** FLASH 需求摘要輸出語言（預設 zh-Hant） */
   preferredLocale?: Locale;
+  /**
+   * 上傳設計稿時是否加上工作室名稱與預約連結浮水印。
+   * 未設定時視為 `true`（預設開啟）。
+   */
+  watermarkSketches?: boolean;
   /** Stripe usage billing — defaults to active for new studios */
   billingStatus?: StudioBillingStatus;
   freeBookingsRemaining?: number;

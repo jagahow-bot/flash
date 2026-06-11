@@ -470,6 +470,8 @@ export interface AppDictionary {
     briefLanguageLabel: string;
     briefLanguageDescription: string;
     acceptsCoverUp: string;
+    watermarkSketchesLabel: string;
+    watermarkSketchesDescription: string;
     weeklyHoursTitle: string;
     weeklyHoursDescription: string;
     closuresTitle: string;

@@ -510,6 +510,8 @@ const dictionary = {
     "briefLanguageLabel": "Idioma do resumo da IA",
     "briefLanguageDescription": "Os resumos gerados pelo FLASH serão escritos neste idioma",
     "acceptsCoverUp": "Aceita trabalhos de cobertura",
+    "watermarkSketchesLabel": "Marca d'água em esboços",
+    "watermarkSketchesDescription": "Adiciona automaticamente o nome do estúdio e o link de agendamento aos esboços enviados para proteger os designs e incentivar reservas",
     "weeklyHoursTitle": "Horário de Funcionamento Semanal",
     "weeklyHoursDescription": "Marque os dias de folga ou defina o horário de início e fim (formato 24h)",
     "closuresTitle": "Dias Fechados / Recessos",

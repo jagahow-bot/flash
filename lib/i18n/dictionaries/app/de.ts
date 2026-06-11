@@ -510,6 +510,8 @@ const dictionary = {
     "briefLanguageLabel": "KI-Zusammenfassungssprache",
     "briefLanguageDescription": "Von FLASH erstellte Zusammenfassungen werden in dieser Sprache verfasst",
     "acceptsCoverUp": "Cover-ups akzeptieren",
+    "watermarkSketchesLabel": "Skizzen mit Wasserzeichen versehen",
+    "watermarkSketchesDescription": "Fügt hochgeladenen Skizzen automatisch Studio-Name und Buchungslink hinzu, um Designs zu schützen und Buchungen anzukurbeln",
     "weeklyHoursTitle": "Wöchentliche Öffnungszeiten",
     "weeklyHoursDescription": "Wählen Sie Ruhetage oder legen Sie Start- und Endzeiten fest (24-Stunden-Format)",
     "closuresTitle": "Studio-Schließzeiten",
