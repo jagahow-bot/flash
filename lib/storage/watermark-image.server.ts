@@ -5,6 +5,12 @@ export interface SketchWatermarkText {
   bookingUrl: string;
 }
 
+/** Dark semi-transparent fill for white sketch backgrounds; custom color could be a studio setting later. */
+const WATERMARK_FILL = "rgba(0, 0, 0, 0.3)";
+/** Subtle light stroke so text remains visible on darker image areas. */
+const WATERMARK_STROKE = "rgba(255, 255, 255, 0.2)";
+const WATERMARK_STROKE_WIDTH = 0.75;
+
 function escapeSvgText(value: string): string {
   return value
     .replace(/&/g, "&amp;")
@@ -29,8 +35,8 @@ function buildWatermarkSvg(
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <pattern id="flash-sketch-watermark" patternUnits="userSpaceOnUse" width="${tileWidth}" height="${tileHeight}" patternTransform="rotate(-35)">
-      <text x="0" y="${fontSize}" fill="rgba(255,255,255,0.3)" font-size="${fontSize}" font-family="Arial, Helvetica, sans-serif" font-weight="600">${line1}</text>
-      <text x="0" y="${fontSize + lineGap}" fill="rgba(255,255,255,0.3)" font-size="${Math.round(fontSize * 0.82)}" font-family="Arial, Helvetica, sans-serif">${line2}</text>
+      <text x="0" y="${fontSize}" fill="${WATERMARK_FILL}" stroke="${WATERMARK_STROKE}" stroke-width="${WATERMARK_STROKE_WIDTH}" paint-order="stroke fill" font-size="${fontSize}" font-family="Arial, Helvetica, sans-serif" font-weight="600">${line1}</text>
+      <text x="0" y="${fontSize + lineGap}" fill="${WATERMARK_FILL}" stroke="${WATERMARK_STROKE}" stroke-width="${WATERMARK_STROKE_WIDTH}" paint-order="stroke fill" font-size="${Math.round(fontSize * 0.82)}" font-family="Arial, Helvetica, sans-serif">${line2}</text>
     </pattern>
   </defs>
   <rect width="100%" height="100%" fill="url(#flash-sketch-watermark)"/>
