@@ -3,6 +3,9 @@ import { defaultLocale, isLocale } from "@/lib/i18n/config";
 
 export const LOCALE_COOKIE_NAME = "flash-locale";
 
+/** Dispatched on `window` when the locale cookie changes (client only). */
+export const LOCALE_CHANGE_EVENT = "flash-locale-change";
+
 /** Cookie lifetime: 1 year */
 export const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check, ChevronDown, Globe } from "lucide-react";
@@ -14,6 +13,7 @@ import {
   type Locale,
 } from "@/lib/i18n/config";
 import {
+  LOCALE_CHANGE_EVENT,
   LOCALE_COOKIE_MAX_AGE,
   LOCALE_COOKIE_NAME,
 } from "@/lib/i18n/locale-cookie";
@@ -50,12 +50,12 @@ function setLocaleCookie(locale: Locale) {
 }
 
 function subscribeToLocaleCookie(onStoreChange: () => void) {
-  window.addEventListener("flash-locale-change", onStoreChange);
-  return () => window.removeEventListener("flash-locale-change", onStoreChange);
+  window.addEventListener(LOCALE_CHANGE_EVENT, onStoreChange);
+  return () => window.removeEventListener(LOCALE_CHANGE_EVENT, onStoreChange);
 }
 
 function notifyLocaleCookieChange() {
-  window.dispatchEvent(new Event("flash-locale-change"));
+  window.dispatchEvent(new Event(LOCALE_CHANGE_EVENT));
 }
 
 function useCookieLocale(): Locale | null {
@@ -136,6 +136,15 @@ export function LanguageSwitcher({
     router.refresh();
   }
 
+  async function handleMarketingLocaleChange(locale: Locale) {
+    setLocaleCookie(locale);
+    setPendingLocale(locale);
+    setOpen(false);
+    await persistLocaleToProfile(locale);
+    router.push(localePath(locale));
+    router.refresh();
+  }
+
   return (
     <div ref={containerRef} className={cn("relative", className)}>
       <button
@@ -168,20 +177,14 @@ export function LanguageSwitcher({
             const hrefLang = localeHrefLang[locale];
 
             if (marketingOnly) {
-              const href = localePath(locale);
               return (
                 <li key={locale} role="option" aria-selected={isActive}>
-                  <Link
-                    href={href}
-                    hrefLang={hrefLang}
+                  <button
+                    type="button"
                     lang={hrefLang}
-                    onClick={() => {
-                      setLocaleCookie(locale);
-                      persistLocaleToProfile(locale);
-                      setOpen(false);
-                    }}
+                    onClick={() => handleMarketingLocaleChange(locale)}
                     className={cn(
-                      "flex items-center justify-between gap-2 px-3 py-2 text-sm transition-colors hover:bg-muted",
+                      "flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-muted",
                       isActive && "font-medium text-foreground",
                     )}
                   >
@@ -189,7 +192,7 @@ export function LanguageSwitcher({
                     {isActive ? (
                       <Check className="size-4 shrink-0" aria-hidden="true" />
                     ) : null}
-                  </Link>
+                  </button>
                 </li>
               );
             }

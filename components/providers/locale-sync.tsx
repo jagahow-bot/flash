@@ -6,6 +6,7 @@ import { useAuth } from "@/components/providers/auth-provider";
 import { useAppLocale } from "@/components/providers/locale-provider";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import {
+  LOCALE_CHANGE_EVENT,
   LOCALE_COOKIE_MAX_AGE,
   LOCALE_COOKIE_NAME,
 } from "@/lib/i18n/locale-cookie";
@@ -44,6 +45,16 @@ export function LocaleSync() {
       router.refresh();
     }
   }, [router, serverLocale]);
+
+  useEffect(() => {
+    function handleLocaleCookieChange() {
+      router.refresh();
+    }
+
+    window.addEventListener(LOCALE_CHANGE_EVENT, handleLocaleCookieChange);
+    return () =>
+      window.removeEventListener(LOCALE_CHANGE_EVENT, handleLocaleCookieChange);
+  }, [router]);
 
   useEffect(() => {
     if (loading) {
