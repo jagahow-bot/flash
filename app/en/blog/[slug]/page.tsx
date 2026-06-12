@@ -3,22 +3,24 @@ import {
   getLocaleBlogPostMetadata,
   renderLocaleBlogPostPage,
 } from "@/lib/i18n/blog-locale-page";
-import { defaultLocale } from "@/lib/i18n/config";
+import type { Locale } from "@/lib/i18n/config";
+
+const locale = "en" as const satisfies Locale;
 
 type BlogPostPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export function generateStaticParams() {
-  return getBlogPostStaticParams(defaultLocale);
+  return getBlogPostStaticParams(locale);
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  return getLocaleBlogPostMetadata(defaultLocale, slug);
+  return getLocaleBlogPostMetadata(locale, slug);
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function EnglishBlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  return renderLocaleBlogPostPage(defaultLocale, slug);
+  return renderLocaleBlogPostPage(locale, slug);
 }

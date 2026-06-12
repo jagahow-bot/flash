@@ -13,18 +13,16 @@ import {
 import { getSiteUrl } from "@/lib/i18n/site-url";
 import type { LandingDictionary } from "@/lib/i18n/types";
 
-function buildBlogLanguageAlternates(
+function buildBlogIndexLanguageAlternates(
   siteUrl: string,
-  slug?: string,
 ): Record<string, string> {
   const languages: Record<string, string> = {};
-  const suffix = slug ? `/blog/${slug}` : "/blog";
 
   for (const locale of locales) {
-    languages[localeHrefLang[locale]] = `${siteUrl}${localePath(locale, suffix)}`;
+    languages[localeHrefLang[locale]] = `${siteUrl}${localePath(locale, "/blog")}`;
   }
 
-  languages["x-default"] = `${siteUrl}${suffix}`;
+  languages["x-default"] = `${siteUrl}/blog`;
   return languages;
 }
 
@@ -44,7 +42,7 @@ export function buildBlogIndexMetadata(
     description: dict.blog.metaDescription,
     alternates: {
       canonical,
-      languages: buildBlogLanguageAlternates(siteUrl),
+      languages: buildBlogIndexLanguageAlternates(siteUrl),
     },
     openGraph: {
       type: "website",

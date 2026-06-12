@@ -91,6 +91,43 @@ export function localeFromPathname(pathname: string): Locale {
   return defaultLocale;
 }
 
+export function isBlogPath(pathname: string): boolean {
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts.length === 0) return false;
+  if (parts[0] === "blog") return true;
+  if (parts.length >= 2 && parts[1] === "blog") {
+    return parts[0].toLowerCase() in segmentToLocale;
+  }
+  return false;
+}
+
+/** Blog path suffix without locale prefix (e.g. `/blog` or `/blog/slug`). */
+export function blogPathFromPathname(pathname: string): string {
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts[0] === "blog") {
+    return parts.length > 1 ? `/blog/${parts.slice(1).join("/")}` : "/blog";
+  }
+  if (parts.length >= 2 && parts[1] === "blog") {
+    return parts.length > 2 ? `/blog/${parts.slice(2).join("/")}` : "/blog";
+  }
+  return "/blog";
+}
+
+/** Paths where locale is determined by the URL (marketing home + blog). */
+export function isLocaleFromUrlPath(pathname: string): boolean {
+  const parts = pathname.split("/").filter(Boolean);
+  if (parts.length === 0) return true;
+  if (parts.length === 1) {
+    if (parts[0].toLowerCase() in segmentToLocale) return true;
+    return parts[0] === "blog";
+  }
+  if (parts[0] === "blog") return true;
+  if (parts.length >= 2 && parts[1] === "blog") {
+    return parts[0].toLowerCase() in segmentToLocale;
+  }
+  return false;
+}
+
 /** Strip a marketing locale prefix from app paths (e.g. `/en/cooltatt/book` → `/cooltatt/book`). */
 export function stripLocalePrefixFromPathname(pathname: string): {
   locale: Locale;

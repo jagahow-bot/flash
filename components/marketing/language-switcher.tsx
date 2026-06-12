@@ -4,7 +4,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Check, ChevronDown, Globe } from "lucide-react";
 import {
+  blogPathFromPathname,
   defaultLocale,
+  isBlogPath,
+  isLocaleFromUrlPath,
   localeFromPathname,
   localeHrefLang,
   localeLabels,
@@ -19,18 +22,6 @@ import {
 } from "@/lib/i18n/locale-cookie";
 import type { LandingDictionary } from "@/lib/i18n/types";
 import { cn } from "@/lib/utils";
-
-function isMarketingOnlyPath(pathname: string): boolean {
-  const parts = pathname.split("/").filter(Boolean);
-  if (parts.length === 0) return true;
-  if (parts.length === 1) {
-    const segment = parts[0].toLowerCase();
-    return locales.some(
-      (loc) => loc !== defaultLocale && localePath(loc).slice(1) === segment,
-    );
-  }
-  return false;
-}
 
 function isDefaultMarketingRoot(pathname: string): boolean {
   return pathname === "/" || pathname === "";
@@ -87,7 +78,7 @@ export function LanguageSwitcher({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const marketingOnly = isMarketingOnlyPath(pathname);
+  const urlLocalePath = isLocaleFromUrlPath(pathname);
   const pathLocale = localeFromPathname(pathname);
   const cookieLocale = useCookieLocale();
   const [pendingLocale, setPendingLocale] = useState<Locale | null>(null);
@@ -95,7 +86,7 @@ export function LanguageSwitcher({
   const containerRef = useRef<HTMLDivElement>(null);
   const userLocaleChangeRef = useRef(false);
 
-  const resolvedLocale: Locale = marketingOnly
+  const resolvedLocale: Locale = urlLocalePath
     ? isDefaultMarketingRoot(pathname)
       ? (cookieLocale ?? defaultLocale)
       : pathLocale
@@ -111,11 +102,11 @@ export function LanguageSwitcher({
     if (userLocaleChangeRef.current) {
       return;
     }
-    if (marketingOnly && !isDefaultMarketingRoot(pathname)) {
+    if (urlLocalePath && !isDefaultMarketingRoot(pathname)) {
       setLocaleCookie(pathLocale);
       void persistLocaleToProfile(pathLocale);
     }
-  }, [marketingOnly, pathLocale, pathname]);
+  }, [urlLocalePath, pathLocale, pathname]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -140,13 +131,15 @@ export function LanguageSwitcher({
     router.refresh();
   }
 
-  async function handleMarketingLocaleChange(locale: Locale) {
+  async function handleUrlLocaleChange(locale: Locale) {
     userLocaleChangeRef.current = true;
     setLocaleCookie(locale);
     setPendingLocale(locale);
     setOpen(false);
     await persistLocaleToProfile(locale);
-    const href = localePath(locale);
+    const href = isBlogPath(pathname)
+      ? localePath(locale, blogPathFromPathname(pathname))
+      : localePath(locale);
     if (pathname === href) {
       router.refresh();
       userLocaleChangeRef.current = false;
@@ -196,13 +189,13 @@ export function LanguageSwitcher({
             const isActive = locale === currentLocale;
             const hrefLang = localeHrefLang[locale];
 
-            if (marketingOnly) {
+            if (urlLocalePath) {
               return (
                 <li key={locale} role="option" aria-selected={isActive}>
                   <button
                     type="button"
                     lang={hrefLang}
-                    onClick={() => handleMarketingLocaleChange(locale)}
+                    onClick={() => handleUrlLocaleChange(locale)}
                     className={cn(
                       "flex w-full items-center justify-between gap-2 px-3 py-2 text-left text-sm transition-colors hover:bg-muted",
                       isActive && "font-medium text-foreground",

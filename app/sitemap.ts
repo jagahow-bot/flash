@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getAllBlogSlugs } from "@/lib/content/blog-posts";
+import { getAllBlogSlugs, getBlogPostLocales } from "@/lib/content/blog-posts";
 import {
   allLocalePaths,
   localeHrefLang,
@@ -60,30 +60,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   );
   blogIndexLanguages["x-default"] = `${siteUrl}/blog`;
 
-  const blogIndexEntry: SitemapEntry = {
-    url: `${siteUrl}/blog`,
+  const blogIndexEntries: SitemapEntry[] = locales.map((locale) => ({
+    url: `${siteUrl}${localePath(locale, "/blog")}`,
     lastModified: now,
     changeFrequency: "weekly",
     priority: 0.6,
     alternates: { languages: blogIndexLanguages },
-  };
+  }));
 
-  const blogPostEntries: SitemapEntry[] = getAllBlogSlugs().map((slug) => {
+  const blogPostEntries: SitemapEntry[] = getAllBlogSlugs().flatMap((slug) => {
+    const availableLocales = getBlogPostLocales(slug);
     const languages = Object.fromEntries(
-      locales.map((locale) => [
+      availableLocales.map((locale) => [
         localeHrefLang[locale],
         `${siteUrl}${localePath(locale, `/blog/${slug}`)}`,
       ]),
     );
     languages["x-default"] = `${siteUrl}/blog/${slug}`;
 
-    return {
-      url: `${siteUrl}/blog/${slug}`,
+    return availableLocales.map((locale) => ({
+      url: `${siteUrl}${localePath(locale, `/blog/${slug}`)}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.55,
       alternates: { languages },
-    };
+    }));
   });
 
   // Low-priority auth landing pages (excludes protected /client/* flows).
@@ -113,7 +114,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...marketingEntries,
     ...legalEntries,
-    blogIndexEntry,
+    ...blogIndexEntries,
     ...blogPostEntries,
     ...authEntries,
     ...studioEntries,

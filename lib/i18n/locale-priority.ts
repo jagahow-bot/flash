@@ -4,7 +4,7 @@ import { defaultLocale } from "@/lib/i18n/config";
 /**
  * Locale resolution priority:
  *
- * Marketing routes (/, /en, /ja, …):
+ * Marketing + blog routes (/, /en, /blog, /en/blog/…):
  *   URL path segment only
  *
  * App routes (dashboard, studio booking, client portal, …):

@@ -4,7 +4,8 @@ import {
   SESSION_COOKIE_NAME,
 } from "@/lib/auth/constants";
 import {
-  defaultLocale,
+  isBlogPath,
+  isLocaleFromUrlPath,
   localeFromPathname,
   localeRouteSegments,
   stripLocalePrefixFromPathname,
@@ -30,20 +31,11 @@ function matchesRoute(pathname: string, routes: readonly string[]) {
   );
 }
 
-function isMarketingLocalePath(pathname: string): boolean {
-  const parts = pathname.split("/").filter(Boolean);
-  if (parts.length === 0) return true;
-  if (parts.length === 1) {
-    return parts[0].toLowerCase() in segmentToLocale;
-  }
-  return false;
-}
-
 async function resolveLocale(
   request: NextRequest,
   pathname: string,
 ): Promise<Locale> {
-  if (isMarketingLocalePath(pathname)) {
+  if (isLocaleFromUrlPath(pathname)) {
     return localeFromPathname(pathname);
   }
 
@@ -70,7 +62,7 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const stripped = stripLocalePrefixFromPathname(pathname);
-  if (stripped) {
+  if (stripped && !isBlogPath(pathname)) {
     const url = request.nextUrl.clone();
     url.pathname = stripped.pathname;
     const redirect = NextResponse.redirect(url);
@@ -85,7 +77,7 @@ export async function proxy(request: NextRequest) {
   const { requestHeaders, locale } = await withLocaleHeader(request, pathname);
 
   const responseHeaders: HeadersInit = {};
-  if (isMarketingLocalePath(pathname)) {
+  if (isLocaleFromUrlPath(pathname)) {
     responseHeaders["Set-Cookie"] =
       `${LOCALE_COOKIE_NAME}=${encodeURIComponent(locale)}; Path=/; Max-Age=${LOCALE_COOKIE_MAX_AGE}; SameSite=Lax`;
   }
