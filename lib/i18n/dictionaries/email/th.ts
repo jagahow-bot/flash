@@ -83,15 +83,15 @@ const email: EmailDictionary = {
     body: "{studioName} ยืนยันมัดจำของคุณแล้ว การจอง ({projectId}) ของคุณได้รับการยืนยันแล้ว",
   },
   depositConfirmedMulti: {
-    title: "ยืนยันการจอง Session นี้แล้ว",
-    body: "{studioName} ยืนยันมัดจำ Session ครั้งที่ {sessionIndex} แล้ว การจองของคุณได้รับการยืนยัน กรุณามาตรงเวลา สตูดิโอจะแชร์แบบร่างก่อนสัก อัปโหลดภาพผลงานหลังเสร็จ แล้วจึงนัด Session ถัดไป",
+    title: "ยืนยันการจองรอบนี้แล้ว",
+    body: "{studioName} ยืนยันมัดจำรอบที่ {sessionIndex} แล้ว การจองของคุณได้รับการยืนยัน กรุณามาตรงเวลา สตูดิโอจะแชร์แบบร่างก่อนสัก อัปโหลดภาพผลงานหลังเสร็จ แล้วจึงนัดรอบถัดไป",
   },
   nextSessionReadyMulti: {
-    title: "พร้อมนัด Session ถัดไป",
-    body: "{studioName} ส่งมอบงาน Session ครั้งที่ {previousSession} เสร็จแล้ว เราจะแจ้งเมื่อใบเสนอราคาและช่วงเวลาของ Session ครั้งที่ {sessionIndex} พร้อม",
+    title: "พร้อมนัดรอบถัดไป",
+    body: "{studioName} ส่งมอบงานรอบที่ {previousSession} เสร็จแล้ว เราจะแจ้งเมื่อใบเสนอราคาและช่วงเวลาของรอบที่ {sessionIndex} พร้อม",
   },
   nextSessionReadySingle: {
-    title: "พร้อมนัด Session ถัดไป",
+    title: "พร้อมนัดรอบถัดไป",
     body: "{studioName} ส่งมอบงานเสร็จแล้ว เราจะแจ้งเมื่อใบเสนอราคาและช่วงเวลาพร้อม",
   },
   preSessionSignedStudio: {

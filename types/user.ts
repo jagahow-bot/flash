@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 
-export type UserRole = "admin" | "artist" | "client";
+export type UserRole = "admin" | "artist" | "client" | "platform_admin";
 
 export interface User {
   uid: string;

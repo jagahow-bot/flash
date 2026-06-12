@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/config";
 import type {
+  PlatformBillingTier,
   StudioBilling,
   StudioBillingMonth,
   StudioBillingStatus,
@@ -11,7 +12,7 @@ import type { StudioClosure } from "@/types/studio-closure";
 import type { StudioOperatingHours } from "@/types/operating-hours";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
 
-export type { StudioBillingStatus };
+export type { PlatformBillingTier, StudioBillingStatus };
 
 export interface StudioSocialLinks {
   /** Instagram 帳號（不含 @） */
@@ -61,11 +62,17 @@ export interface Studio {
   flashUniformPrice?: number | null;
   /** Stripe usage billing — defaults to active for new studios */
   billingStatus?: StudioBillingStatus;
+  platformBillingTier?: PlatformBillingTier;
   freeBookingsRemaining?: number;
   completedBookingsCount?: number;
+  /** Launch / per-studio promo end date (YYYY-MM-DD, inclusive). */
+  promoFreeUntil?: string;
+  billingExemptUntil?: string;
+  platformNotes?: string;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   lastBilledMonth?: string;
+  createdAt?: Date;
 }
 
 export type StudioBillingFields = Pick<

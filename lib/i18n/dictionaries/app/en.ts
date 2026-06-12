@@ -39,7 +39,8 @@ const dictionary = {
   "roles": {
     "admin": "Admin",
     "artist": "Tattoo artist",
-    "client": "Client"
+    "client": "Client",
+    "platform_admin": "Platform admin"
   },
   "complexity": {
     "Low": "Low",
@@ -225,6 +226,9 @@ const dictionary = {
     "clientIntakeTitle": "Client Request",
     "clientIntakeDescription": "Original details provided by the client",
     "portalLinkExtendedDescription": "Share this link with your client. They can use it anytime to view quotes, select slots, and track progress (no login required).",
+    "documentSigningPending": "Awaiting client signature",
+    "documentSigningSigned": "Documents signed",
+    "documentSigningNotApplicable": "Not sent yet",
     "zoneAction": "Action Required",
     "zoneCollaboration": "Collaboration",
     "zoneReference": "Reference"
@@ -637,6 +641,62 @@ const dictionary = {
     "paymentDescription": "Stripe billing integration",
     "paymentTodo": "Stripe Customer Portal and automated monthly invoicing will be available here. TODO: connect Checkout and metered billing."
   },
+  "platformAdmin": {
+    "title": "Platform admin",
+    "description": "Review studio usage, promos, and billing status.",
+    "studioListTitle": "Studios",
+    "columns": {
+      "name": "Name",
+      "slug": "Slug",
+      "owner": "Owner email",
+      "freeQuota": "Free quota",
+      "completed": "Total bookings",
+      "monthlySuccess": "This month (success)",
+      "monthlyBillable": "This month (billable)",
+      "billingTier": "Billing tier",
+      "paymentStatus": "Payment status",
+      "promo": "Promo",
+      "actions": "Actions"
+    },
+    "tiers": {
+      "free": "Free",
+      "paid": "Paid",
+      "trial": "Trial"
+    },
+    "paymentStatuses": {
+      "active": "Active",
+      "past_due": "Past due",
+      "suspended": "Suspended"
+    },
+    "promoActive": "Promo active",
+    "promoInactive": "No promo",
+    "editStudio": "Edit",
+    "saveChanges": "Save changes",
+    "saving": "Saving…",
+    "saveSuccess": "Studio settings updated",
+    "saveFailed": "Failed to save. Please try again.",
+    "loadFailed": "Could not load studios",
+    "noStudios": "No studios yet",
+    "monthlyBreakdown": "Monthly successful bookings (UTC)",
+    "monthColumn": "Month",
+    "successColumn": "Successful",
+    "billableColumn": "Billable",
+    "fields": {
+      "promoFreeUntil": "Promo free until",
+      "effectivePromoFreeUntil": "Effective promo end (incl. default)",
+      "billingExemptUntil": "Billing exempt until",
+      "freeBookingsRemaining": "Free bookings remaining",
+      "platformBillingTier": "Billing tier",
+      "paymentStatus": "Stripe payment status",
+      "platformNotes": "Platform notes"
+    },
+    "clearDate": "Clear date",
+    "backToStudios": "Back to list",
+    "accessDeniedTitle": "Platform access denied",
+    "accessDeniedDescription":
+      "This account does not have platform admin access. If you should have access, confirm your sign-in email is listed in PLATFORM_ADMIN_EMAILS or ask an admin to add the platform_admin role in Firestore.",
+    "accessDeniedSignedInAs": "Signed in as"
+  },
   "signature": {
     "clearSignature": "Clear",
     "signFirst": "Please sign first",
@@ -716,6 +776,7 @@ const dictionary = {
     "deliveryTitle": "Artwork Delivery",
     "sketchHistoryReusable": "Design History (Reusable)",
     "sessionConfirmedUploadHint": "Session {index} confirmed. Please upload the design draft for the client's approval before tattooing, and upload final photos after completion to proceed to the next session.",
+    "sessionConfirmedUploadHintSingle": "Booking confirmed. Please upload the design draft for the client's approval before tattooing, and upload final photos after completion to close the project.",
     "sessionDeliveredReuseHint": "Session {count} artwork delivered. You can reuse the previous design draft. Upload a new version only if there are updates, or upload progress/final photos.",
     "sessionDeliveredUploadHint": "Session {count} artwork delivered. You can upload the design draft for Session {index}, or upload progress/final photos.",
     "defaultUploadHint": "Upload the design draft for client approval. You can upload final photos and complete the booking after tattooing.",
@@ -744,6 +805,7 @@ const dictionary = {
     "completeSessionButton": "Complete This Session & Schedule Next",
     "closeProjectTitle": "Complete Project",
     "closeProjectHint": "After completing the final session, you can mark the entire project as completed.",
+    "closeProjectHintSingle": "After tattooing and uploading final photos, you can mark the project as completed.",
     "markCompleted": "Mark as Completed",
     "sketchUpdated": "Design draft updated. The client can view it on their page.",
     "finalPhotosUpdated": "Final photos updated",

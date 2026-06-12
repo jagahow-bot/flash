@@ -1,3 +1,4 @@
+import { isPlatformAdmin } from "@/lib/auth/platform-admin.server";
 import type { User } from "@/types/user";
 import {
   canAccessStudioPortal,
@@ -8,12 +9,20 @@ function isStudioRoute(path: string): boolean {
   return path === "/dashboard" || path.startsWith("/dashboard/");
 }
 
+function isPlatformRoute(path: string): boolean {
+  return path === "/platform" || path.startsWith("/platform/");
+}
+
 export function getPostLoginRedirect(
   user: User,
   redirectTo?: string | null
 ): string {
   if (redirectTo?.startsWith("/")) {
-    if (isStudioRoute(redirectTo)) {
+    if (isPlatformRoute(redirectTo)) {
+      if (isPlatformAdmin(user)) {
+        return redirectTo;
+      }
+    } else if (isStudioRoute(redirectTo)) {
       if (canAccessStudioPortal(user)) {
         return user.studioId ? redirectTo : "/setup";
       }

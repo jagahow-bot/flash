@@ -188,7 +188,7 @@ export const mockProjects: Project[] = [
     ],
     sketches: [],
     finalPhotos: [],
-    privateNotes: "第 1 次 Session 已預約，待施作後上傳作品交付。",
+    privateNotes: "第 1 次施作已預約，待施作後上傳作品交付。",
   },
   {
     projectId: MOCK_PROJECT_IDS.bookedPreSession,

@@ -29,7 +29,7 @@ const email: EmailDictionary = {
     body: '{studioName} hat auf Buchung {projectId} geantwortet:\n"{preview}"',
   },
   quoteSessionHint:
-    " (Angebot {sessionIndex} von {totalSessions}; jede Session wird separat berechnet)",
+    " (Angebot {sessionIndex} von {totalSessions}; jede Sitzung wird separat berechnet)",
   quoteFirstSend: {
     title: "Angebot und Termine gesendet",
     body: "{studioName} hat ein Angebot und verfügbare Termine{sessionHint} gesendet. Bitte anmelden und prüfen.",
@@ -83,15 +83,15 @@ const email: EmailDictionary = {
     body: "{studioName} hat Ihre Anzahlung bestätigt. Ihre Buchung ({projectId}) ist bestätigt.",
   },
   depositConfirmedMulti: {
-    title: "Buchung für diese Session bestätigt",
-    body: "{studioName} hat die Anzahlung für Session {sessionIndex} bestätigt. Ihre Buchung ist bestätigt. Bitte pünktlich erscheinen. Das Studio teilt Entwürfe vor der Session, lädt danach Endfotos hoch und plant die nächste Session.",
+    title: "Buchung für diese Sitzung bestätigt",
+    body: "{studioName} hat die Anzahlung für Sitzung {sessionIndex} bestätigt. Ihre Buchung ist bestätigt. Bitte pünktlich erscheinen. Das Studio teilt Entwürfe vor der Sitzung, lädt danach Endfotos hoch und plant die nächste Sitzung.",
   },
   nextSessionReadyMulti: {
-    title: "Nächste Session kann geplant werden",
-    body: "{studioName} hat die Lieferung für Session {previousSession} abgeschlossen. Sie werden benachrichtigt, wenn Angebot und Termine für Session {sessionIndex} bereit sind.",
+    title: "Nächste Sitzung kann geplant werden",
+    body: "{studioName} hat die Lieferung für Sitzung {previousSession} abgeschlossen. Sie werden benachrichtigt, wenn Angebot und Termine für Sitzung {sessionIndex} bereit sind.",
   },
   nextSessionReadySingle: {
-    title: "Nächste Session kann geplant werden",
+    title: "Nächste Sitzung kann geplant werden",
     body: "{studioName} hat die Lieferung abgeschlossen. Sie werden benachrichtigt, wenn Angebot und Termine bereit sind.",
   },
   preSessionSignedStudio: {

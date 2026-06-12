@@ -208,6 +208,9 @@ export interface AppDictionary {
     clientIntakeTitle: string;
     clientIntakeDescription: string;
     portalLinkExtendedDescription: string;
+    documentSigningPending: string;
+    documentSigningSigned: string;
+    documentSigningNotApplicable: string;
     zoneAction: string;
     zoneCollaboration: string;
     zoneReference: string;
@@ -581,6 +584,61 @@ export interface AppDictionary {
     paymentDescription: string;
     paymentTodo: string;
   };
+  platformAdmin: {
+    title: string;
+    description: string;
+    studioListTitle: string;
+    columns: {
+      name: string;
+      slug: string;
+      owner: string;
+      freeQuota: string;
+      completed: string;
+      monthlySuccess: string;
+      monthlyBillable: string;
+      billingTier: string;
+      paymentStatus: string;
+      promo: string;
+      actions: string;
+    };
+    tiers: {
+      free: string;
+      paid: string;
+      trial: string;
+    };
+    paymentStatuses: {
+      active: string;
+      past_due: string;
+      suspended: string;
+    };
+    promoActive: string;
+    promoInactive: string;
+    editStudio: string;
+    saveChanges: string;
+    saving: string;
+    saveSuccess: string;
+    saveFailed: string;
+    loadFailed: string;
+    noStudios: string;
+    monthlyBreakdown: string;
+    monthColumn: string;
+    successColumn: string;
+    billableColumn: string;
+    fields: {
+      promoFreeUntil: string;
+      effectivePromoFreeUntil: string;
+      billingExemptUntil: string;
+      freeBookingsRemaining: string;
+      platformBillingTier: string;
+      paymentStatus: string;
+      platformNotes: string;
+    };
+    clearDate: string;
+    backToStudios: string;
+    accessDeniedTitle: string;
+    accessDeniedDescription: string;
+    accessDeniedSignedInAs: string;
+  };
   signature: {
     clearSignature: string;
     signFirst: string;
@@ -660,6 +718,7 @@ export interface AppDictionary {
     deliveryTitle: string;
     sketchHistoryReusable: string;
     sessionConfirmedUploadHint: string;
+    sessionConfirmedUploadHintSingle: string;
     sessionDeliveredReuseHint: string;
     sessionDeliveredUploadHint: string;
     defaultUploadHint: string;
@@ -688,6 +747,7 @@ export interface AppDictionary {
     completeSessionButton: string;
     closeProjectTitle: string;
     closeProjectHint: string;
+    closeProjectHintSingle: string;
     markCompleted: string;
     sketchUpdated: string;
     finalPhotosUpdated: string;

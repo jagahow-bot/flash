@@ -1,6 +1,10 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { getUtcYearMonth } from "@/lib/billing/billing-months.server";
 import { FREE_TIER_BOOKINGS } from "@/lib/billing/constants";
+import {
+  normalizePlatformBillingTier,
+  shouldConsumeFreeTierBooking,
+} from "@/lib/billing/promo.server";
 import { getAdminDb } from "@/lib/firebase-admin";
 import {
   COLLECTIONS,
@@ -32,7 +36,24 @@ export async function recordSuccessfulBooking(studioId: string): Promise<void> {
       typeof data.freeBookingsRemaining === "number"
         ? data.freeBookingsRemaining
         : FREE_TIER_BOOKINGS;
-    const freeBookingsRemaining = Math.max(0, currentFree - 1);
+    const createdAt = (data.createdAt as { toDate?: () => Date } | undefined)
+      ?.toDate?.();
+    const consumeFree = shouldConsumeFreeTierBooking({
+      promoFreeUntil:
+        typeof data.promoFreeUntil === "string" ? data.promoFreeUntil : undefined,
+      billingExemptUntil:
+        typeof data.billingExemptUntil === "string"
+          ? data.billingExemptUntil
+          : undefined,
+      createdAt,
+      platformBillingTier: normalizePlatformBillingTier(
+        data.platformBillingTier
+      ),
+      freeBookingsRemaining: currentFree,
+    });
+    const freeBookingsRemaining = consumeFree
+      ? Math.max(0, currentFree - 1)
+      : currentFree;
 
     tx.update(studioRef, {
       completedBookingsCount,

@@ -82,15 +82,15 @@ const email: EmailDictionary = {
     body: "{studioName} 已確認訂金，您的預約（{projectId}）已成立。",
   },
   depositConfirmedMulti: {
-    title: "本次 Session 預約已成立",
-    body: "{studioName} 已確認第 {sessionIndex} 次 Session 訂金，預約已成立。請準時抵達；工作室會於施作前提供設計稿供您確認，施作完成後上傳成品照，再安排下一次 Session。",
+    title: "本次施作預約已成立",
+    body: "{studioName} 已確認第 {sessionIndex} 次施作訂金，預約已成立。請準時抵達；工作室會於施作前提供設計稿供您確認，施作完成後上傳成品照，再安排下一次施作。",
   },
   nextSessionReadyMulti: {
-    title: "可安排下一次 Session",
-    body: "{studioName} 已完成第 {previousSession} 次 Session 作品交付。第 {sessionIndex} 次 Session 的報價與時段準備好後會再通知您。",
+    title: "可安排下一次施作",
+    body: "{studioName} 已完成第 {previousSession} 次施作作品交付。第 {sessionIndex} 次施作的報價與時段準備好後會再通知您。",
   },
   nextSessionReadySingle: {
-    title: "可安排下一次 Session",
+    title: "可安排下一次施作",
     body: "{studioName} 已完成作品交付，報價與時段準備好後會再通知您。",
   },
   preSessionSignedStudio: {

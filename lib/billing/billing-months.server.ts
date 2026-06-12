@@ -7,6 +7,17 @@ import {
 import type { StudioBillingMonth } from "@/types/billing";
 
 /**
+ * Monthly successful-booking counters live at
+ * `studios/{studioId}/billingMonths/{YYYY-MM}` with fields:
+ * - `yearMonth` — document id / period key (UTC)
+ * - `count` — successful bookings in that month (incremented on first `booked` transition)
+ * - `updatedAt` — server timestamp of last increment
+ *
+ * Platform admin and Stripe metered billing read this subcollection; billable counts
+ * additionally respect promo dates and `platformBillingTier` (see `billable-bookings.server.ts`).
+ */
+
+/**
  * UTC calendar month key (YYYY-MM).
  * Billing periods use UTC so month boundaries are consistent for all studios.
  */
@@ -59,4 +70,22 @@ export async function getCurrentMonthBookingCount(studioId: string): Promise<{
   const yearMonth = getUtcYearMonth();
   const count = await getStudioBillingMonthCount(studioId, yearMonth);
   return { yearMonth, count };
+}
+
+/** Recent UTC month counters, newest first (for platform admin). */
+export async function listStudioBillingMonths(
+  studioId: string,
+  limit = 12
+): Promise<StudioBillingMonth[]> {
+  const snapshot = await getAdminDb()
+    .collection(COLLECTIONS.studios)
+    .doc(studioId)
+    .collection(STUDIO_SUBCOLLECTIONS.billingMonths)
+    .orderBy("yearMonth", "desc")
+    .limit(limit)
+    .get();
+
+  return snapshot.docs.map((doc) =>
+    normalizeBillingMonth(doc.data() as Record<string, unknown>)
+  );
 }

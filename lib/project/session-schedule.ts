@@ -109,6 +109,20 @@ export function isAwaitingSessionDelivery(project: Project): boolean {
   return !isSessionDeliveryComplete(project, currentIndex);
 }
 
+/** 是否應顯示「完成本次 Session，安排下一次」— 僅多次 Session 且非最後一次 */
+export function canAdvanceToNextSessionDelivery(project: Project): boolean {
+  if (!isAwaitingSessionDelivery(project)) {
+    return false;
+  }
+
+  const total = getTotalSessions(project);
+  if (total <= 1) {
+    return false;
+  }
+
+  return getCurrentSessionIndex(project) < total;
+}
+
 /** 已預約、已有設計稿，等待施作或標記完成 */
 export function isAwaitingTattooSession(project: Project): boolean {
   if (project.status !== "booked" || !isAwaitingSessionDelivery(project)) {

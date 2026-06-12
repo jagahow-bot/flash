@@ -124,7 +124,7 @@ const dictionary: LandingDictionary = {
     noMonthlyFee: "無固定月費",
     freeTier: "每間工作室前 30 筆預約免費",
     footnote:
-      "帳單依工作室當月成功預約筆數計算。多次 Session 的專案在確認預約時計為一筆。",
+      "帳單依工作室當月成功預約筆數計算。多次施作的專案在確認預約時計為一筆。",
   },
   faq: {
     title: "常見問題",

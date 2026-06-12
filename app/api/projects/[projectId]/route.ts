@@ -194,14 +194,14 @@ export async function PATCH(
 
       if (!hasMoreSessionsToBook(project)) {
         return NextResponse.json(
-          { error: "最後一次 Session 請直接標記預約為已完成" },
+          { error: "最後一次施作請直接標記預約為已完成" },
           { status: 400 }
         );
       }
 
       if (isSessionDeliveryComplete(project, currentIndex)) {
         return NextResponse.json(
-          { error: "本次 Session 作品交付已完成" },
+          { error: "本次施作作品交付已完成" },
           { status: 400 }
         );
       }
@@ -212,7 +212,7 @@ export async function PATCH(
 
       if (!existingRecord) {
         return NextResponse.json(
-          { error: "找不到本次 Session 紀錄" },
+          { error: "找不到本次施作紀錄" },
           { status: 400 }
         );
       }

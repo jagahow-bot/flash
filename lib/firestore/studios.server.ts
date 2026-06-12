@@ -21,7 +21,8 @@ import { normalizeStudioSocialLinks } from "@/lib/studio/social-links";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
 import { defaultLocale } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
-import { FREE_TIER_BOOKINGS } from "@/lib/billing/constants";
+import { FREE_TIER_BOOKINGS, LAUNCH_PROMO_END_DATE } from "@/lib/billing/constants";
+import { normalizePlatformBillingTier } from "@/lib/billing/promo.server";
 import type { StudioBillingStatus } from "@/types/billing";
 import type { Studio, StudioSocialLinks } from "@/types/studio";
 import { Timestamp } from "firebase-admin/firestore";
@@ -29,6 +30,11 @@ import { Timestamp } from "firebase-admin/firestore";
 function normalizeBillingStatus(value: unknown): StudioBillingStatus {
   if (value === "past_due" || value === "suspended") return value;
   return "active";
+}
+
+function normalizeIsoDateField(value: unknown): string | undefined {
+  if (typeof value !== "string" || !value.trim()) return undefined;
+  return value.trim();
 }
 
 function stripUndefined(
@@ -112,6 +118,7 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
           ? Math.max(0, data.flashUniformPrice)
           : undefined,
     billingStatus: normalizeBillingStatus(data.billingStatus),
+    platformBillingTier: normalizePlatformBillingTier(data.platformBillingTier),
     freeBookingsRemaining:
       typeof data.freeBookingsRemaining === "number"
         ? Math.max(0, data.freeBookingsRemaining)
@@ -120,6 +127,12 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       typeof data.completedBookingsCount === "number"
         ? Math.max(0, data.completedBookingsCount)
         : 0,
+    promoFreeUntil: normalizeIsoDateField(data.promoFreeUntil),
+    billingExemptUntil: normalizeIsoDateField(data.billingExemptUntil),
+    platformNotes:
+      typeof data.platformNotes === "string" && data.platformNotes.trim()
+        ? data.platformNotes.trim()
+        : undefined,
     stripeCustomerId:
       typeof data.stripeCustomerId === "string"
         ? data.stripeCustomerId
@@ -132,6 +145,7 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       typeof data.lastBilledMonth === "string"
         ? data.lastBilledMonth
         : undefined,
+    createdAt: parseFirestoreDate(data.createdAt),
   };
 }
 
@@ -148,17 +162,45 @@ function normalizeMockStudio(studio: Studio): Studio {
   };
 }
 
+export async function findStudioById(studioId: string): Promise<Studio | null> {
+  const id = studioId.trim();
+  if (!id) return null;
+
+  const studios = await listAllStudios();
+  return studios.find((studio) => studio.studioId === id) ?? null;
+}
+
+function studioDocumentPayload(
+  studio: Studio,
+  extra: Record<string, unknown> = {}
+): Record<string, unknown> {
+  const { studioId: _id, operatingHours: _oh, ...rest } = studio;
+  void _id;
+  void _oh;
+
+  return stripUndefined({
+    ...(rest as Record<string, unknown>),
+    ...extra,
+    ...(studio.createdAt
+      ? { createdAt: Timestamp.fromDate(studio.createdAt) }
+      : {}),
+  });
+}
+
 export async function getStudioById(studioId: string): Promise<Studio | null> {
+  const id = studioId.trim();
+  if (!id) return null;
+
   const doc = await getAdminDb()
     .collection(COLLECTIONS.studios)
-    .doc(studioId)
+    .doc(id)
     .get();
 
   if (doc.exists) {
     return normalizeStudio(doc.id, doc.data() as Record<string, unknown>);
   }
 
-  const mockStudio = getMockStudioById(studioId);
+  const mockStudio = getMockStudioById(id);
   if (!mockStudio) return null;
 
   return normalizeMockStudio({
@@ -220,12 +262,25 @@ export async function createStudio(
     preferredLocale: input.preferredLocale ?? defaultLocale,
     watermarkSketches: true,
     billingStatus: "active",
+    platformBillingTier: "paid",
     freeBookingsRemaining: FREE_TIER_BOOKINGS,
     completedBookingsCount: 0,
+    promoFreeUntil: LAUNCH_PROMO_END_DATE,
+    createdAt: new Date(),
   };
 
-  const { studioId: _omit, operatingHours, logoUrl: _logo, ...payload } = studio;
-  await ref.set(stripUndefined(payload as Record<string, unknown>));
+  const { studioId, operatingHours: _oh, logoUrl, createdAt, ...payload } =
+    studio;
+  void studioId;
+  void _oh;
+  void logoUrl;
+
+  await ref.set(
+    stripUndefined({
+      ...(payload as Record<string, unknown>),
+      createdAt: Timestamp.fromDate(createdAt ?? new Date()),
+    })
+  );
 
   return studio;
 }
@@ -324,6 +379,7 @@ export async function updateStudioFields(
       | "preferredLocale"
       | "watermarkSketches"
       | "billingStatus"
+      | "platformBillingTier"
       | "freeBookingsRemaining"
       | "completedBookingsCount"
       | "stripeCustomerId"
@@ -334,12 +390,46 @@ export async function updateStudioFields(
     logoUrl?: string | null;
     bookingCode?: string | null;
     socialLinks?: StudioSocialLinks | null;
+    promoFreeUntil?: string | null;
+    billingExemptUntil?: string | null;
+    platformNotes?: string | null;
   }
 ): Promise<void> {
-  const ref = getAdminDb().collection(COLLECTIONS.studios).doc(studioId);
+  const id = studioId.trim();
+  if (!id) {
+    throw new Error("Studio id is required");
+  }
+
+  const ref = getAdminDb().collection(COLLECTIONS.studios).doc(id);
   const doc = await ref.get();
-  const { logoUrl, bookingCode, socialLinks, ...rest } = fields;
+  const {
+    logoUrl,
+    bookingCode,
+    socialLinks,
+    promoFreeUntil,
+    billingExemptUntil,
+    platformNotes,
+    ...rest
+  } = fields;
   const payload: Record<string, unknown> = { ...rest };
+
+  if (promoFreeUntil === null) {
+    payload.promoFreeUntil = FieldValue.delete();
+  } else if (promoFreeUntil !== undefined) {
+    payload.promoFreeUntil = promoFreeUntil;
+  }
+
+  if (billingExemptUntil === null) {
+    payload.billingExemptUntil = FieldValue.delete();
+  } else if (billingExemptUntil !== undefined) {
+    payload.billingExemptUntil = billingExemptUntil;
+  }
+
+  if (platformNotes === null) {
+    payload.platformNotes = FieldValue.delete();
+  } else if (platformNotes !== undefined) {
+    payload.platformNotes = platformNotes;
+  }
 
   if (logoUrl === null) {
     payload.logoUrl = FieldValue.delete();
@@ -362,18 +452,28 @@ export async function updateStudioFields(
   const cleanedPayload = stripUndefined(payload);
 
   if (doc.exists) {
+    if (Object.keys(cleanedPayload).length === 0) {
+      return;
+    }
     await ref.update(cleanedPayload);
     return;
   }
 
-  const mockStudio = getMockStudioById(studioId);
+  const listedStudio = (await listAllStudios()).find(
+    (studio) => studio.studioId === id
+  );
+  if (listedStudio) {
+    await ref.set(studioDocumentPayload(listedStudio, cleanedPayload));
+    return;
+  }
+
+  const mockStudio = getMockStudioById(id);
   if (!mockStudio) {
     throw new Error("Studio not found");
   }
 
   await ref.set(
-    stripUndefined({
-      ...mockStudio,
+    studioDocumentPayload(mockStudio, {
       ...rest,
       ...(logoUrl === null || logoUrl === undefined ? {} : { logoUrl }),
       ...(bookingCode === null || bookingCode === undefined
@@ -384,6 +484,22 @@ export async function updateStudioFields(
         : { socialLinks }),
     })
   );
+}
+
+export async function listAllStudios(): Promise<Studio[]> {
+  const snapshot = await getAdminDb().collection(COLLECTIONS.studios).get();
+  const studios = snapshot.docs.map((doc) =>
+    normalizeStudio(doc.id, doc.data() as Record<string, unknown>)
+  );
+
+  const seenIds = new Set(studios.map((studio) => studio.studioId));
+  for (const mockStudio of mockStudios) {
+    if (!seenIds.has(mockStudio.studioId)) {
+      studios.push(normalizeMockStudio(mockStudio));
+    }
+  }
+
+  return studios.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function syncStudioArtistIds(studioId: string): Promise<void> {

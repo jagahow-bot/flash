@@ -210,7 +210,15 @@ FLASH 採用**用量計費**：每間工作室前 30 筆成功預約免費，之
 - 每月依 `completedBookingsCount` 開立 metered invoice
 - `past_due` 寬限期政策
 
-Firestore 欄位：`billingStatus`、`freeBookingsRemaining`、`completedBookingsCount`、`stripeCustomerId`、`stripeSubscriptionId`、`lastBilledMonth`。
+Firestore 欄位：`billingStatus`、`platformBillingTier`、`freeBookingsRemaining`、`completedBookingsCount`、`promoFreeUntil`、`billingExemptUntil`、`stripeCustomerId`、`stripeSubscriptionId`、`lastBilledMonth`。
+
+每月成功預約計數子集合：`studios/{studioId}/billingMonths/{YYYY-MM}`（UTC 月，`count` 欄位）。
+
+### 平台管理後台（`/platform`）
+
+- 環境變數：`PLATFORM_ADMIN_EMAILS`（逗號分隔 Email）或 Firestore `users` 文件加上 `platform_admin` 角色
+- 檢視各工作室免費額度、累計／本月成功預定、應計價筆數
+- 可編輯每間工作室的 `promoFreeUntil`（上線促銷預設 `2026-09-30`）、`freeBookingsRemaining`、`platformBillingTier`（free / paid / trial）
 
 ---
 

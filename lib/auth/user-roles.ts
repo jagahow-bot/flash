@@ -1,3 +1,4 @@
+import { normalizeUserEmail } from "@/lib/auth/normalize-user-email";
 import { parsePreferredLocale } from "@/lib/i18n/parse-preferred-locale";
 import type { User, UserRole } from "@/types/user";
 
@@ -8,6 +9,10 @@ export function resolvePrimaryRole(roles: UserRole[]): UserRole {
 
   if (roles.includes("artist")) {
     return "artist";
+  }
+
+  if (roles.includes("platform_admin")) {
+    return "platform_admin";
   }
 
   return "client";
@@ -78,9 +83,15 @@ export function normalizeUserRecord(
 
   const role = resolvePrimaryRole(roles);
 
+  const firestoreEmail =
+    typeof data.email === "string" ? normalizeUserEmail(data.email) : "";
+  const authEmail = fallbackEmail ? normalizeUserEmail(fallbackEmail) : "";
+  // Prefer verified Firebase Auth email — Firestore may be stale (e.g. after seed).
+  const email = authEmail || firestoreEmail;
+
   return {
     uid,
-    email: typeof data.email === "string" ? data.email : fallbackEmail,
+    email,
     role,
     roles,
     studioId: typeof data.studioId === "string" ? data.studioId : undefined,

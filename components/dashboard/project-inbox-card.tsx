@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { AlertCircle, AlertTriangle, ChevronRight, MessageSquare } from "lucide-react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  ChevronRight,
+  FileSignature,
+  MessageSquare,
+} from "lucide-react";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { formatMessage } from "@/lib/i18n/format";
 import {
@@ -12,6 +18,11 @@ import {
   getInboxProjectSize,
   getInboxProjectSummary,
 } from "@/lib/project/inbox-display";
+import {
+  getInboxDocumentSigningLabel,
+  getInboxDocumentSigningStatus,
+  getInboxDocumentSigningStyleClass,
+} from "@/lib/project/inbox-document-signing";
 import {
   getInboxStatusLabel,
   getInboxStatusStyleKey,
@@ -57,6 +68,11 @@ export function ProjectInboxCard({
   const sizeLabel = getInboxProjectSize(project);
   const statusLabel = getInboxStatusLabel(project, dict, studio);
   const statusStyleKey = getInboxStatusStyleKey(project, studio);
+  const documentSigningStatus = getInboxDocumentSigningStatus(project, studio);
+  const documentSigningLabel = getInboxDocumentSigningLabel(
+    documentSigningStatus,
+    dict,
+  );
   const empty = dict.common.emptyDash;
 
   const colorModeLabel =
@@ -83,14 +99,25 @@ export function ProjectInboxCard({
           "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
       )}
     >
-      <span
-        className={cn(
-          "w-fit shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium",
-          getProjectStatusStyleClass(statusStyleKey, project.status),
-        )}
-      >
-        {statusLabel}
-      </span>
+      <div className="flex flex-wrap items-center gap-2">
+        <span
+          className={cn(
+            "w-fit shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium",
+            getProjectStatusStyleClass(statusStyleKey, project.status),
+          )}
+        >
+          {statusLabel}
+        </span>
+        <span
+          className={cn(
+            "inline-flex w-fit shrink-0 items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium",
+            getInboxDocumentSigningStyleClass(documentSigningStatus),
+          )}
+        >
+          <FileSignature className="size-3.5 shrink-0" aria-hidden />
+          {documentSigningLabel}
+        </span>
+      </div>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-5">
         {fields.map(({ key, label, value }) => (

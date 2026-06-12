@@ -16,6 +16,7 @@ import { ProjectAssetsGallery } from "@/components/project/project-assets-galler
 import { SketchTimeline } from "@/components/project/sketch-timeline";
 import { getSketchRecords } from "@/lib/project/sketch-records";
 import {
+  canAdvanceToNextSessionDelivery,
   getBookedSessionCount,
   getCurrentSessionIndex,
   getTotalSessions,
@@ -103,7 +104,8 @@ export function ProjectAssetsPanel({
     project.status !== "pending_brief" &&
     (project.status !== "quoting" || bookedCount > 0);
   const awaitingDelivery = isAwaitingSessionDelivery(project);
-  const canAdvanceToNextSession = awaitingDelivery;
+  const canAdvanceToNextSession = canAdvanceToNextSessionDelivery(project);
+  const isSingleSession = !isMultiSession(project);
   const canMarkCompleted =
     project.status === "booked" && !hasMoreSessionsToBook(project);
   const isSchedulingNextSession =
@@ -338,9 +340,11 @@ export function ProjectAssetsPanel({
         <CardTitle className="text-base">{a.deliveryTitle}</CardTitle>
         <CardDescription>
           {awaitingDelivery
-            ? formatMessage(a.sessionConfirmedUploadHint, {
-                index: currentSessionIndex,
-              })
+            ? isSingleSession
+              ? a.sessionConfirmedUploadHintSingle
+              : formatMessage(a.sessionConfirmedUploadHint, {
+                  index: currentSessionIndex,
+                })
             : isSchedulingNextSession
               ? canReuseSketches
                 ? formatMessage(a.sessionDeliveredReuseHint, {
@@ -526,7 +530,7 @@ export function ProjectAssetsPanel({
           <div className="rounded-lg border bg-muted/20 p-4">
             <p className="text-sm font-medium">{a.closeProjectTitle}</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              {a.closeProjectHint}
+              {isSingleSession ? a.closeProjectHintSingle : a.closeProjectHint}
             </p>
             <Button
               type="button"
