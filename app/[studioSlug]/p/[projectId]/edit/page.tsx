@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { buildClientLoginRedirectUrl } from "@/lib/auth/client-auth-url";
 import { ClientSessionBar } from "@/components/client/client-session-bar";
 import { IntakeForm } from "@/components/intake/intake-form";
 import { getAuthenticatedUser } from "@/lib/auth/session";
@@ -33,7 +34,10 @@ export default async function EditProjectIntakePage({
 
   if (!canClientAccessProject(project, user)) {
     redirect(
-      `/client/login?redirect=${encodeURIComponent(`/${studioSlug}/p/${projectId}/edit`)}`
+      buildClientLoginRedirectUrl(
+        studioSlug,
+        `/${studioSlug}/p/${projectId}/edit`
+      )
     );
   }
 

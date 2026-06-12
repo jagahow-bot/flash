@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
+import { buildClientLoginRedirectUrl } from "@/lib/auth/client-auth-url";
 import { getProjectById } from "@/lib/firestore/projects.server";
 import { getStudioBySlug } from "@/lib/firestore/studios.server";
 import { ClientSessionBar } from "@/components/client/client-session-bar";
@@ -52,7 +53,10 @@ export default async function ProjectPage({
 
   if (!canClientAccessProject(project, user)) {
     redirect(
-      `/client/login?redirect=${encodeURIComponent(`/${studioSlug}/p/${projectId}`)}`
+      buildClientLoginRedirectUrl(
+        studioSlug,
+        `/${studioSlug}/p/${projectId}`
+      )
     );
   }
 

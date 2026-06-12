@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import { buildClientLoginRedirectUrl } from "@/lib/auth/client-auth-url";
 import { ClientSessionBar } from "@/components/client/client-session-bar";
 import { BookingFlow } from "@/components/intake/booking-flow";
 import { StudioBrandHeader } from "@/components/studio/studio-brand-header";
@@ -26,9 +27,7 @@ export default async function BookPage({
   }
 
   if (!user || !canActAsClient(user)) {
-    redirect(
-      `/client/login?redirect=${encodeURIComponent(`/${studioSlug}/book`)}`
-    );
+    redirect(buildClientLoginRedirectUrl(studioSlug, `/${studioSlug}/book`));
   }
 
   return (

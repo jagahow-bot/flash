@@ -103,6 +103,8 @@ export interface AppDictionary {
     clientRegister: string;
     clientLogin: string;
     clientAuthDescription: string;
+    bookingLoginTitle: string;
+    bookingLoginDescription: string;
     continueWithGoogle: string;
     orUseEmail: string;
     clientNotRegistered: string;

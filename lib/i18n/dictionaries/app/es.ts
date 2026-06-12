@@ -112,6 +112,8 @@ const dictionary = {
     "clientRegister": "Crear cuenta de cliente",
     "clientLogin": "Acceso de cliente",
     "clientAuthDescription": "Debes iniciar sesión antes de enviar una solicitud para poder ver tus cotizaciones y el progreso de tu reserva más adelante",
+    "bookingLoginTitle": "Reservar con {studioName}",
+    "bookingLoginDescription": "Inicia sesión o regístrate en FLASH para comenzar tu reserva",
     "continueWithGoogle": "Continuar con Google",
     "orUseEmail": "O usar Email",
     "clientNotRegistered": "Esta cuenta no está registrada, por favor crea una cuenta de cliente primero",

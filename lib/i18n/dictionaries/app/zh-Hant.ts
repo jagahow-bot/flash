@@ -123,6 +123,8 @@ const dictionary: AppDictionary = {
     clientLogin: "客戶登入",
     clientAuthDescription:
       "送出預約需求前需登入，以便日後查看報價與預約進度",
+    bookingLoginTitle: "預約 {studioName}",
+    bookingLoginDescription: "登入或註冊 FLASH 帳號即可開始預約",
     continueWithGoogle: "使用 Google 繼續",
     orUseEmail: "或使用 Email",
     clientNotRegistered: "此帳號尚未註冊，請先建立客戶帳號",

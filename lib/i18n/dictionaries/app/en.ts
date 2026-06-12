@@ -113,6 +113,8 @@ const dictionary = {
     "clientRegister": "Create client account",
     "clientLogin": "Client log in",
     "clientAuthDescription": "Please log in before sending your request to track your quotes and booking progress later",
+    "bookingLoginTitle": "Book with {studioName}",
+    "bookingLoginDescription": "Log in or sign up for a FLASH account to start booking",
     "continueWithGoogle": "Continue with Google",
     "orUseEmail": "or use Email",
     "clientNotRegistered": "This Email is not registered yet. Please create a client account first",

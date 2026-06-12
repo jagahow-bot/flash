@@ -26,6 +26,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { StudioAuthContextCard } from "@/components/auth/studio-auth-context-card";
+import {
+  buildClientAuthPath,
+  type ClientAuthStudioContext,
+} from "@/lib/auth/client-auth-url";
 
 type ClientAuthMode = "login" | "register";
 
@@ -59,13 +64,20 @@ async function establishClientSession(idToken: string, redirectTo: string | null
   return registerData;
 }
 
-export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
+export function ClientAuthForm({
+  mode,
+  studioContext = null,
+}: {
+  mode: ClientAuthMode;
+  studioContext?: ClientAuthStudioContext | null;
+}) {
   const dict = useAppDictionary();
   const t = dict.auth;
   const c = dict.common;
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get("redirect");
+  const studioSlug = searchParams.get("studio") ?? studioContext?.slug ?? null;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -76,7 +88,14 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
   const isRegister = mode === "register";
 
   const studioRegisterHref = `/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
-  const clientRegisterHref = `/client/register${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`;
+  const clientRegisterHref = buildClientAuthPath("/client/register", {
+    redirect: redirectTo,
+    studioSlug,
+  });
+  const clientLoginHref = buildClientAuthPath("/client/login", {
+    redirect: redirectTo,
+    studioSlug,
+  });
 
   async function completeAuth(
     idToken: string,
@@ -210,11 +229,17 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>{isRegister ? t.clientRegister : t.clientLogin}</CardTitle>
-        <CardDescription>{t.clientAuthDescription}</CardDescription>
-      </CardHeader>
+    <div className="flex w-full max-w-md flex-col gap-4">
+      {studioContext ? (
+        <StudioAuthContextCard studio={studioContext} />
+      ) : null}
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>{isRegister ? t.clientRegister : t.clientLogin}</CardTitle>
+          <CardDescription>
+            {studioContext ? t.bookingLoginDescription : t.clientAuthDescription}
+          </CardDescription>
+        </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <Button
           type="button"
@@ -289,7 +314,7 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
             <>
               {t.hasAccount}{" "}
               <Link
-                href={`/client/login${redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : ""}`}
+                href={clientLoginHref}
                 className="text-foreground underline-offset-4 hover:underline"
               >
                 {t.clientLogin}
@@ -315,6 +340,7 @@ export function ClientAuthForm({ mode }: { mode: ClientAuthMode }) {
           )}
         </p>
       </CardContent>
-    </Card>
+      </Card>
+    </div>
   );
 }

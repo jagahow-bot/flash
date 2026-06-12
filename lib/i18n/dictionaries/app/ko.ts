@@ -112,6 +112,8 @@ const dictionary = {
     "clientRegister": "고객 계정 만들기",
     "clientLogin": "고객 로그인",
     "clientAuthDescription": "예약 요청을 보내기 전에 로그인하시면 향후 견적 및 예약 진행 상황을 확인하실 수 있습니다.",
+    "bookingLoginTitle": "{studioName} 예약",
+    "bookingLoginDescription": "FLASH 계정으로 로그인 또는 가입 후 예약을 시작하세요",
     "continueWithGoogle": "Google로 계속하기",
     "orUseEmail": "또는 Email 사용하기",
     "clientNotRegistered": "등록되지 않은 계정입니다. 먼저 고객 계정을 생성해 주세요.",
