@@ -231,6 +231,7 @@ const dictionary: LandingDictionary = {
     categories: {
       ipProtection: "版權保護",
       legalSafeguards: "法律防線",
+      globalMarketing: "國際行銷",
     },
   },
 };

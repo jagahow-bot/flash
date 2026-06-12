@@ -1,19 +1,25 @@
 /**
- * One-off generator: reads flash_blog_legal_posts.md and writes lib/content/blog-posts-data.ts
- * Usage: npx tsx scripts/parse-blog-posts.ts [path-to-md]
+ * Generates lib/content/blog-posts-data.ts from one or more markdown sources.
+ *
+ * Supports two formats:
+ * - Legal bundle: ## ARTICLE ID: … / ### >>> LANGUAGE: … / **Body Content:**
+ * - Direction3 bundle: ## >>> 語言：… <<< / **標題|**Title:** / **摘要|**Summary:**
+ *
+ * Usage:
+ *   npx tsx scripts/parse-blog-posts.ts
+ *   npx tsx scripts/parse-blog-posts.ts path/to/a.md path/to/b.md
+ *   npx tsx scripts/parse-blog-posts.ts content/blog
+ *
+ * Default (no args): content/blog/*.md + ~/Downloads/flash_blog_legal_posts.md
  */
-import { readFileSync, writeFileSync } from "node:fs";
-import { resolve } from "node:path";
-
-const mdPath =
-  process.argv[2] ??
-  resolve(
-    process.env.USERPROFILE ?? "",
-    "Downloads",
-    "flash_blog_legal_posts.md",
-  );
-
-const md = readFileSync(mdPath, "utf-8");
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
+import { basename, resolve } from "node:path";
 
 /** Strip cold-email launch promo (9/30 free) — not for public blog. */
 function sanitizeBlogContent(content: string): string {
@@ -87,25 +93,120 @@ type BlogPost = {
   locales: Record<string, PostLocaleContent>;
 };
 
-const posts: BlogPost[] = [];
+function resolveInputPaths(argv: string[]): string[] {
+  if (argv.length > 0) {
+    return argv.flatMap(expandPath);
+  }
 
-const articleBlocks = md.split(/## =+\n## ARTICLE ID: /).slice(1);
+  const paths: string[] = [];
+  const blogDir = resolve(process.cwd(), "content/blog");
+  if (existsSync(blogDir)) {
+    paths.push(...expandPath(blogDir));
+  }
 
-for (const block of articleBlocks) {
-  const idMatch = block.match(/^([^\n]+)/);
-  if (!idMatch) continue;
-  const slug = idMatch[1].trim();
-
-  const categoryMatch = block.match(
-    /## (?:DEFAULT )?CATEGORY: ([^\n]+)/,
+  const legalDefault = resolve(
+    process.env.USERPROFILE ?? "",
+    "Downloads",
+    "flash_blog_legal_posts.md",
   );
-  const category = categoryMatch?.[1]?.trim() ?? "Blog";
+  if (existsSync(legalDefault)) {
+    paths.push(legalDefault);
+  }
 
+  return paths;
+}
+
+function expandPath(inputPath: string): string[] {
+  const absolute = resolve(inputPath);
+  if (!existsSync(absolute)) {
+    console.warn(`Skipping missing path: ${absolute}`);
+    return [];
+  }
+
+  if (statSync(absolute).isDirectory()) {
+    return readdirSync(absolute)
+      .filter((name) => name.endsWith(".md"))
+      .map((name) => resolve(absolute, name))
+      .sort();
+  }
+
+  return [absolute];
+}
+
+function isDirection3Format(md: string): boolean {
+  return /## >>> (?:語言|语言)：/.test(md);
+}
+
+function readMetadata(
+  md: string,
+  filePath: string,
+): { slug: string; category: string } {
+  const slugFromMd = md.match(/^#\s*SLUG:\s*(.+)$/m)?.[1]?.trim();
+  const categoryFromMd = md.match(/^#\s*CATEGORY:\s*(.+)$/m)?.[1]?.trim();
+  const slugFromFile = basename(filePath, ".md");
+
+  return {
+    slug: slugFromMd ?? slugFromFile,
+    category: categoryFromMd ?? "Blog",
+  };
+}
+
+function parseLegalBundle(md: string): BlogPost[] {
+  const posts: BlogPost[] = [];
+  const articleBlocks = md.split(/## =+\n## ARTICLE ID: /).slice(1);
+
+  for (const block of articleBlocks) {
+    const idMatch = block.match(/^([^\n]+)/);
+    if (!idMatch) continue;
+    const slug = idMatch[1].trim();
+
+    const categoryMatch = block.match(/## (?:DEFAULT )?CATEGORY: ([^\n]+)/);
+    const category = categoryMatch?.[1]?.trim() ?? "Blog";
+
+    const locales: Record<string, PostLocaleContent> = {};
+
+    const langSections = block.split(/### >>> LANGUAGE: /).slice(1);
+    for (const section of langSections) {
+      const langMatch = section.match(/^([^\s]+) <<<\n/);
+      if (!langMatch) continue;
+      const rawLang = langMatch[1].trim();
+      const locale = localeMap[rawLang];
+      if (!locale) {
+        console.warn(`Unknown language tag: ${rawLang}`);
+        continue;
+      }
+
+      const titleMatch = section.match(/\*\*Title:\*\* (.+)/);
+      const summaryMatch = section.match(/\*\*Summary:\*\* (.+)/);
+      const bodyMatch = section.match(
+        /\*\*Body Content:\*\*\n\n([\s\S]*?)(?=\n---\s*\n\n(?:### >>> LANGUAGE:|## =+)|$)/,
+      );
+
+      if (!titleMatch || !summaryMatch || !bodyMatch) {
+        console.warn(`Missing fields for ${slug} / ${rawLang}`);
+        continue;
+      }
+
+      locales[locale] = {
+        title: titleMatch[1].trim(),
+        summary: summaryMatch[1].trim(),
+        content: sanitizeBlogContent(bodyMatch[1].trim()),
+      };
+    }
+
+    posts.push({ slug, category, locales });
+  }
+
+  return posts;
+}
+
+function parseDirection3Bundle(md: string, filePath: string): BlogPost[] {
+  const { slug, category } = readMetadata(md, filePath);
   const locales: Record<string, PostLocaleContent> = {};
 
-  const langSections = block.split(/### >>> LANGUAGE: /).slice(1);
+  const langSections = md.split(/## >>> (?:語言|语言)：/).slice(1);
   for (const section of langSections) {
-    const langMatch = section.match(/^([^\s]+) <<<\n/);
+    const langMatch = section.match(/^(\S+)/);
     if (!langMatch) continue;
     const rawLang = langMatch[1].trim();
     const locale = localeMap[rawLang];
@@ -114,13 +215,19 @@ for (const block of articleBlocks) {
       continue;
     }
 
-    const titleMatch = section.match(/\*\*Title:\*\* (.+)/);
-    const summaryMatch = section.match(/\*\*Summary:\*\* (.+)/);
-    const bodyMatch = section.match(
-      /\*\*Body Content:\*\*\n\n([\s\S]*?)(?=\n---\s*\n\n(?:### >>> LANGUAGE:|## =+)|$)/,
+    const titleMatch = section.match(/\*\*(?:標題|Title)[：:]\*\* (.+)/);
+    const summaryMatch = section.match(/\*\*(?:摘要|Summary)[：:]\*\* (.+)/);
+    const headerEnd = section.match(
+      /\*\*(?:標題|Title)[：:]\*\* .+\n\*\*(?:摘要|Summary)[：:]\*\* .+\n+/,
     );
+    const body = headerEnd
+      ? section
+          .slice(headerEnd.index! + headerEnd[0].length)
+          .replace(/\n---\s*$/, "")
+          .trim()
+      : "";
 
-    if (!titleMatch || !summaryMatch || !bodyMatch) {
+    if (!titleMatch || !summaryMatch || !body) {
       console.warn(`Missing fields for ${slug} / ${rawLang}`);
       continue;
     }
@@ -128,11 +235,45 @@ for (const block of articleBlocks) {
     locales[locale] = {
       title: titleMatch[1].trim(),
       summary: summaryMatch[1].trim(),
-      content: sanitizeBlogContent(bodyMatch[1].trim()),
+      content: sanitizeBlogContent(body),
     };
   }
 
-  posts.push({ slug, category, locales });
+  return [{ slug, category, locales }];
+}
+
+function parseMarkdownFile(filePath: string): BlogPost[] {
+  const md = readFileSync(filePath, "utf-8");
+  if (isDirection3Format(md)) {
+    return parseDirection3Bundle(md, filePath);
+  }
+  return parseLegalBundle(md);
+}
+
+const inputPaths = resolveInputPaths(process.argv.slice(2));
+if (inputPaths.length === 0) {
+  console.error(
+    "No input markdown files found. Pass paths or add content/blog/*.md",
+  );
+  process.exit(1);
+}
+
+const posts: BlogPost[] = [];
+const seenSlugs = new Set<string>();
+
+for (const filePath of inputPaths) {
+  const parsed = parseMarkdownFile(filePath);
+  for (const post of parsed) {
+    if (seenSlugs.has(post.slug)) {
+      console.warn(`Duplicate slug skipped: ${post.slug} (${filePath})`);
+      continue;
+    }
+    seenSlugs.add(post.slug);
+    posts.push(post);
+    console.log(
+      `Parsed ${post.slug} (${Object.keys(post.locales).length} locales) from ${filePath}`,
+    );
+  }
 }
 
 const outPath = resolve(process.cwd(), "lib/content/blog-posts-data.ts");

@@ -19,11 +19,13 @@ const posts = blogPostsData as unknown as BlogPostRecord[];
 const categoryKeys: Record<string, keyof BlogCategoryLabels> = {
   "IP Protection": "ipProtection",
   "Legal Safeguards": "legalSafeguards",
+  "Global Marketing": "globalMarketing",
 };
 
 export type BlogCategoryLabels = {
   ipProtection: string;
   legalSafeguards: string;
+  globalMarketing: string;
 };
 
 export function getBlogCategoryKey(

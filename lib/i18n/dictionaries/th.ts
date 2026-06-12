@@ -235,6 +235,7 @@ const dictionary: LandingDictionary = {
     categories: {
       ipProtection: "การปกป้องลิขสิทธิ์",
       legalSafeguards: "แนวป้องกันทางกฎหมาย",
+      globalMarketing: "การตลาดระดับสากล",
     },
   },
 };

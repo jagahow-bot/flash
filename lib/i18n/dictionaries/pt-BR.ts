@@ -235,6 +235,7 @@ const dictionary: LandingDictionary = {
     categories: {
       ipProtection: "Proteção de IP",
       legalSafeguards: "Salvaguardas legais",
+      globalMarketing: "Marketing global",
     },
   },
 };

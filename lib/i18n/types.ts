@@ -123,6 +123,7 @@ export interface LandingDictionary {
     categories: {
       ipProtection: string;
       legalSafeguards: string;
+      globalMarketing: string;
     };
   };
 }
