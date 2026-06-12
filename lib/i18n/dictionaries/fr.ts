@@ -70,10 +70,10 @@ const dictionary: LandingDictionary = {
           "Qui a payé, combien — tout est enregistré.\nPas besoin de remonter l'historique de chat pour rapprocher.",
       },
       {
-        title: "Pièces en plusieurs séances, sans confusion",
-        schemaName: "Rendez-vous multi-séances",
+        title: "Sur mesure vs tatouage flash",
+        schemaName: "Réservation sur mesure et flash",
         description:
-          "Quelle séance, quand la prochaine —\nvous et votre client voyez clair.",
+          "Que ce soit une consultation sur mesure ou le choix d'un tatouage flash,\nvous et votre client préparez facilement la prochaine séance.",
       },
     ],
   },
@@ -167,6 +167,11 @@ const dictionary: LandingDictionary = {
         question: "Peut-on accepter des cover-ups ?",
         answer:
           "Oui. Le client peut signaler un cover-up et les cas à risque sont mis en évidence.\nVous pouvez aussi dire à l'avance si vous les acceptez — moins de discussions inutiles.",
+      },
+      {
+        question: "Les studios peuvent-ils proposer des tatouages flash ?",
+        answer:
+          "Oui. Téléversez des tatouages flash dans les paramètres du tableau de bord — prix uniforme ou prix par design, et les tailles que le client peut choisir.\nSur la page de réservation, le client peut parcourir votre catalogue flash ou lancer une demande de tatouage sur mesure.",
       },
       {
         question: "Faut-il installer une application ?",

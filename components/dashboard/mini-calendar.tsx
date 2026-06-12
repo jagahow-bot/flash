@@ -183,10 +183,10 @@ export function MiniCalendar({
                   !isSelected &&
                   "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-200",
                 isSelected &&
-                  "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-1 hover:bg-primary",
+                  "bg-sky-100 text-sky-900 ring-2 ring-sky-300 ring-offset-1 hover:bg-sky-100 dark:bg-sky-500/25 dark:text-sky-50 dark:ring-sky-500/50",
                 isToday &&
                   !isSelected &&
-                  "font-bold text-primary ring-1 ring-inset ring-primary/50"
+                  "font-bold text-sky-700 ring-1 ring-inset ring-sky-300/80 dark:text-sky-300 dark:ring-sky-600/60"
               )}
             >
               {cell.date.getDate()}
@@ -197,7 +197,7 @@ export function MiniCalendar({
                 />
               )}
               {hasSchedule && !isSelected && totalCount > 1 && (
-                <span className="absolute -right-0.5 -top-0.5 flex size-3.5 items-center justify-center rounded-full bg-primary text-[8px] font-bold text-primary-foreground">
+                <span className="absolute -right-0.5 -top-0.5 flex size-3.5 items-center justify-center rounded-full bg-sky-500 text-[8px] font-bold text-white">
                   {totalCount}
                 </span>
               )}
@@ -214,7 +214,7 @@ export function MiniCalendar({
               {hasSchedule && !isSelected && dayCounts.active > 0 && (
                 <span
                   className={cn(
-                    "absolute bottom-0.5 size-1 rounded-full bg-primary",
+                    "absolute bottom-0.5 size-1 rounded-full bg-sky-500",
                     dayCounts.held > 0 && "left-[calc(50%)]",
                     dayCounts.completed > 0 &&
                       !dayCounts.held &&
@@ -250,7 +250,7 @@ export function MiniCalendar({
           {s.legendHeldDeposit}
         </p>
         <p className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
-          <span className="inline-block size-1.5 rounded-full bg-primary" />
+          <span className="inline-block size-1.5 rounded-full bg-sky-500" />
           {s.legendActive}
         </p>
         <p className="flex items-center gap-1.5 text-[10px] text-muted-foreground">

@@ -70,10 +70,10 @@ const dictionary: LandingDictionary = {
           "Quién pagó, cuánto — todo queda registrado.\nSin revisar el historial de chat para conciliar.",
       },
       {
-        title: "Piezas de varias sesiones, sin líos",
-        schemaName: "Reservas multi-sesión",
+        title: "Personalizado vs diseño flash",
+        schemaName: "Reserva personalizada y flash",
         description:
-          "Qué sesión es, cuándo es la siguiente —\ntú y tu cliente lo ven claro.",
+          "Ya sea una consulta personalizada o elegir un diseño flash,\ntú y tu cliente podéis prepararos fácilmente para la próxima sesión de tatuaje.",
       },
     ],
   },
@@ -167,6 +167,11 @@ const dictionary: LandingDictionary = {
         question: "¿Se pueden aceptar cover-ups?",
         answer:
           "Sí. El cliente puede marcar cover-up y los casos con riesgo se señalan.\nTambién puedes decir de antemano si los aceptas — evitas charlas inútiles.",
+      },
+      {
+        question: "¿Pueden los estudios ofrecer diseños flash?",
+        answer:
+          "Sí. Sube diseños flash en la configuración del panel — precio uniforme o precio por diseño, y los tamaños que el cliente puede elegir.\nEn la página de reserva, el cliente puede explorar tu catálogo flash o pedir un tatuaje personalizado.",
       },
       {
         question: "¿Hay que instalar una app?",

@@ -172,9 +172,12 @@ export function SessionSlotCalendar({
                       !isActive &&
                       "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-200",
                     summary.isPast && "text-muted-foreground/40",
-                    summary.canOpen && "hover:bg-primary/10",
-                    isActive && "bg-primary text-primary-foreground hover:bg-primary",
-                    isToday && !isActive && "font-bold text-primary",
+                    summary.canOpen && "hover:bg-sky-50 dark:hover:bg-sky-500/10",
+                    isActive &&
+                      "bg-sky-100 text-sky-900 ring-2 ring-sky-300 ring-offset-1 hover:bg-sky-100 dark:bg-sky-500/25 dark:text-sky-50 dark:ring-sky-500/50",
+                    isToday &&
+                      !isActive &&
+                      "font-bold text-sky-700 dark:text-sky-300",
                     isClientPreferredDay &&
                       !isActive &&
                       "ring-1 ring-inset ring-amber-400/70"
@@ -191,7 +194,7 @@ export function SessionSlotCalendar({
                     />
                   )}
                   {summary.selectedCount > 0 && !isActive && (
-                    <span className="absolute bottom-0.5 size-1 rounded-full bg-primary" />
+                    <span className="absolute bottom-0.5 size-1 rounded-full bg-sky-500" />
                   )}
                 </button>
               );

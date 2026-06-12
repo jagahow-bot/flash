@@ -356,6 +356,7 @@ const dictionary = {
     "studio": "스튜디오",
     "progress": "진행 상황",
     "nextAppointment": "다음 예약",
+    "tattooRequirement": "타투 요청",
     "intakeTitle": "제출한 요청서 내용",
     "portalLink": "고객 예약 페이지 링크",
     "copyLink": "링크 복사"

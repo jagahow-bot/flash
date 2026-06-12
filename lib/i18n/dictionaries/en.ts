@@ -70,10 +70,10 @@ const dictionary: LandingDictionary = {
           "Who paid, how much — all recorded.\nNo scrolling chat history to reconcile.",
       },
       {
-        title: "Multi-session pieces, still clear",
-        schemaName: "Multi-session booking",
+        title: "Custom vs Flash",
+        schemaName: "Custom and flash booking",
         description:
-          "Which visit, when's next —\nyou and your client both see it.",
+          "Whether it's a custom consultation or picking a flash design,\nyou and your client can easily prep for the next tattoo session.",
       },
     ],
   },
@@ -174,6 +174,11 @@ const dictionary: LandingDictionary = {
         question: "Can you take cover-up projects?",
         answer:
           "Yes. Clients can flag cover-ups and risky ones get highlighted.\nYou can also say upfront whether you take them — saves wasted chats.",
+      },
+      {
+        question: "Can studios offer flash designs?",
+        answer:
+          "Yes. Upload flash designs in your dashboard settings — set a uniform price or price each design separately, and define the sizes clients can choose.\nOn your booking page, clients can browse your flash catalog or start a custom tattoo request instead.",
       },
       {
         question: "Do clients need to download an app?",

@@ -137,9 +137,14 @@ export function ClientProjectCard({
       </div>
 
       {description ? (
-        <p className="line-clamp-2 text-sm leading-snug text-foreground/90">
-          {description}
-        </p>
+        <div className="min-w-0">
+          <p className="text-xs text-muted-foreground">
+            {dict.clientPortal.tattooRequirement}
+          </p>
+          <p className="line-clamp-2 break-words text-sm font-medium leading-snug">
+            {description}
+          </p>
+        </div>
       ) : null}
 
       <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">

@@ -356,6 +356,7 @@ const dictionary = {
     "studio": "Estudio",
     "progress": "Progreso",
     "nextAppointment": "Siguiente cita",
+    "tattooRequirement": "Solicitud de tatuaje",
     "intakeTitle": "Detalles de tu solicitud",
     "portalLink": "Enlace de reserva del cliente",
     "copyLink": "Copiar enlace"

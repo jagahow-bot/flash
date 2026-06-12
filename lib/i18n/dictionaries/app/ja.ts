@@ -372,6 +372,7 @@ const dictionary = {
     "studio": "スタジオ",
     "progress": "進捗",
     "nextAppointment": "次回の予約",
+    "tattooRequirement": "タトゥーのご要望",
     "intakeTitle": "ご要望内容",
     "portalLink": "お客様専用ページのリンク",
     "copyLink": "リンクをコピー"

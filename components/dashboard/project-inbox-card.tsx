@@ -83,16 +83,14 @@ export function ProjectInboxCard({
           "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
       )}
     >
-      <div className="flex items-start justify-end">
-        <span
-          className={cn(
-            "shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium",
-            getProjectStatusStyleClass(statusStyleKey, project.status),
-          )}
-        >
-          {statusLabel}
-        </span>
-      </div>
+      <span
+        className={cn(
+          "w-fit shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium",
+          getProjectStatusStyleClass(statusStyleKey, project.status),
+        )}
+      >
+        {statusLabel}
+      </span>
 
       <div className="grid grid-cols-2 gap-x-4 gap-y-2.5 sm:grid-cols-3 lg:grid-cols-5">
         {fields.map(({ key, label, value }) => (

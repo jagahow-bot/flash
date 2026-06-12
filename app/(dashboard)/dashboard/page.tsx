@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { BookingPageLink } from "@/components/dashboard/booking-page-link";
 import { DashboardWorkspace } from "@/components/dashboard/dashboard-workspace";
 import { filterProjectsForStudioUser } from "@/lib/artists/access";
 import { getAuthenticatedUser } from "@/lib/auth/session";
@@ -8,6 +9,7 @@ import { getProjectsByStudioId } from "@/lib/firestore/projects.server";
 import { getStudioById } from "@/lib/firestore/studios.server";
 import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
 import { getRequestLocale } from "@/lib/i18n/resolve-locale";
+import { getSiteUrl } from "@/lib/i18n/site-url";
 
 export default async function DashboardPage() {
   const user = await getAuthenticatedUser();
@@ -34,15 +36,11 @@ export default async function DashboardPage() {
         </h1>
         <p className="text-muted-foreground">{dict.dashboard.subtitle}</p>
         {studio?.slug ? (
-          <p className="text-muted-foreground">
-            {dict.dashboard.bookingPageLink}:{" "}
-            <a
-              href={`/${studio.slug}/book`}
-              className="font-semibold text-primary underline underline-offset-4"
-            >
-              /{studio.slug}/book
-            </a>
-          </p>
+          <BookingPageLink
+            studioSlug={studio.slug}
+            siteUrl={getSiteUrl()}
+            label={dict.dashboard.bookingPageLink}
+          />
         ) : null}
       </div>
 

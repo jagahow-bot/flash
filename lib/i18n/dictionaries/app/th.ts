@@ -356,6 +356,7 @@ const dictionary = {
     "studio": "สตูดิโอ",
     "progress": "ความคืบหน้า",
     "nextAppointment": "นัดหมายครั้งถัดไป",
+    "tattooRequirement": "ความต้องการรอยสัก",
     "intakeTitle": "รายละเอียดความต้องการของคุณ",
     "portalLink": "ลิงก์หน้าการจองของลูกค้า",
     "copyLink": "คัดลอกลิงก์"

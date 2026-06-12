@@ -70,10 +70,10 @@ const dictionary: LandingDictionary = {
           "Wer gezahlt hat, wie viel — alles dokumentiert.\nKein Chat-Verlauf zum Abgleichen.",
       },
       {
-        title: "Mehrtermin-Stücke, trotzdem klar",
-        schemaName: "Mehrtermin-Buchungen",
+        title: "Individuell vs Flash-Design",
+        schemaName: "Individuelle und Flash-Buchung",
         description:
-          "Welche Sitzung, wann die nächste —\ndu und dein Kunde sehen es deutlich.",
+          "Ob individuelle Beratung oder Auswahl eines Flash-Designs —\nSie und Ihr Kunde bereiten sich einfach auf die nächste Tattoo-Sitzung vor.",
       },
     ],
   },
@@ -167,6 +167,11 @@ const dictionary: LandingDictionary = {
         question: "Sind Cover-up-Projekte möglich?",
         answer:
           "Ja. Kunden können Cover-up markieren, riskante Fälle werden hervorgehoben.\nDu kannst auch vorab sagen, ob du sie annimmst — spart unnötige Gespräche.",
+      },
+      {
+        question: "Können Studios Flash-Designs anbieten?",
+        answer:
+          "Ja. Lade Flash-Designs in den Dashboard-Einstellungen hoch — einheitlicher Preis oder Preis pro Design, plus die Größen, die Kunden wählen dürfen.\nAuf der Buchungsseite können Kunden deinen Flash-Katalog durchstöbern oder stattdessen ein individuelles Tattoo anfragen.",
       },
       {
         question: "Muss man eine App installieren?",

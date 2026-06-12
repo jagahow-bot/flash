@@ -10,7 +10,6 @@ import {
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { LandingStructuredData } from "@/components/marketing/landing-structured-data";
-import { LanguageSwitcher } from "@/components/marketing/language-switcher";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -50,16 +49,13 @@ export function LandingPage({
             />
             <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-6 flex items-center gap-3">
-                  <p className="inline-flex items-center gap-1.5 rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground">
-                    <Sparkles
-                      className="size-3.5"
-                      aria-hidden="true"
-                    />
-                    {dict.hero.eyebrow}
-                  </p>
-                  <LanguageSwitcher dict={dict} className="hidden sm:inline-flex" />
-                </div>
+                <p className="mb-6 inline-flex items-center gap-1.5 rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground">
+                  <Sparkles
+                    className="size-3.5"
+                    aria-hidden="true"
+                  />
+                  {dict.hero.eyebrow}
+                </p>
 
                 <h1
                   id="hero-heading"
@@ -346,11 +342,14 @@ function FlowColumn({
   accent: "primary" | "muted";
 }) {
   return (
-    <div>
+    <div className="text-center lg:text-left">
       <h3 className="text-lg font-semibold">{title}</h3>
       <ol className="mt-6 space-y-6">
         {steps.map((step, index) => (
-          <li key={step.title} className="flex gap-4">
+          <li
+            key={step.title}
+            className="flex flex-col items-center gap-3 lg:flex-row lg:items-start lg:gap-4"
+          >
             <span
               className={cn(
                 "flex size-8 shrink-0 items-center justify-center rounded-full text-sm font-medium",
@@ -362,7 +361,7 @@ function FlowColumn({
             >
               {index + 1}
             </span>
-            <div>
+            <div className="max-w-sm lg:max-w-none">
               <p className="font-medium">{step.title}</p>
               <p className="mt-1 whitespace-pre-line text-sm text-muted-foreground">
                 {step.description}

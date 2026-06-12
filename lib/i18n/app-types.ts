@@ -316,6 +316,7 @@ export interface AppDictionary {
     studio: string;
     progress: string;
     nextAppointment: string;
+    tattooRequirement: string;
     intakeTitle: string;
     portalLink: string;
     copyLink: string;

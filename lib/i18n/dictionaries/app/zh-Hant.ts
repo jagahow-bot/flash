@@ -391,6 +391,7 @@ const dictionary: AppDictionary = {
     studio: "工作室",
     progress: "進度",
     nextAppointment: "下次預約",
+    tattooRequirement: "刺青需求",
     intakeTitle: "您的需求內容",
     portalLink: "客戶預約頁連結",
     copyLink: "複製連結",
