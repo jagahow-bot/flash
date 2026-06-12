@@ -624,7 +624,19 @@ const dictionary = {
     "submittingSignature": "送信中...",
     "tapToZoom": "タップで拡大",
     "zoomIn": "拡大",
-    "zoomOut": "縮小"
+    "zoomOut": "縮小",
+    "signerInfoTitle": "署名者情報",
+    "signerNameLabel": "氏名",
+    "signerBirthdayLabel": "生年月日",
+    "signerPhoneLabel": "電話番号",
+    "signerEmailLabel": "メールアドレス",
+    "signerValidation": {
+      "nameRequired": "氏名を入力してください",
+      "birthdayRequired": "生年月日を入力してください",
+      "phoneRequired": "電話番号を入力してください",
+      "emailRequired": "メールアドレスを入力してください",
+      "emailInvalid": "有効なメールアドレスを入力してください"
+    }
   },
   "billing": {
     "title": "請求・利用状況",

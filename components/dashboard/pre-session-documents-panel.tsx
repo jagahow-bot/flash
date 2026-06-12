@@ -224,6 +224,39 @@ export function PreSessionDocumentsPanel({
                   </span>
                 </div>
 
+                {record.signerInfo ? (
+                  <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+                    <div>
+                      <dt className="text-muted-foreground">
+                        {ps.signerNameLabel}
+                      </dt>
+                      <dd className="font-medium">{record.signerInfo.name}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted-foreground">
+                        {ps.signerBirthdayLabel}
+                      </dt>
+                      <dd className="font-medium">
+                        {record.signerInfo.birthday}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted-foreground">
+                        {ps.signerPhoneLabel}
+                      </dt>
+                      <dd className="font-medium">{record.signerInfo.phone}</dd>
+                    </div>
+                    <div>
+                      <dt className="text-muted-foreground">
+                        {ps.signerEmailLabel}
+                      </dt>
+                      <dd className="font-medium break-all">
+                        {record.signerInfo.email}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : null}
+
                 {record.fileUrl ? (
                   <div className="mt-3 max-w-sm">
                     <ZoomableDocumentPreview

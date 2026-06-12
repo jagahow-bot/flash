@@ -605,7 +605,19 @@ const dictionary = {
     "submittingSignature": "Envoi...",
     "tapToZoom": "Appuyer pour agrandir",
     "zoomIn": "Zoom avant",
-    "zoomOut": "Zoom arrière"
+    "zoomOut": "Zoom arrière",
+    "signerInfoTitle": "Informations du signataire",
+    "signerNameLabel": "Nom complet",
+    "signerBirthdayLabel": "Date de naissance",
+    "signerPhoneLabel": "Téléphone",
+    "signerEmailLabel": "E-mail",
+    "signerValidation": {
+      "nameRequired": "Veuillez saisir votre nom complet",
+      "birthdayRequired": "Veuillez saisir votre date de naissance",
+      "phoneRequired": "Veuillez saisir votre numéro de téléphone",
+      "emailRequired": "Veuillez saisir votre e-mail",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide"
+    }
   },
   "billing": {
     "title": "Facturation",

@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "Pre-session document archived",
     body: '{studioName} uploaded and archived your "{documentTitle}" (booking {projectId}). View it on your booking page.',
   },
+  studioWelcome: {
+    title: "Welcome to FLASH",
+    body: "Hi {studioName},\n\nYour studio is set up and ready to go. FLASH helps you turn client requests into structured briefs, manage quotes, and keep every booking on track.",
+    nextStepsTitle: "Suggested next steps",
+    nextSteps:
+      "• Invite artists to your team\n• Add flash designs to your storefront\n• Share your booking page link with clients\n• Review your studio settings and payment info",
+    dashboardButton: "Open dashboard",
+    bookingPageButton: "View booking page",
+  },
   countHint: " ({count} files)",
 };
 

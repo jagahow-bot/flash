@@ -624,7 +624,19 @@ const dictionary = {
     "submittingSignature": "Submitting...",
     "tapToZoom": "Tap to enlarge",
     "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out"
+    "zoomOut": "Zoom out",
+    "signerInfoTitle": "Signer information",
+    "signerNameLabel": "Full name",
+    "signerBirthdayLabel": "Date of birth",
+    "signerPhoneLabel": "Phone",
+    "signerEmailLabel": "Email",
+    "signerValidation": {
+      "nameRequired": "Please enter your full name",
+      "birthdayRequired": "Please enter your date of birth",
+      "phoneRequired": "Please enter your phone number",
+      "emailRequired": "Please enter your email",
+      "emailInvalid": "Please enter a valid email address"
+    }
   },
   "billing": {
     "title": "Billing",

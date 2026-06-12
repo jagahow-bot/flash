@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "시술 전 서류가 보관되었습니다",
     body: '{studioName}이(가) "{documentTitle}"(예약 {projectId})을(를) 업로드하고 보관했습니다. 예약 페이지에서 확인하세요.',
   },
+  studioWelcome: {
+    title: "FLASH에 오신 것을 환영합니다",
+    body: "안녕하세요, {studioName}님.\n\n스튜디오 설정이 완료되었습니다. FLASH는 고객 요청을 구조화된 브리프로 정리하고, 견적 관리와 예약 추적을 돕습니다.",
+    nextStepsTitle: "권장 다음 단계",
+    nextSteps:
+      "• 아티스트를 팀에 초대하기\n• 플래시 디자인을 스토어프론트에 추가하기\n• 예약 페이지 링크를 고객과 공유하기\n• 스튜디오 설정 및 결제 정보 확인하기",
+    dashboardButton: "대시보드 열기",
+    bookingPageButton: "예약 페이지 보기",
+  },
   countHint: " ({count}장)",
 };
 

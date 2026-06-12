@@ -1,16 +1,24 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import type SignaturePad from "signature_pad";
 import { SignatureCanvas } from "@/components/project/signature-canvas";
 import { ZoomableDocumentPreview } from "@/components/project/zoomable-document-preview";
+import { useAppDictionary } from "@/components/providers/locale-provider";
+import { getDefaultSignerInfo } from "@/lib/pre-session-documents/signer-info";
 import {
   getPreSessionRecords,
   getTemplateByDocumentId,
   hasClientPendingPreSessionDocuments,
 } from "@/lib/pre-session-documents/records";
 import { dataUrlToFile } from "@/lib/storage/upload-pre-session-signed-doc";
+import {
+  createPreSessionSignerInfoSchemaFromDict,
+  type PreSessionSignerInfoValues,
+} from "@/lib/validations/pre-session-signer";
 import type { PreSessionDocumentRecord } from "@/types/pre-session-document";
 import type { Project } from "@/types/project";
 import type { Studio } from "@/types/studio";
@@ -23,8 +31,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useAppDictionary } from "@/components/providers/locale-provider";
 
 function DocumentCard({
   record,
@@ -82,14 +90,18 @@ function DocumentCard({
   );
 }
 
-export function ClientPreSessionSignPanel({
+function OnlineDocumentSigningForm({
+  documentId,
   project,
-  studio,
   studioSlug,
+  clientEmail,
+  onCancel,
 }: {
+  documentId: string;
   project: Project;
-  studio: Studio;
   studioSlug: string;
+  clientEmail?: string;
+  onCancel: () => void;
 }) {
   const dict = useAppDictionary();
   const ps = dict.preSession;
@@ -97,31 +109,32 @@ export function ClientPreSessionSignPanel({
   const c = dict.common;
   const router = useRouter();
   const signaturePadRef = useRef<SignaturePad | null>(null);
-  const [activeDocumentId, setActiveDocumentId] = useState<string | null>(null);
   const [agreed, setAgreed] = useState(false);
   const [signatureEmpty, setSignatureEmpty] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const records = useMemo(
-    () => getPreSessionRecords(project, studio),
-    [project, studio]
+  const schema = useMemo(
+    () => createPreSessionSignerInfoSchemaFromDict(dict),
+    [dict]
   );
 
-  const pendingOnline = records.filter(
-    (record) =>
-      record.signatureMode === "online_advance" && record.status === "pending"
-  );
-  const pendingInPerson = records.filter(
-    (record) =>
-      record.signatureMode === "in_person" && record.status === "pending"
+  const defaultSignerInfo = useMemo(
+    () => getDefaultSignerInfo(project, clientEmail),
+    [project, clientEmail]
   );
 
-  if (!hasClientPendingPreSessionDocuments(project, studio)) {
-    return null;
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<PreSessionSignerInfoValues>({
+    resolver: zodResolver(schema),
+    defaultValues: defaultSignerInfo,
+    mode: "onChange",
+  });
 
-  async function handleSubmit(documentId: string) {
+  async function submitSignature(values: PreSessionSignerInfoValues) {
     const pad = signaturePadRef.current;
     if (!pad || pad.isEmpty()) {
       setError(sig.signFirst);
@@ -144,6 +157,7 @@ export function ClientPreSessionSignPanel({
       formData.append("studioSlug", studioSlug);
       formData.append("documentId", documentId);
       formData.append("clientSignatureDataUrl", dataUrl);
+      formData.append("signerInfo", JSON.stringify(values));
 
       const response = await fetch(
         `/api/projects/${project.projectId}/pre-session-documents/sign`,
@@ -160,16 +174,162 @@ export function ClientPreSessionSignPanel({
         return;
       }
 
-      setActiveDocumentId(null);
-      setAgreed(false);
-      setSignatureEmpty(true);
-      pad.clear();
+      onCancel();
       router.refresh();
     } catch {
       setError(sig.signFailed);
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  return (
+    <div className="mt-4 flex flex-col gap-4 border-t border-border pt-4">
+      <div className="flex flex-col gap-3">
+        <p className="text-sm font-medium">{ps.signerInfoTitle}</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="flex flex-col gap-2 sm:col-span-2">
+            <Label htmlFor={`signer-name-${documentId}`}>
+              {ps.signerNameLabel}
+            </Label>
+            <Input
+              id={`signer-name-${documentId}`}
+              autoComplete="name"
+              {...register("name")}
+            />
+            {errors.name ? (
+              <p className="text-sm text-destructive" role="alert">
+                {errors.name.message}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor={`signer-birthday-${documentId}`}>
+              {ps.signerBirthdayLabel}
+            </Label>
+            <Input
+              id={`signer-birthday-${documentId}`}
+              type="date"
+              {...register("birthday")}
+            />
+            {errors.birthday ? (
+              <p className="text-sm text-destructive" role="alert">
+                {errors.birthday.message}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label htmlFor={`signer-phone-${documentId}`}>
+              {ps.signerPhoneLabel}
+            </Label>
+            <Input
+              id={`signer-phone-${documentId}`}
+              type="tel"
+              autoComplete="tel"
+              {...register("phone")}
+            />
+            {errors.phone ? (
+              <p className="text-sm text-destructive" role="alert">
+                {errors.phone.message}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex flex-col gap-2 sm:col-span-2">
+            <Label htmlFor={`signer-email-${documentId}`}>
+              {ps.signerEmailLabel}
+            </Label>
+            <Input
+              id={`signer-email-${documentId}`}
+              type="email"
+              autoComplete="email"
+              inputMode="email"
+              {...register("email")}
+            />
+            {errors.email ? (
+              <p className="text-sm text-destructive" role="alert">
+                {errors.email.message}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      <label className="flex items-start gap-2 text-sm">
+        <Checkbox
+          checked={agreed}
+          onCheckedChange={(checked) => setAgreed(checked === true)}
+        />
+        <span>{ps.consentCheckbox}</span>
+      </label>
+
+      <div className="flex flex-col gap-2">
+        <Label>{ps.signHereLabel}</Label>
+        <SignatureCanvas
+          padRef={signaturePadRef}
+          onChange={setSignatureEmpty}
+        />
+      </div>
+
+      {error ? (
+        <p className="text-sm text-destructive" role="alert">
+          {error}
+        </p>
+      ) : null}
+
+      <div className="flex flex-wrap gap-2">
+        <Button
+          type="button"
+          disabled={isSubmitting || signatureEmpty || !agreed || !isValid}
+          onClick={() => {
+            void handleSubmit(submitSignature)();
+          }}
+        >
+          {isSubmitting ? ps.submittingSignature : ps.submitSignature}
+        </Button>
+        <Button type="button" variant="ghost" onClick={onCancel}>
+          {c.cancel}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export function ClientPreSessionSignPanel({
+  project,
+  studio,
+  studioSlug,
+  clientEmail,
+}: {
+  project: Project;
+  studio: Studio;
+  studioSlug: string;
+  clientEmail?: string;
+}) {
+  const dict = useAppDictionary();
+  const ps = dict.preSession;
+  const c = dict.common;
+  const [activeDocumentId, setActiveDocumentId] = useState<string | null>(null);
+  const [signingSessionKey, setSigningSessionKey] = useState(0);
+
+  const records = useMemo(
+    () => getPreSessionRecords(project, studio),
+    [project, studio]
+  );
+
+  const pendingOnline = records.filter(
+    (record) =>
+      record.signatureMode === "online_advance" && record.status === "pending"
+  );
+  const pendingInPerson = records.filter(
+    (record) =>
+      record.signatureMode === "in_person" && record.status === "pending"
+  );
+
+  if (!hasClientPendingPreSessionDocuments(project, studio)) {
+    return null;
   }
 
   return (
@@ -216,54 +376,21 @@ export function ClientPreSessionSignPanel({
                   variant="outline"
                   size="sm"
                   onClick={() => {
+                    setSigningSessionKey((key) => key + 1);
                     setActiveDocumentId(record.documentId);
-                    setAgreed(false);
-                    setError(null);
                   }}
                 >
                   {ps.startSigning}
                 </Button>
               ) : (
-                <div className="mt-4 flex flex-col gap-4 border-t border-border pt-4">
-                  <label className="flex items-start gap-2 text-sm">
-                    <Checkbox
-                      checked={agreed}
-                      onCheckedChange={(checked) => setAgreed(checked === true)}
-                    />
-                    <span>{ps.consentCheckbox}</span>
-                  </label>
-
-                  <div className="flex flex-col gap-2">
-                    <Label>{ps.signHereLabel}</Label>
-                    <SignatureCanvas
-                      padRef={signaturePadRef}
-                      onChange={setSignatureEmpty}
-                    />
-                  </div>
-
-                  {error ? (
-                    <p className="text-sm text-destructive" role="alert">
-                      {error}
-                    </p>
-                  ) : null}
-
-                  <div className="flex flex-wrap gap-2">
-                    <Button
-                      type="button"
-                      disabled={isSubmitting || signatureEmpty || !agreed}
-                      onClick={() => handleSubmit(record.documentId)}
-                    >
-                      {isSubmitting ? ps.submittingSignature : ps.submitSignature}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => setActiveDocumentId(null)}
-                    >
-                      {c.cancel}
-                    </Button>
-                  </div>
-                </div>
+                <OnlineDocumentSigningForm
+                  key={`${record.documentId}-${signingSessionKey}`}
+                  documentId={record.documentId}
+                  project={project}
+                  studioSlug={studioSlug}
+                  clientEmail={clientEmail}
+                  onCancel={() => setActiveDocumentId(null)}
+                />
               )}
             </DocumentCard>
           );

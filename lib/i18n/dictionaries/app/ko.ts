@@ -605,7 +605,19 @@ const dictionary = {
     "submittingSignature": "제출 중...",
     "tapToZoom": "탭하여 확대",
     "zoomIn": "확대",
-    "zoomOut": "축소"
+    "zoomOut": "축소",
+    "signerInfoTitle": "서명자 정보",
+    "signerNameLabel": "이름",
+    "signerBirthdayLabel": "생년월일",
+    "signerPhoneLabel": "전화번호",
+    "signerEmailLabel": "이메일",
+    "signerValidation": {
+      "nameRequired": "이름을 입력해 주세요",
+      "birthdayRequired": "생년월일을 입력해 주세요",
+      "phoneRequired": "전화번호를 입력해 주세요",
+      "emailRequired": "이메일을 입력해 주세요",
+      "emailInvalid": "올바른 이메일 주소를 입력해 주세요"
+    }
   },
   "billing": {
     "title": "결제 및 사용량",

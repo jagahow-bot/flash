@@ -95,6 +95,7 @@ export default async function ProjectPage({
         project={project}
         studio={studio}
         studioSlug={studioSlug}
+        clientEmail={user?.email}
       />
 
       <SessionHistoryPanel project={project} audience="client" />

@@ -98,6 +98,7 @@ export interface LandingDictionary {
     studioRegister: string;
     privacyPolicy: string;
     termsOfService: string;
+    blog: string;
     rights: string;
     contactSupportPrefix: string;
     contactSupportSuffix?: string;
@@ -110,6 +111,18 @@ export interface LandingDictionary {
     terms: {
       metaTitle: string;
       metaDescription: string;
+    };
+  };
+  blog: {
+    metaTitle: string;
+    metaDescription: string;
+    title: string;
+    description: string;
+    backToBlog: string;
+    readMore: string;
+    categories: {
+      ipProtection: string;
+      legalSafeguards: string;
     };
   };
 }

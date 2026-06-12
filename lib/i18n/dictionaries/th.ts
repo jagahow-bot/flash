@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "ลงทะเบียนสตูดิโอ",
     privacyPolicy: "นโยบายความเป็นส่วนตัว",
     termsOfService: "เงื่อนไขการให้บริการ",
+    blog: "คู่มือสตูดิโอ",
     rights: "สงวนลิขสิทธิ์",
     contactSupportPrefix: "มีคำถาม ส่งอีเมลถึงเราได้ที่ ",
   },
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
       metaTitle: "เงื่อนไขการให้บริการ",
       metaDescription:
         "ข้อกำหนดและเงื่อนไขในการใช้แพลตฟอร์มจัดการสตูดิโอสัก FLASH",
+    },
+  },
+  blog: {
+    metaTitle: "คู่มือสตูดิโอสัก | FLASH",
+    metaDescription:
+      "บทความเรื่องการปกป้องลิขสิทธิ์ แนวป้องกันทางกฎหมาย และการบริหารสตูดิโอสำหรับช่างสัก",
+    title: "คู่มือสตูดิโอสัก",
+    description:
+      "บทความเชิงปฏิบัติเรื่องการปกป้องลายสัก การป้องกันข้อพิพาท และการบริหารสตูดิโออย่างมืออาชีพ",
+    backToBlog: "กลับไปรายการบทความ",
+    readMore: "อ่านบทความ",
+    categories: {
+      ipProtection: "การปกป้องลิขสิทธิ์",
+      legalSafeguards: "แนวป้องกันทางกฎหมาย",
     },
   },
 };

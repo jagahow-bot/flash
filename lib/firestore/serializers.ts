@@ -81,6 +81,7 @@ interface FirestorePreSessionDocumentRecord {
   fileUrl?: string;
   signedByUserId?: string;
   clientSignatureDataUrl?: string;
+  signerInfo?: PreSessionDocumentRecord["signerInfo"];
 }
 
 function serializePreSessionDocumentRecord(
@@ -108,6 +109,9 @@ function serializePreSessionDocumentRecord(
   }
   if (record.clientSignatureDataUrl) {
     data.clientSignatureDataUrl = record.clientSignatureDataUrl;
+  }
+  if (record.signerInfo) {
+    data.signerInfo = record.signerInfo;
   }
 
   return data;
@@ -171,6 +175,7 @@ function deserializePreSessionDocumentRecord(
     fileUrl: record.fileUrl,
     signedByUserId: record.signedByUserId,
     clientSignatureDataUrl: record.clientSignatureDataUrl,
+    signerInfo: record.signerInfo,
   };
 }
 

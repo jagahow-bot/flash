@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "術前書類がアーカイブされました",
     body: "{studioName} が「{documentTitle}」（予約 {projectId}）をアップロードしてアーカイブしました。予約ページでご確認ください。",
   },
+  studioWelcome: {
+    title: "FLASH へようこそ",
+    body: "{studioName} 様\n\nスタジオのセットアップが完了しました。FLASH はお客様のリクエストを構造化されたブリーフに変換し、見積もり管理と予約の追跡をサポートします。",
+    nextStepsTitle: "おすすめの次のステップ",
+    nextSteps:
+      "• アーティストをチームに招待する\n• フラッシュデザインをストアフロントに追加する\n• 予約ページのリンクをクライアントと共有する\n• スタジオ設定と支払い情報を確認する",
+    dashboardButton: "ダッシュボードを開く",
+    bookingPageButton: "予約ページを見る",
+  },
   countHint: "（{count}枚）",
 };
 

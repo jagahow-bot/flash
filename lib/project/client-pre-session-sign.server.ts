@@ -10,7 +10,10 @@ import {
   updateProjectFields,
 } from "@/lib/firestore/projects.server";
 import { getStudioBySlug } from "@/lib/firestore/studios.server";
-import type { PreSessionDocumentRecord } from "@/types/pre-session-document";
+import type {
+  PreSessionDocumentRecord,
+  PreSessionSignerInfo,
+} from "@/types/pre-session-document";
 import type { Project } from "@/types/project";
 import type { User } from "@/types/user";
 
@@ -35,6 +38,7 @@ export async function submitClientPreSessionSignature({
   documentId,
   fileUrl,
   clientSignatureDataUrl,
+  signerInfo,
 }: {
   client: User;
   projectId: string;
@@ -42,6 +46,7 @@ export async function submitClientPreSessionSignature({
   documentId: string;
   fileUrl: string;
   clientSignatureDataUrl?: string;
+  signerInfo: PreSessionSignerInfo;
 }): Promise<ClientPreSessionSignResult> {
   const [studio, project] = await Promise.all([
     getStudioBySlug(studioSlug),
@@ -84,6 +89,7 @@ export async function submitClientPreSessionSignature({
     fileUrl,
     signedByUserId: client.uid,
     clientSignatureDataUrl,
+    signerInfo,
   });
 
   const nextProject: Project = {

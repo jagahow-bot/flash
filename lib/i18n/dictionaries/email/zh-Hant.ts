@@ -101,6 +101,15 @@ const email: EmailDictionary = {
     title: "術前文件已存檔",
     body: "{studioName} 已上傳並存檔您的「{documentTitle}」（預約 {projectId}），請至預約頁查看。",
   },
+  studioWelcome: {
+    title: "歡迎加入 FLASH",
+    body: "您好，{studioName}：\n\n您的工作室已完成設定。FLASH 協助您將客戶需求轉為結構化摘要、管理報價，並追蹤每一筆預約。",
+    nextStepsTitle: "建議的下一步",
+    nextSteps:
+      "• 邀請刺青師加入團隊\n• 上架 Flash 作品集\n• 分享預約頁面連結給客戶\n• 確認工作室設定與收款資訊",
+    dashboardButton: "前往後台",
+    bookingPageButton: "查看預約頁面",
+  },
   countHint: "（共 {count} 張）",
 };
 

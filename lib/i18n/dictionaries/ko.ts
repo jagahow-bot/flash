@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "스튜디오 등록",
     privacyPolicy: "개인정보 처리방침",
     termsOfService: "서비스 약관",
+    blog: "스튜디오 가이드",
     rights: "All rights reserved.",
     contactSupportPrefix: "문의 사항은 ",
     contactSupportSuffix: " 으로 보내주세요",
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
     terms: {
       metaTitle: "서비스 약관",
       metaDescription: "FLASH 타투 스튜디오 관리 플랫폼 이용 약관.",
+    },
+  },
+  blog: {
+    metaTitle: "타투 스튜디오 가이드 | FLASH",
+    metaDescription:
+      "저작권 보호, 법적 리스크 관리, 스튜디오 운영 실무를 다룬 타투이스트 전용 아티클.",
+    title: "타투 스튜디오 가이드",
+    description:
+      "저작권 보호와 법적 방어선 등, 더 안전한 스튜디오 운영을 위한 실무 가이드입니다.",
+    backToBlog: "글 목록으로",
+    readMore: "전체 읽기",
+    categories: {
+      ipProtection: "저작권 보호",
+      legalSafeguards: "법적 방어선",
     },
   },
 };

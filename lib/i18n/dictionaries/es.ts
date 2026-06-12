@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "Registrar estudio",
     privacyPolicy: "Política de privacidad",
     termsOfService: "Términos de servicio",
+    blog: "Guías para estudios",
     rights: "Todos los derechos reservados.",
     contactSupportPrefix: "¿Preguntas? Escríbenos a ",
   },
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
       metaTitle: "Términos de servicio",
       metaDescription:
         "Términos y condiciones para usar la plataforma de gestión de estudios de tatuaje FLASH.",
+    },
+  },
+  blog: {
+    metaTitle: "Guías para estudios de tatuaje | FLASH",
+    metaDescription:
+      "Protección de derechos de autor, salvaguardas legales y consejos operativos para tatuadores.",
+    title: "Guías para estudios de tatuaje",
+    description:
+      "Artículos prácticos sobre protección de diseños, defensa legal y gestión de tu estudio.",
+    backToBlog: "Volver a artículos",
+    readMore: "Leer artículo",
+    categories: {
+      ipProtection: "Protección de IP",
+      legalSafeguards: "Salvaguardas legales",
     },
   },
 };

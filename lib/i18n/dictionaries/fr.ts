@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "Inscrire un studio",
     privacyPolicy: "Politique de confidentialité",
     termsOfService: "Conditions d'utilisation",
+    blog: "Guides studio",
     rights: "Tous droits réservés.",
     contactSupportPrefix: "Des questions ? Écrivez-nous à ",
   },
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
       metaTitle: "Conditions d'utilisation",
       metaDescription:
         "Conditions générales d'utilisation de la plateforme de gestion de studio de tatouage FLASH.",
+    },
+  },
+  blog: {
+    metaTitle: "Guides pour studios de tatouage | FLASH",
+    metaDescription:
+      "Protection des droits d'auteur, garde-fous juridiques et conseils opérationnels pour tatoueurs.",
+    title: "Guides pour studios de tatouage",
+    description:
+      "Articles pratiques sur la protection des créations, la défense juridique et la gestion de salon.",
+    backToBlog: "Retour aux articles",
+    readMore: "Lire l'article",
+    categories: {
+      ipProtection: "Protection de la PI",
+      legalSafeguards: "Garde-fous juridiques",
     },
   },
 };

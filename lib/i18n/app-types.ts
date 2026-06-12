@@ -568,6 +568,18 @@ export interface AppDictionary {
     tapToZoom: string;
     zoomIn: string;
     zoomOut: string;
+    signerInfoTitle: string;
+    signerNameLabel: string;
+    signerBirthdayLabel: string;
+    signerPhoneLabel: string;
+    signerEmailLabel: string;
+    signerValidation: {
+      nameRequired: string;
+      birthdayRequired: string;
+      phoneRequired: string;
+      emailRequired: string;
+      emailInvalid: string;
+    };
   };
   billing: {
     title: string;

@@ -1,5 +1,11 @@
 import type { MetadataRoute } from "next";
-import { allLocalePaths, localeHrefLang, locales } from "@/lib/i18n/config";
+import { getAllBlogSlugs } from "@/lib/content/blog-posts";
+import {
+  allLocalePaths,
+  localeHrefLang,
+  localePath,
+  locales,
+} from "@/lib/i18n/config";
 import { getRequestSiteUrl } from "@/lib/env/get-request-site-url";
 import { getStudiosForSitemap } from "@/lib/firestore/studios.server";
 
@@ -46,6 +52,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: { languages: buildSamePathLanguageAlternates(siteUrl, path) },
   }));
 
+  const blogIndexLanguages = Object.fromEntries(
+    locales.map((locale) => [
+      localeHrefLang[locale],
+      `${siteUrl}${localePath(locale, "/blog")}`,
+    ]),
+  );
+  blogIndexLanguages["x-default"] = `${siteUrl}/blog`;
+
+  const blogIndexEntry: SitemapEntry = {
+    url: `${siteUrl}/blog`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.6,
+    alternates: { languages: blogIndexLanguages },
+  };
+
+  const blogPostEntries: SitemapEntry[] = getAllBlogSlugs().map((slug) => {
+    const languages = Object.fromEntries(
+      locales.map((locale) => [
+        localeHrefLang[locale],
+        `${siteUrl}${localePath(locale, `/blog/${slug}`)}`,
+      ]),
+    );
+    languages["x-default"] = `${siteUrl}/blog/${slug}`;
+
+    return {
+      url: `${siteUrl}/blog/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+      alternates: { languages },
+    };
+  });
+
   // Low-priority auth landing pages (excludes protected /client/* flows).
   const authEntries: SitemapEntry[] = [
     {
@@ -73,6 +113,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     ...marketingEntries,
     ...legalEntries,
+    blogIndexEntry,
+    ...blogPostEntries,
     ...authEntries,
     ...studioEntries,
   ];

@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "スタジオ登録",
     privacyPolicy: "プライバシーポリシー",
     termsOfService: "利用規約",
+    blog: "スタジオガイド",
     rights: "All rights reserved.",
     contactSupportPrefix: "ご不明な点は ",
     contactSupportSuffix: " までお問い合わせください",
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
     terms: {
       metaTitle: "利用規約",
       metaDescription: "FLASH タトゥースタジオ管理プラットフォームの利用条件。",
+    },
+  },
+  blog: {
+    metaTitle: "タトゥースタジオガイド｜FLASH",
+    metaDescription:
+      "著作権保護、法的リスク対策、スタジオ運営の実践記事をタトゥーアーティスト向けに掲載。",
+    title: "タトゥースタジオガイド",
+    description:
+      "著作権保護や法的防衛線など、スタジオ運営に役立つ実践的な記事をお届けします。",
+    backToBlog: "記事一覧に戻る",
+    readMore: "続きを読む",
+    categories: {
+      ipProtection: "著作権保護",
+      legalSafeguards: "法的防衛線",
     },
   },
 };

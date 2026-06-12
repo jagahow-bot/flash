@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "Document pré-session archivé",
     body: '{studioName} a téléversé et archivé votre « {documentTitle} » (réservation {projectId}). Consultez-le sur votre page de réservation.',
   },
+  studioWelcome: {
+    title: "Bienvenue sur FLASH",
+    body: "Bonjour {studioName},\n\nVotre studio est configuré et prêt. FLASH vous aide à transformer les demandes clients en briefs structurés, à gérer les devis et à suivre chaque réservation.",
+    nextStepsTitle: "Prochaines étapes suggérées",
+    nextSteps:
+      "• Inviter des artistes dans votre équipe\n• Ajouter des flashs à votre vitrine\n• Partager le lien de votre page de réservation avec vos clients\n• Vérifier les paramètres du studio et les informations de paiement",
+    dashboardButton: "Ouvrir le tableau de bord",
+    bookingPageButton: "Voir la page de réservation",
+  },
   countHint: " ({count} fichiers)",
 };
 

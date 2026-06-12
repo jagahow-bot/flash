@@ -273,6 +273,12 @@ export const mockProjects: Project[] = [
         completedAt: daysFromNow(-16),
         completionMethod: "client_signature",
         fileUrl: "https://placehold.co/500x200?text=Client+Signature",
+        signerInfo: {
+          name: "王小明",
+          birthday: "1995-06-15",
+          phone: "+886 912345678",
+          email: "client@example.com",
+        },
       },
     ],
     sketchRecords: [...sampleSketchRecordsV2],

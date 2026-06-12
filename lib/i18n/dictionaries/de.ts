@@ -207,6 +207,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "Studio registrieren",
     privacyPolicy: "Datenschutz",
     termsOfService: "Nutzungsbedingungen",
+    blog: "Studio-Ratgeber",
     rights: "Alle Rechte vorbehalten.",
     contactSupportPrefix: "Fragen? Schreiben Sie uns an ",
   },
@@ -220,6 +221,20 @@ const dictionary: LandingDictionary = {
       metaTitle: "Nutzungsbedingungen",
       metaDescription:
         "Allgemeine Geschäftsbedingungen für die FLASH Tattoo-Studio-Verwaltungsplattform.",
+    },
+  },
+  blog: {
+    metaTitle: "Tattoo-Studio-Ratgeber | FLASH",
+    metaDescription:
+      "Urheberrechtsschutz, rechtliche Absicherung und Praxistipps für Tattoo-Artists und Studios.",
+    title: "Tattoo-Studio-Ratgeber",
+    description:
+      "Praxisnahe Artikel zu Designschutz, rechtlicher Absicherung und sicherem Studio-Betrieb.",
+    backToBlog: "Zurück zu den Artikeln",
+    readMore: "Artikel lesen",
+    categories: {
+      ipProtection: "Urheberrechtsschutz",
+      legalSafeguards: "Rechtliche Absicherung",
     },
   },
 };

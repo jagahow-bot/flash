@@ -605,7 +605,19 @@ const dictionary = {
     "submittingSignature": "กำลังส่งข้อมูล...",
     "tapToZoom": "แตะเพื่อขยาย",
     "zoomIn": "ขยาย",
-    "zoomOut": "ย่อ"
+    "zoomOut": "ย่อ",
+    "signerInfoTitle": "ข้อมูลผู้ลงนาม",
+    "signerNameLabel": "ชื่อ-นามสกุล",
+    "signerBirthdayLabel": "วันเกิด",
+    "signerPhoneLabel": "โทรศัพท์",
+    "signerEmailLabel": "อีเมล",
+    "signerValidation": {
+      "nameRequired": "กรุณากรอกชื่อ-นามสกุล",
+      "birthdayRequired": "กรุณากรอกวันเกิด",
+      "phoneRequired": "กรุณากรอกเบอร์โทรศัพท์",
+      "emailRequired": "กรุณากรอกอีเมล",
+      "emailInvalid": "กรุณากรอกอีเมลที่ถูกต้อง"
+    }
   },
   "billing": {
     "title": "การเรียกเก็บเงิน",

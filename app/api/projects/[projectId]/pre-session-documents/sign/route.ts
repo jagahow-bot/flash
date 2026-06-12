@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireClientUser } from "@/lib/auth/require-client";
 import { getProjectById } from "@/lib/firestore/projects.server";
 import { submitClientPreSessionSignature } from "@/lib/project/client-pre-session-sign.server";
+import { parsePreSessionSignerInfo } from "@/lib/validations/pre-session-signer";
 import { uploadPreSessionSignedDocServer } from "@/lib/storage/upload-pre-session-signed-doc.server";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
@@ -23,6 +24,7 @@ export async function POST(
     const studioSlug = formData.get("studioSlug");
     const documentId = formData.get("documentId");
     const clientSignatureDataUrl = formData.get("clientSignatureDataUrl");
+    const signerInfoRaw = formData.get("signerInfo");
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "請提供簽名圖片" }, { status: 400 });
@@ -42,6 +44,19 @@ export async function POST(
 
     if (file.size > MAX_FILE_BYTES) {
       return NextResponse.json({ error: "圖片檔案過大" }, { status: 400 });
+    }
+
+    let signerInfo: ReturnType<typeof parsePreSessionSignerInfo> = null;
+    if (typeof signerInfoRaw === "string" && signerInfoRaw.trim()) {
+      try {
+        signerInfo = parsePreSessionSignerInfo(JSON.parse(signerInfoRaw));
+      } catch {
+        return NextResponse.json({ error: "簽署人資料格式不正確" }, { status: 400 });
+      }
+    }
+
+    if (!signerInfo) {
+      return NextResponse.json({ error: "請填寫簽署人資料" }, { status: 400 });
     }
 
     const project = await getProjectById(projectId);
@@ -70,6 +85,7 @@ export async function POST(
         clientSignatureDataUrl.startsWith("data:image/")
           ? clientSignatureDataUrl
           : undefined,
+      signerInfo,
     });
 
     if (!result.ok) {

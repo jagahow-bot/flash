@@ -103,6 +103,7 @@ function mergeEmailDictionary(
       ...base.preSessionArchivedClient,
       ...override.preSessionArchivedClient,
     },
+    studioWelcome: { ...base.studioWelcome, ...override.studioWelcome },
   };
 }
 

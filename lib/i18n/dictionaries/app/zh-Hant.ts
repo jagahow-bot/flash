@@ -673,6 +673,18 @@ const dictionary: AppDictionary = {
     tapToZoom: "點擊可放大檢視",
     zoomIn: "放大",
     zoomOut: "縮小",
+    signerInfoTitle: "簽署人資料",
+    signerNameLabel: "姓名",
+    signerBirthdayLabel: "生日",
+    signerPhoneLabel: "電話",
+    signerEmailLabel: "Email",
+    signerValidation: {
+      nameRequired: "請填寫姓名",
+      birthdayRequired: "請填寫生日",
+      phoneRequired: "請填寫電話",
+      emailRequired: "請填寫 Email",
+      emailInvalid: "Email 格式不正確",
+    },
   },
   billing: {
     title: "帳單與用量",

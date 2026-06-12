@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "Documento pré-sessão arquivado",
     body: '{studioName} enviou e arquivou seu "{documentTitle}" (agendamento {projectId}). Veja na página do agendamento.',
   },
+  studioWelcome: {
+    title: "Bem-vindo ao FLASH",
+    body: "Olá, {studioName}:\n\nSeu estúdio está configurado e pronto. O FLASH ajuda a transformar pedidos de clientes em briefs estruturados, gerenciar orçamentos e acompanhar cada agendamento.",
+    nextStepsTitle: "Próximos passos sugeridos",
+    nextSteps:
+      "• Convide artistas para sua equipe\n• Adicione designs flash à sua vitrine\n• Compartilhe o link da página de agendamento com clientes\n• Revise as configurações do estúdio e informações de pagamento",
+    dashboardButton: "Abrir painel",
+    bookingPageButton: "Ver página de agendamento",
+  },
   countHint: " ({count} arquivos)",
 };
 

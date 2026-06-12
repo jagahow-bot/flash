@@ -2,9 +2,13 @@ import Link from "next/link";
 import type { LandingDictionary } from "@/lib/i18n/types";
 import { SUPPORT_EMAIL } from "@/lib/email/support-email";
 import { LanguageSwitcher } from "@/components/marketing/language-switcher";
+import { localePath } from "@/lib/i18n/config";
 
 export function SiteFooter({ dict }: { dict: LandingDictionary }) {
   const year = new Date().getFullYear();
+  const blogHref = localePath(dict.locale, "/blog");
+  const privacyHref = localePath(dict.locale, "/privacy");
+  const termsHref = localePath(dict.locale, "/terms");
 
   return (
     <footer className="border-t bg-muted/30" aria-label="Site footer">
@@ -87,7 +91,16 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
             <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  href="/privacy"
+                  href={blogHref}
+                  prefetch={false}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {dict.footer.blog}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={privacyHref}
                   prefetch={false}
                   className="transition-colors hover:text-foreground"
                 >
@@ -96,7 +109,7 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href={termsHref}
                   prefetch={false}
                   className="transition-colors hover:text-foreground"
                 >

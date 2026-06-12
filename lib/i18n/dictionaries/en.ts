@@ -214,6 +214,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "Register studio",
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
+    blog: "Studio guides",
     rights: "All rights reserved.",
     contactSupportPrefix: "Questions? Email us at ",
   },
@@ -227,6 +228,20 @@ const dictionary: LandingDictionary = {
       metaTitle: "Terms of Service",
       metaDescription:
         "Terms and conditions for using the FLASH tattoo studio management platform.",
+    },
+  },
+  blog: {
+    metaTitle: "Tattoo Studio Guides | FLASH",
+    metaDescription:
+      "Copyright protection, legal safeguards, and studio operations advice for tattoo artists.",
+    title: "Tattoo Studio Guides",
+    description:
+      "Practical articles on copyright protection, legal safeguards, and running a safer tattoo studio.",
+    backToBlog: "Back to articles",
+    readMore: "Read article",
+    categories: {
+      ipProtection: "IP Protection",
+      legalSafeguards: "Legal Safeguards",
     },
   },
 };

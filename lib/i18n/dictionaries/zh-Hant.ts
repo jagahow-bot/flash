@@ -204,6 +204,7 @@ const dictionary: LandingDictionary = {
     studioRegister: "註冊工作室",
     privacyPolicy: "隱私權政策",
     termsOfService: "服務條款",
+    blog: "刺青工作室指南",
     rights: "保留所有權利。",
     contactSupportPrefix: "有任何問題請寄信詢問 ",
   },
@@ -216,6 +217,20 @@ const dictionary: LandingDictionary = {
     terms: {
       metaTitle: "服務條款",
       metaDescription: "使用 FLASH 刺青工作室管理平台的條款與條件。",
+    },
+  },
+  blog: {
+    metaTitle: "刺青工作室指南｜FLASH",
+    metaDescription:
+      "版權保護、法律防線與工作室營運實務，專為刺青師與工作室主理人撰寫。",
+    title: "刺青工作室指南",
+    description:
+      "版權保護、法律防線與工作室營運實務，幫助刺青師建立更安全的創作與預約流程。",
+    backToBlog: "返回文章列表",
+    readMore: "閱讀全文",
+    categories: {
+      ipProtection: "版權保護",
+      legalSafeguards: "法律防線",
     },
   },
 };

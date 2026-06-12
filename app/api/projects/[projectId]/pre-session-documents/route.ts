@@ -15,6 +15,7 @@ import {
   updateProjectFields,
 } from "@/lib/firestore/projects.server";
 import { getStudioById } from "@/lib/firestore/studios.server";
+import { serverPreSessionSignerInfoSchema } from "@/lib/validations/pre-session-signer";
 import type { PreSessionDocumentRecord } from "@/types/pre-session-document";
 
 const studioCompleteSchema = z.object({
@@ -27,6 +28,7 @@ const clientSignSchema = z.object({
   documentId: z.string().min(1),
   fileUrl: z.string().url(),
   clientSignatureDataUrl: z.string().optional(),
+  signerInfo: serverPreSessionSignerInfoSchema,
 });
 
 function updateRecord(
@@ -128,7 +130,7 @@ export async function POST(
 
     const { projectId } = await params;
     const body = await request.json();
-    const { studioSlug, documentId, fileUrl, clientSignatureDataUrl } =
+    const { studioSlug, documentId, fileUrl, clientSignatureDataUrl, signerInfo } =
       clientSignSchema.parse(body);
 
     const result = await submitClientPreSessionSignature({
@@ -138,6 +140,7 @@ export async function POST(
       documentId,
       fileUrl,
       clientSignatureDataUrl,
+      signerInfo,
     });
 
     if (!result.ok) {

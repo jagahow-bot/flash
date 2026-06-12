@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "Vorsession-Dokument archiviert",
     body: '{studioName} hat Ihr "{documentTitle}" hochgeladen und archiviert (Buchung {projectId}). Auf der Buchungsseite ansehen.',
   },
+  studioWelcome: {
+    title: "Willkommen bei FLASH",
+    body: "Hallo {studioName},\n\nIhr Studio ist eingerichtet und bereit. FLASH hilft Ihnen, Kundenanfragen in strukturierte Briefs zu verwandeln, Angebote zu verwalten und jede Buchung im Blick zu behalten.",
+    nextStepsTitle: "Empfohlene nächste Schritte",
+    nextSteps:
+      "• Künstler in Ihr Team einladen\n• Flash-Designs in Ihren Shop aufnehmen\n• Den Buchungslink mit Kunden teilen\n• Studioeinstellungen und Zahlungsinformationen prüfen",
+    dashboardButton: "Dashboard öffnen",
+    bookingPageButton: "Buchungsseite ansehen",
+  },
   countHint: " ({count} Dateien)",
 };
 

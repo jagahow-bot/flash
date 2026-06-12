@@ -97,5 +97,13 @@ export interface EmailDictionary {
     title: string;
     body: string;
   };
+  studioWelcome: {
+    title: string;
+    body: string;
+    nextStepsTitle: string;
+    nextSteps: string;
+    dashboardButton: string;
+    bookingPageButton: string;
+  };
   countHint: string;
 }

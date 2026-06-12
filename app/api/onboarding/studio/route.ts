@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { requireOnboardingAdmin } from "@/lib/auth/require-onboarding-admin";
+import { resolveRecipientLocale } from "@/lib/email/resolve-recipient-locale.server";
+import { sendStudioWelcomeEmail } from "@/lib/email/studio-welcome.server";
 import { weeklyScheduleSchema } from "@/lib/api/weekly-schedule-schema";
 import { createStudio, isStudioSlugAvailable } from "@/lib/firestore/studios.server";
 import { linkUserToStudio } from "@/lib/firestore/users.server";
@@ -69,6 +71,13 @@ export async function POST(request: NextRequest) {
     });
 
     await linkUserToStudio(user.uid, studio.studioId);
+
+    void sendStudioWelcomeEmail({
+      email: user.email,
+      studioName: studio.name,
+      studioSlug: studio.slug,
+      locale: resolveRecipientLocale(user),
+    });
 
     return NextResponse.json({
       studioId: studio.studioId,

@@ -102,6 +102,15 @@ const email: EmailDictionary = {
     title: "Documento pre-sesión archivado",
     body: '{studioName} subió y archivó tu "{documentTitle}" (reserva {projectId}). Consúltalo en tu página de reserva.',
   },
+  studioWelcome: {
+    title: "Bienvenido a FLASH",
+    body: "Hola, {studioName}:\n\nTu estudio ya está configurado. FLASH te ayuda a convertir las solicitudes de clientes en briefs estructurados, gestionar cotizaciones y hacer seguimiento de cada reserva.",
+    nextStepsTitle: "Próximos pasos sugeridos",
+    nextSteps:
+      "• Invita artistas a tu equipo\n• Añade diseños flash a tu escaparate\n• Comparte el enlace de tu página de reservas con clientes\n• Revisa la configuración del estudio y la información de pago",
+    dashboardButton: "Abrir panel",
+    bookingPageButton: "Ver página de reservas",
+  },
   countHint: " ({count} archivos)",
 };
 
