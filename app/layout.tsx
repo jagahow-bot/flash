@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { AppProviders } from "@/components/providers/app-providers";
 import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
 import { getRequestLocale } from "@/lib/i18n/resolve-locale";
@@ -44,6 +45,7 @@ export default async function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <GoogleAnalytics />
         <AppProviders locale={locale} appDict={appDict}>
           {children}
         </AppProviders>
