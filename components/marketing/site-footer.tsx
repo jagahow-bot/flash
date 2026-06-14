@@ -69,6 +69,14 @@ export function SiteFooter({ dict }: { dict: LandingDictionary }) {
               </li>
               <li>
                 <a
+                  href="#pricing"
+                  className="transition-colors hover:text-foreground"
+                >
+                  {dict.pricing.title}
+                </a>
+              </li>
+              <li>
+                <a
                   href="#how-it-works"
                   className="transition-colors hover:text-foreground"
                 >

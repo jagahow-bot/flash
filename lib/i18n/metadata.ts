@@ -54,7 +54,7 @@ export function buildLandingMetadata(
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: "FLASH — Tattoo studio booking & project management",
+          alt: dict.meta.title,
         },
       ],
     },

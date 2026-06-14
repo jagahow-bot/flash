@@ -3,18 +3,18 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "fr",
   meta: {
-    title: "FLASH — Réservation et gestion de projets pour studios de tatouage",
+    title: "FLASH — Réservation et Gestion de Cas pour Studios de Tatouage",
     description:
-      "Système de réservation pour studios de tatouage : moins de rendez-vous manqués, moins de messages répétés. Demandes, devis, planning, acomptes et séances multiples en un seul endroit.",
+      "Système de gestion de réservations FLASH : automatisez les besoins clients, la planification et la protection des croquis — économisez 80 % du temps de communication. Pas d'abonnement mensuel, paiement par réservation.",
     keywords: [
       "réservation tatouage",
       "gestion studio tatouage",
       "logiciel tatouage",
       "FLASH",
-      "acompte tatouage",
-      "tatouage plusieurs séances",
-      "gestion projets tatouage",
-      "clients tatouage",
+      "gestion cas tatouage",
+      "résumé intelligent IA",
+      "système gestion réservations tatouage",
+      "réservation multilingue",
     ],
   },
   header: {
@@ -30,57 +30,54 @@ const dictionary: LandingDictionary = {
   hero: {
     eyebrow: "Pour les studios de tatouage",
     brand: "FLASH",
-    heading: "Réservation et gestion de projets pour studios de tatouage",
-    subtitle:
-      "Moins de rendez-vous manqués, moins de messages répétés,\npour vous concentrer sur le tatouage",
-    description:
-      "Fini de repartir de zéro en message privé —\nvous et vos clients savez toujours quelle est la prochaine étape.",
+    heading: "Réservation et Gestion de Cas pour Studios de Tatouage",
+    subtitle: "Chaque ligne, point et ombre mérite 100 % de votre attention.",
+    description: "",
     ctaLogin: "Connexion",
     ctaRegisterStudio: "Inscrire un studio",
   },
   about: {
-    title: "Qu'est-ce que FLASH ?",
+    title: "Pourquoi les tatoueurs choisissent-ils le système de gestion de réservations FLASH ?",
     paragraphs: [
-      "Un système de réservation pour studios de tatouage.\nGérants et artistes gèrent les dossiers dans le back-office ; les clients envoient leurs demandes et consultent l'avancement de leur côté. Parcours séparés, données synchronisées.",
-      "Ça vous parle ? Le client n'explique que la moitié, l'acompte ne colle pas avec la compta, les séances multiples se mélangent et les messages demandent « des nouvelles ? » en boucle.\nFLASH regroupe tout au même endroit : de la demande au devis, au planning, à l'acompte et aux rendez-vous en plusieurs séances — des étapes claires, des traces claires.",
-      "Les clients ouvrent votre lien pour démarrer un dossier ; vous ouvrez le back-office quand vous voulez y travailler.",
+      "Chaque ligne, point et ombre mérite 100 % de votre attention. Mais en réalité, répondre aux messages privés et gérer les rendez-vous s'accaparent la majeure partie de votre énergie.",
+      "FLASH est né pour libérer vos mains. Nous automatisons les tâches fastidieuses telles que la collecte des besoins, la planification des rendez-vous et la protection des croquis.",
+      "Plus besoin de relancer le client pour ses dimensions, ni de jongler entre plusieurs applications pour retrouver un historique. Réduisez les communications inutiles à zéro et consacrez votre temps si précieux à votre prochain chef-d'œuvre.",
     ],
   },
   features: {
-    title: "Ce qui fait gagner du temps au studio",
-    subtitle:
-      "Les étapes où les rendez-vous se perdent —\nsans compter uniquement sur la mémoire",
+    title: "Gestion automatisée du studio, économisant 80 % du temps de communication",
+    subtitle: "",
     items: [
       {
-        title: "Comprendre ce que veut le client",
-        schemaName: "Résumé des demandes par IA",
+        title: "Résumé intelligent par IA : Capturez avec précision les attentes de tatouage du client",
+        schemaName: "Résumé intelligent par IA",
         description:
-          "Demandes floues, points clairs à l'ouverture —\nvous savez à quoi vous engagez avant de deviser.",
+          "Une fois la demande envoyée, l'IA résume les points clés — complexité et risques en un coup d'œil avant de deviser.",
       },
       {
-        title: "Devis sans allers-retours sans fin",
-        schemaName: "Devis et planning",
+        title: "Support multilingue : Acceptez les réservations de voyageurs internationaux en toute fluidité",
+        schemaName: "Support multilingue",
         description:
-          "Nouveaux dossiers au même endroit, envoyez des créneaux quand vous voulez —\nle client choisit ; vous vous concentrez sur l'art.",
+          "Interface en neuf langues pour que les voyageurs internationaux réservent facilement — zéro barrière de communication.",
       },
       {
-        title: "Des acomptes qui tombent juste",
-        schemaName: "Suivi des acomptes",
+        title: "Panneau bidirectionnel indépendant : L'historique des révisions du dessin ne se perd jamais",
+        schemaName: "Panneau bidirectionnel indépendant",
         description:
-          "Qui a payé, combien — tout est enregistré.\nPas besoin de remonter l'historique de chat pour rapprocher.",
+          "Vues séparées pour clients et studio conservent chaque révision du dessin — fini les messages perdus en DM.",
       },
       {
-        title: "Sur mesure vs tatouage flash",
-        schemaName: "Réservation sur mesure et flash",
+        title: "Filigrane intelligent automatique : Protection intégrale de vos croquis originaux",
+        schemaName: "Filigrane intelligent automatique",
         description:
-          "Que ce soit une consultation sur mesure ou le choix d'un tatouage flash,\nvous et votre client préparez facilement la prochaine séance.",
+          "Les envois sont automatiquement filigranés pour protéger vos croquis originaux des captures d'écran et fuites.",
       },
     ],
   },
   howItWorks: {
-    title: "Comment ça marche",
+    title: "De la première consultation au consentement : le parcours de réservation tatouage le plus fluide",
     subtitle: "Clients et studio, chacun son parcours —\nl'avancement reste synchronisé",
-    clientTitle: "Côté client",
+    clientTitle: "Côté client : guidage clair, saisie facile",
     clientSteps: [
       {
         title: "Ouvrir le lien de réservation",
@@ -99,7 +96,7 @@ const dictionary: LandingDictionary = {
         description: "Fini les « des nouvelles ? » — ouvrez et voyez",
       },
     ],
-    studioTitle: "Côté studio",
+    studioTitle: "Côté studio : en un coup d'œil, archivage numérique",
     studioSteps: [
       {
         title: "Mettre le studio en route",
@@ -120,7 +117,7 @@ const dictionary: LandingDictionary = {
     ],
   },
   pricing: {
-    title: "Tarification simple à l'usage",
+    title: "Tarification flexible pour tatoueurs : pas d'abonnement mensuel, paiement par réservation",
     subtitle:
       "Pas d'abonnement mensuel fixe — vous payez uniquement quand les réservations aboutissent via FLASH.",
     pricePerBooking: "USD 3 $ par réservation réussie chaque mois",
@@ -130,7 +127,7 @@ const dictionary: LandingDictionary = {
       "La facturation repose sur le nombre de réservations réussies du studio chaque mois civil. Les projets en plusieurs séances comptent pour une réservation à la confirmation.",
   },
   faq: {
-    title: "Questions fréquentes",
+    title: "Questions fréquentes sur le logiciel de gestion de tatouage FLASH",
     subtitle: "Ce que les studios demandent souvent, en langage simple",
     items: [
       {

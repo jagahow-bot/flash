@@ -3,18 +3,18 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "es",
   meta: {
-    title: "FLASH — Reservas y gestión de proyectos para estudios de tatuaje",
+    title: "FLASH — Gestión de Casos y Reservas para Estudios de Tatuajes",
     description:
-      "Sistema de reservas para estudios de tatuaje: menos citas perdidas, menos mensajes repetidos. Gestiona solicitudes, presupuestos, agenda, depósitos y citas de varias sesiones.",
+      "Sistema de gestión de reservas FLASH: automatiza requisitos, citas y protección de bocetos, ahorrando un 80% del tiempo de comunicación. Sin cuota mensual, pago por reserva.",
     keywords: [
       "reserva tatuaje",
       "gestión estudio tatuaje",
       "software tatuaje",
       "FLASH",
-      "depósito tatuaje",
-      "tatuaje varias sesiones",
-      "gestión proyectos tatuaje",
-      "clientes tatuaje",
+      "gestión casos tatuaje",
+      "resumen inteligente IA",
+      "sistema gestión reservas tatuaje",
+      "reserva multiidioma",
     ],
   },
   header: {
@@ -30,57 +30,54 @@ const dictionary: LandingDictionary = {
   hero: {
     eyebrow: "Para estudios de tatuaje",
     brand: "FLASH",
-    heading: "Reservas y gestión de proyectos para estudios de tatuaje",
-    subtitle:
-      "Menos citas perdidas, menos mensajes repetidos,\npara que te centres en tatuar",
-    description:
-      "Sin empezar de cero en los mensajes —\ntú y tus clientes siempre saben cuál es el siguiente paso.",
+    heading: "Gestión de Casos y Reservas para Estudios de Tatuajes",
+    subtitle: "Cada línea, punto y sombra merece el 100% de tu enfoque.",
+    description: "",
     ctaLogin: "Iniciar sesión",
     ctaRegisterStudio: "Registrar estudio",
   },
   about: {
-    title: "¿Qué es FLASH?",
+    title: "¿Por qué los tatuadores eligen el sistema de gestión de reservas FLASH?",
     paragraphs: [
-      "Un sistema de reservas para estudios de tatuaje.\nDueños y artistas gestionan los casos en el panel; los clientes envían solicitudes y consultan el avance por su cuenta. Flujos separados, datos sincronizados.",
-      "¿Te suena? El cliente explica la mitad de la idea, el depósito no cuadra con la cuenta, las sesiones múltiples se mezclan y los mensajes preguntan «¿cómo va?» una y otra vez.\nFLASH lo concentra en un solo sitio: desde la solicitud hasta el presupuesto, la agenda, el depósito y las citas de varias sesiones, con pasos claros y registro.",
-      "Los clientes abren tu enlace para empezar un caso; tú abres el panel cuando toque trabajar en él.",
+      "Cada línea, punto y sombra merece el 100% de tu enfoque. Pero la realidad es que responder mensajes directos y gestionar reservas consume la mayor parte de tu energía.",
+      "FLASH nació para liberar tus manos. Automatizamos tareas tediosas como recopilar requisitos, agendar citas y proteger bocetos.",
+      "Se acabó el quedarse atascado esperando las medidas del cliente y el tener que buscar registros en múltiples aplicaciones sociales. Reduce la comunicación innecesaria a cero y reserva tu tiempo más valioso para la próxima obra maestra.",
     ],
   },
   features: {
-    title: "Lo que ahorra tiempo al estudio",
-    subtitle:
-      "Los pasos donde se pierden citas —\nsin depender solo de la memoria",
+    title: "Gestión automatizada del estudio, ahorrando un 80% del tiempo de comunicación",
+    subtitle: "",
     items: [
       {
-        title: "Entender lo que el cliente quiere",
-        schemaName: "Resumen de solicitudes con IA",
+        title: "Resumen inteligente de IA: Captura con precisión las necesidades de tatuaje del cliente",
+        schemaName: "Resumen inteligente de IA",
         description:
-          "Solicitudes vagas, puntos claros al abrirlas —\nsabes a qué te enfrentas antes de presupuestar.",
+          "Cuando el cliente envía su solicitud, la IA resume los puntos clave: complejidad y riesgos de un vistazo antes de presupuestar.",
       },
       {
-        title: "Presupuestos sin idas y vueltas eternas",
-        schemaName: "Presupuesto y agenda",
+        title: "Soporte multiidioma: Acepta reservas de viajeros internacionales sin complicaciones",
+        schemaName: "Soporte multiidioma",
         description:
-          "Casos nuevos en un solo sitio, envías horarios cuando quieras —\nel cliente elige; tú te centras en el arte.",
+          "Interfaz en nueve idiomas para que los viajeros internacionales reserven con facilidad — cero barreras de comunicación.",
       },
       {
-        title: "Depósitos que cuadran",
-        schemaName: "Seguimiento de depósitos",
+        title: "Panel bidireccional independiente: El historial de revisiones de bocetos nunca se pierde",
+        schemaName: "Panel bidireccional independiente",
         description:
-          "Quién pagó, cuánto — todo queda registrado.\nSin revisar el historial de chat para conciliar.",
+          "Vistas separadas para clientes y estudio conservan cada revisión del boceto — sin mensajes enterrados en el DM.",
       },
       {
-        title: "Personalizado vs diseño flash",
-        schemaName: "Reserva personalizada y flash",
+        title: "Marca de agua inteligente automática: Protección integral para bocetos originales",
+        schemaName: "Marca de agua inteligente automática",
         description:
-          "Ya sea una consulta personalizada o elegir un diseño flash,\ntú y tu cliente podéis prepararos fácilmente para la próxima sesión de tatuaje.",
+          "Las subidas se marcan automáticamente con marca de agua para proteger los bocetos originales de capturas y filtraciones.",
       },
     ],
   },
   howItWorks: {
-    title: "Cómo funciona",
+    title: "De la primera consulta al consentimiento: el flujo de reserva de tatuajes más fluido",
     subtitle: "Clientes y estudio, cada uno con su flujo —\nel avance se mantiene sincronizado",
-    clientTitle: "Para clientes",
+    clientTitle: "Lado cliente: guía clara, formulario sencillo",
     clientSteps: [
       {
         title: "Abrir el enlace de reserva",
@@ -99,7 +96,7 @@ const dictionary: LandingDictionary = {
         description: "Sin preguntar «¿cómo va?» una y otra vez — abres y lo ves",
       },
     ],
-    studioTitle: "Para el estudio",
+    studioTitle: "Lado estudio: de un vistazo, archivo digital",
     studioSteps: [
       {
         title: "Pon el estudio en marcha",
@@ -120,7 +117,7 @@ const dictionary: LandingDictionary = {
     ],
   },
   pricing: {
-    title: "Precios simples según uso",
+    title: "Precios flexibles para tatuadores: sin cuota mensual, pago por reserva",
     subtitle:
       "Sin cuota mensual fija: solo pagas cuando las reservas se confirman con FLASH.",
     pricePerBooking: "USD $3 por reserva exitosa cada mes",
@@ -130,7 +127,7 @@ const dictionary: LandingDictionary = {
       "La facturación se basa en las reservas exitosas del estudio cada mes calendario. Los proyectos de varias sesiones cuentan como una reserva al confirmarse.",
   },
   faq: {
-    title: "Preguntas frecuentes",
+    title: "Preguntas frecuentes sobre el software de gestión de tatuajes FLASH",
     subtitle: "Lo que suelen preguntar los estudios, en lenguaje claro",
     items: [
       {

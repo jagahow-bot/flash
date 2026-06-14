@@ -3,18 +3,18 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "de",
   meta: {
-    title: "FLASH — Buchung & Projektverwaltung für Tattoo-Studios",
+    title: "FLASH — Terminbuchung & Fallmanagement für Tattoo-Studios",
     description:
-      "Tattoo-Studio-Buchungssystem: weniger verpasste Termine, weniger Wiederholungsnachrichten. Anfragen, Angebote, Terminplanung, Anzahlungen und Mehrtermin-Buchungen zentral verwalten.",
+      "FLASH Tattoo-Buchungsmanagement: Automatisierung von Kundenwünschen, Terminplanung und Skizzenschutz — spart 80 % Kommunikationszeit. Keine Monatsgebühr, zahlen pro Buchung.",
     keywords: [
       "Tattoo Buchung",
       "Tattoo Studio Verwaltung",
       "Tattoo Shop Software",
       "FLASH",
-      "Tattoo Anzahlung",
-      "Mehrtermin Tattoo",
-      "Tattoo Projektverwaltung",
-      "Tattoo Kundenverwaltung",
+      "Tattoo Fallmanagement",
+      "Intelligente KI-Zusammenfassung",
+      "Tattoo Buchungsmanagementsystem",
+      "Mehrsprachige Buchung",
     ],
   },
   header: {
@@ -30,57 +30,54 @@ const dictionary: LandingDictionary = {
   hero: {
     eyebrow: "Für Tattoo-Studios",
     brand: "FLASH",
-    heading: "Buchung & Projektverwaltung für Tattoo-Studios",
-    subtitle:
-      "Weniger verpasste Termine, weniger Wiederholungsnachrichten —\ndamit du dich aufs Tätowieren konzentrieren kannst",
-    description:
-      "Kein Neuanfang mehr in den DMs —\ndu und deine Kunden wissen immer, was als Nächstes ansteht.",
+    heading: "Terminbuchung & Fallmanagement für Tattoo-Studios",
+    subtitle: "Jede Linie, jeder Punkt und jede Schattierung verdient 100 % deines Fokus.",
+    description: "",
     ctaLogin: "Anmelden",
     ctaRegisterStudio: "Studio registrieren",
   },
   about: {
-    title: "Was ist FLASH?",
+    title: "Warum Tätowierer überall auf das FLASH-Buchungsmanagementsystem setzen?",
     paragraphs: [
-      "Ein Tattoo-Studio-Buchungssystem für Projekte von Anfang bis Ende.\nInhaber und Artists verwalten Projekte im Backend; Kunden stellen Anfragen und prüfen den Fortschritt selbst — getrennte Wege, synchronisierte Daten.",
-      "Kommt dir bekannt vor? Kunden erklären nur die Hälfte, Anzahlungen passen nicht zur Buchhaltung, Mehrtermin-Projekte vermischen sich und die Nachrichten fragen ständig «Wie ist der Stand?»\nFLASH bündelt das an einem Ort: von der Anfrage über Angebot und Termin bis zur Anzahlung und Mehrtermin-Buchung — klare Schritte, klare Aufzeichnungen.",
-      "Kunden starten über deinen Link ein Projekt; du öffnest das Backend, wenn du daran arbeiten willst.",
+      "Jede Linie, jeder Punkt und jede Schattierung verdient 100 % deines Fokus. Die Realität ist jedoch, dass das Beantworten von DMs und das Verwalten von Buchungen den Großteil deiner Energie raubt.",
+      "FLASH wurde entwickelt, um dir den Rücken freizuhalten. Wir automatisieren lästige Aufgaben wie das Erfassen von Kundenwünschen, die Terminplanung und den Schutz von Skizzen.",
+      "Kein Warten mehr auf die Größenangaben des Kunden, kein Suchen mehr nach Nachrichten in verschiedenen Social-Media-Apps. Reduziere unnötige Kommunikation auf Null und spare deine wertvollste Zeit für das nächste Meisterwerk.",
     ],
   },
   features: {
-    title: "Was Studios Zeit spart",
-    subtitle:
-      "Die Stellen, an denen Termine durchrutschen —\nohne sich nur aufs Gedächtnis zu verlassen",
+    title: "Automatisierte Studioverwaltung, spart 80 % der Kommunikationszeit",
+    subtitle: "",
     items: [
       {
-        title: "Verstehen, was Kunden meinen",
-        schemaName: "KI-Anfrage-Zusammenfassung",
+        title: "Intelligente KI-Zusammenfassung: Kundenwünsche präzise erfassen",
+        schemaName: "Intelligente KI-Zusammenfassung",
         description:
-          "Vage Anfragen, klare Punkte beim Öffnen —\ndu weißt vor dem Angebot, worauf du dich einlässt.",
+          "Sobald Kunden ihre Anfrage senden, fasst die KI die Kernpunkte zusammen — Komplexität und Risiken auf einen Blick vor dem Angebot.",
       },
       {
-        title: "Angebote ohne endloses Hin und Her",
-        schemaName: "Angebot und Terminplanung",
+        title: "Multilinguale Unterstützung: Buchungen internationaler Reisender nahtlos annehmen",
+        schemaName: "Multilinguale Unterstützung",
         description:
-          "Neue Projekte an einem Ort, Zeiten schicken wenn du bereit bist —\nKunden wählen; du konzentrierst dich auf die Kunst.",
+          "Neunsprachige Oberfläche, damit internationale Reisende mühelos buchen können — null Kommunikationsbarrieren.",
       },
       {
-        title: "Anzahlungen, die stimmen",
-        schemaName: "Anzahlungsverfolgung",
+        title: "Unabhängiges Dashboard: Verlauf der Design-Anpassungen geht nie verloren",
+        schemaName: "Unabhängiges Dashboard",
         description:
-          "Wer gezahlt hat, wie viel — alles dokumentiert.\nKein Chat-Verlauf zum Abgleichen.",
+          "Getrennte Ansichten für Kunden und Studio bewahren jede Design-Anpassung — keine verlorenen DMs mehr.",
       },
       {
-        title: "Individuell vs Flash-Design",
-        schemaName: "Individuelle und Flash-Buchung",
+        title: "Automatisches Wasserzeichen: Umfassender Schutz für Original-Skizzen",
+        schemaName: "Automatisches Wasserzeichen",
         description:
-          "Ob individuelle Beratung oder Auswahl eines Flash-Designs —\nSie und Ihr Kunde bereiten sich einfach auf die nächste Tattoo-Sitzung vor.",
+          "Uploads werden automatisch mit Wasserzeichen versehen, um Original-Skizzen vor Screenshots und Leaks zu schützen.",
       },
     ],
   },
   howItWorks: {
-    title: "So funktioniert's",
+    title: "Vom ersten Beratungsgespräch bis zur Einwilligung: der reibungsloseste Tattoo-Buchungsablauf",
     subtitle: "Kunden und Studio, jeder mit eigenem Ablauf —\nder Fortschritt bleibt synchron",
-    clientTitle: "Für Kunden",
+    clientTitle: "Kundenseite: klare Führung, einfache Eingabe",
     clientSteps: [
       {
         title: "Buchungslink öffnen",
@@ -99,7 +96,7 @@ const dictionary: LandingDictionary = {
         description: "Kein «Wie ist der Stand?» mehr — einfach öffnen und sehen",
       },
     ],
-    studioTitle: "Für Studios",
+    studioTitle: "Studio-Seite: auf einen Blick, digitale Ablage",
     studioSteps: [
       {
         title: "Studio startklar machen",
@@ -120,7 +117,7 @@ const dictionary: LandingDictionary = {
     ],
   },
   pricing: {
-    title: "Einfache nutzungsbasierte Preise",
+    title: "Flexible Preise für Tätowierer: keine Monatsgebühr, zahlen pro Buchung",
     subtitle:
       "Keine feste Monatsgebühr — Sie zahlen nur, wenn Buchungen über FLASH zustande kommen.",
     pricePerBooking: "USD $3 pro erfolgreicher Buchung pro Monat",
@@ -130,7 +127,7 @@ const dictionary: LandingDictionary = {
       "Die Abrechnung basiert auf der Anzahl erfolgreicher Buchungen Ihres Studios im Kalendermonat. Mehrtermin-Projekte zählen bei Bestätigung als eine Buchung.",
   },
   faq: {
-    title: "Häufige Fragen",
+    title: "Häufig gestellte Fragen zur FLASH Tattoo-Management-Software",
     subtitle: "Was Tattoo-Shops oft fragen — klar beantwortet",
     items: [
       {

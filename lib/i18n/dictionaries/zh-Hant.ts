@@ -3,18 +3,18 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "zh-Hant",
   meta: {
-    title: "FLASH — 刺青工作室預約與案件管理",
+    title: "FLASH — 專為刺青工作室打造的智能預約與案件管理系統",
     description:
-      "刺青工作室預約系統：少漏單、少回重複訊息。集中管理需求、報價排程、訂金與多次預約。",
+      "告別繁瑣的私訊溝通！FLASH 提供刺青師專屬的預約連結、AI 需求摘要、自動浮水印保護與雙向溝通看板。無固定月費，讓您專注於刺青創作，輕鬆管理客製化與認領圖訂單。",
     keywords: [
       "刺青預約",
       "刺青工作室管理",
       "刺青店系統",
       "FLASH",
-      "刺青訂金",
-      "多次刺青預約",
       "刺青案件管理",
-      "刺青客戶管理",
+      "AI 智慧摘要",
+      "刺青預約管理系統",
+      "多國語言預約",
     ],
   },
   header: {
@@ -30,55 +30,54 @@ const dictionary: LandingDictionary = {
   hero: {
     eyebrow: "刺青工作室專用",
     brand: "FLASH",
-    heading: "刺青工作室預約與案件管理",
-    subtitle: "少漏單、少回重複訊息，\n讓你專心刺青",
-    description:
-      "不用在私訊裡從頭問到尾，\n你跟客人都知道下一步該做什麼。",
+    heading: "刺青預約系統與案件管理",
+    subtitle: "每一個點線面的勾勒，都值得你付出百分之百的專注。",
+    description: "",
     ctaLogin: "登入",
     ctaRegisterStudio: "註冊工作室",
   },
   about: {
-    title: "FLASH 是什麼？",
+    title: "為什麼全台刺青師都在用 FLASH 預約管理系統？",
     paragraphs: [
-      "專為刺青工作室打造的預約系統：後台管案子，客人填需求、查進度，各走各的，資料同步。",
-      "你是不是也遇過：客人需求講一半、訂金對不上帳、畫好幾次搞混第幾趟、一直問進度？\nFLASH 把這些弄在同一個地方：從接需求、報價排程、收訂金到多次預約，流程清楚有紀錄。",
-      "客人用連結就能開案，你想處理的時候打開後台就好。",
+      "每一個點線面的勾勒，都值得你付出百分之百的專注。但現實是，回覆私訊和管理預約，往往佔據了你大半的精力。",
+      "FLASH 的誕生，就是為了解放刺青師的雙手。我們把「詢問需求、預約排班、圖稿防護」等繁雜的店務瑣事全部自動化。",
+      "不需要再為了沒收到客人的尺寸而卡關，也不用在多個社群軟體切換找紀錄。讓多餘的溝通歸零，把最有價值的時間，留給下一個即將誕生的完美作品。",
     ],
   },
   features: {
-    title: "幫工作室省時間的事",
-    subtitle: "最怕的那些漏單環節，\n不想只靠記憶硬撐",
+    title: "自動化店務管理，替刺青工作室省下 80% 的通訊時間",
+    subtitle: "",
     items: [
       {
-        title: "聽懂客人在說什麼",
-        schemaName: "AI 需求整理",
+        title: "AI 智慧摘要：精準捕捉客人紋身需求",
+        schemaName: "AI 智慧摘要",
         description:
-          "講不清楚的需求，打開就有重點，\n報價前先心裡有數。",
+          "客人填完需求，AI 自動整理成重點摘要，複雜度與風險一目了然，報價前先心裡有數。",
       },
       {
-        title: "報價不用再喬半天",
-        schemaName: "報價與排程",
+        title: "多國語言支援：輕鬆承接國外旅客訂單",
+        schemaName: "多國語言支援",
         description:
-          "新案子集中看，挑好時間送出去，\n客人自己選，你專心畫圖。",
+          "九國語言介面，國外旅客也能輕鬆預約，溝通零障礙，輕鬆承接國際訂單。",
       },
       {
-        title: "訂金對得起來",
-        schemaName: "訂金管理",
+        title: "獨立雙向看板：草圖修改紀錄不遺漏",
+        schemaName: "獨立雙向看板",
         description:
-          "誰轉了、轉多少都有紀錄，\n不用再翻對話紀錄對帳。",
+          "客端與工作室各自專屬視圖，草圖修改紀錄完整保留，再也不怕訊息淹沒在私訊裡。",
       },
       {
-        title: "客製化 vs 認領圖",
-        schemaName: "客製化與認領圖預約",
+        title: "自動智慧浮水印：全方位保護原創手稿",
+        schemaName: "自動智慧浮水印",
         description:
-          "不管是客製化討論、還是認領圖挑選，\n你跟客人都能輕鬆準備下次的刺青施作。",
+          "上傳即自動加上浮水印，全方位保護原創手稿，防止截圖外流。",
       },
     ],
   },
   howItWorks: {
-    title: "怎麼用",
+    title: "從初次諮詢到簽署同意書：最流暢的刺青預約流程",
     subtitle: "客人跟工作室各走各的，\n進度會同步",
-    clientTitle: "客人這邊",
+    clientTitle: "顧客端：清晰引導、輕鬆填寫",
     clientSteps: [
       {
         title: "打開預約連結",
@@ -97,7 +96,7 @@ const dictionary: LandingDictionary = {
         description: "不用再問「有更新了嗎」——打開就看得到",
       },
     ],
-    studioTitle: "工作室這邊",
+    studioTitle: "工作室端：一目了然、數位歸檔",
     studioSteps: [
       {
         title: "先把店開起來",
@@ -118,7 +117,7 @@ const dictionary: LandingDictionary = {
     ],
   },
   pricing: {
-    title: "簡單的用量計價",
+    title: "真正挺刺青師的彈性收費：免固定月費、有案才計價",
     subtitle: "沒有固定月費——只有透過 FLASH 成功預約時才需付費。",
     pricePerBooking: "每月每筆成功預約 USD $3",
     noMonthlyFee: "無固定月費",
@@ -127,7 +126,7 @@ const dictionary: LandingDictionary = {
       "帳單依工作室當月成功預約筆數計算。多次施作的專案在確認預約時計為一筆。",
   },
   faq: {
-    title: "常見問題",
+    title: "關於 FLASH 刺青管理軟體的常見問題",
     subtitle: "刺青店常問的，白話回答",
     items: [
       {

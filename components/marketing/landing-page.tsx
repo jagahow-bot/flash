@@ -23,6 +23,12 @@ import { cn } from "@/lib/utils";
 
 const featureIcons = [Bot, Layers, CalendarDays, Wallet] as const;
 
+const sectionShell = "mx-auto max-w-6xl px-4";
+const proseWidth = "mx-auto max-w-3xl";
+const headingClass =
+  "text-balance text-2xl font-semibold leading-relaxed tracking-wide sm:text-3xl";
+const bodyClass = "text-pretty leading-relaxed tracking-wide text-muted-foreground";
+
 export function LandingPage({
   dict,
   audienceType,
@@ -47,9 +53,9 @@ export function LandingPage({
               className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,oklch(0.92_0_0),transparent)]"
               aria-hidden="true"
             />
-            <div className="relative mx-auto max-w-6xl px-4 py-20 sm:py-28">
+            <div className={cn("relative", sectionShell, "py-20 sm:py-28")}>
               <div className="flex flex-col items-center text-center">
-                <p className="mb-6 inline-flex items-center gap-1.5 rounded-full border bg-background px-3 py-1 text-xs text-muted-foreground">
+                <p className="mb-6 inline-flex items-center gap-1.5 rounded-full border bg-background px-3 py-1 text-xs leading-relaxed tracking-wide text-muted-foreground">
                   <Sparkles
                     className="size-3.5"
                     aria-hidden="true"
@@ -59,19 +65,21 @@ export function LandingPage({
 
                 <h1
                   id="hero-heading"
-                  className="text-5xl font-bold tracking-tight sm:text-6xl"
+                  className="max-w-4xl text-balance text-4xl font-bold leading-relaxed tracking-wide sm:text-5xl lg:text-6xl"
                 >
-                  {dict.hero.brand}
-                  <span className="mt-3 block text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                    {dict.hero.heading}
-                  </span>
+                  <span className="block">{dict.hero.brand}</span>
+                  <span className="block">{dict.hero.heading}</span>
                 </h1>
-                <p className="mt-4 max-w-2xl whitespace-pre-line text-lg font-medium text-foreground sm:text-xl">
-                  {dict.hero.subtitle}
-                </p>
-                <p className="mt-4 max-w-3xl whitespace-pre-line text-base text-muted-foreground">
-                  {dict.hero.description}
-                </p>
+                {dict.hero.subtitle ? (
+                  <p className="mt-4 max-w-2xl text-pretty text-lg font-medium leading-relaxed tracking-wide text-foreground sm:text-xl">
+                    {dict.hero.subtitle}
+                  </p>
+                ) : null}
+                {dict.hero.description ? (
+                  <p className="mt-4 max-w-3xl text-pretty text-base leading-relaxed tracking-wide text-muted-foreground">
+                    {dict.hero.description}
+                  </p>
+                ) : null}
 
                 <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
                   <Link href="/login" prefetch={false}>
@@ -95,22 +103,21 @@ export function LandingPage({
 
           {/* About / AIO product description */}
           <section
-            className="border-b bg-muted/20 py-16 sm:py-20"
+            className="border-b bg-muted/20"
             aria-labelledby="about-heading"
           >
-            <div className="mx-auto max-w-3xl px-4">
-              <h2
-                id="about-heading"
-                className="text-center text-2xl font-semibold tracking-tight sm:text-3xl"
-              >
-                {dict.about.title}
-              </h2>
-              <div className="mt-8 space-y-4 text-muted-foreground">
-                {dict.about.paragraphs.map((paragraph) => (
-                  <p key={paragraph.slice(0, 40)} className="whitespace-pre-line leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
+            <div className={cn(sectionShell, "py-16 sm:py-20")}>
+              <div className={proseWidth}>
+                <h2 id="about-heading" className={cn(headingClass, "text-center")}>
+                  {dict.about.title}
+                </h2>
+                <div className="mt-8 space-y-4">
+                  {dict.about.paragraphs.map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)} className={bodyClass}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -118,23 +125,19 @@ export function LandingPage({
           {/* Features */}
           <section
             id="features"
-            className="py-16 sm:py-20"
             aria-labelledby="features-heading"
           >
-            <div className="mx-auto max-w-6xl px-4">
-              <div className="mx-auto max-w-2xl text-center">
-                <h2
-                  id="features-heading"
-                  className="text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
+            <div className={cn(sectionShell, "py-16 sm:py-20")}>
+              <div className={cn(proseWidth, "text-center")}>
+                <h2 id="features-heading" className={headingClass}>
                   {dict.features.title}
                 </h2>
-                <p className="mt-3 whitespace-pre-line text-muted-foreground">
-                  {dict.features.subtitle}
-                </p>
+                {dict.features.subtitle ? (
+                  <p className={cn("mt-3", bodyClass)}>{dict.features.subtitle}</p>
+                ) : null}
               </div>
 
-              <div className="mt-12 grid gap-6 sm:grid-cols-2">
+              <div className={cn(proseWidth, "mt-12 grid gap-6 sm:grid-cols-2")}>
                 {dict.features.items.map((feature, index) => {
                   const Icon = featureIcons[index] ?? Sparkles;
                   return (
@@ -146,10 +149,12 @@ export function LandingPage({
                         >
                           <Icon className="size-5 text-primary" />
                         </div>
-                        <CardTitle className="text-lg">{feature.title}</CardTitle>
+                        <h3 className="text-balance text-lg font-semibold leading-relaxed tracking-wide">
+                          {feature.title}
+                        </h3>
                       </CardHeader>
                       <CardContent>
-                        <CardDescription className="whitespace-pre-line text-sm leading-relaxed">
+                        <CardDescription className={cn("text-sm", bodyClass)}>
                           {feature.description}
                         </CardDescription>
                       </CardContent>
@@ -163,47 +168,48 @@ export function LandingPage({
           {/* Pricing */}
           <section
             id="pricing"
-            className="border-y bg-muted/20 py-16 sm:py-20"
+            className="border-y bg-muted/20"
             aria-labelledby="pricing-heading"
           >
-            <div className="mx-auto max-w-3xl px-4">
-              <div className="mx-auto max-w-2xl text-center">
+            <div className={cn(sectionShell, "py-16 sm:py-20")}>
+              <div className={cn(proseWidth, "text-center")}>
                 <div
                   className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/5 ring-1 ring-primary/10"
                   aria-hidden="true"
                 >
                   <DollarSign className="size-6 text-primary" />
                 </div>
-                <h2
-                  id="pricing-heading"
-                  className="text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
+                <h2 id="pricing-heading" className={headingClass}>
                   {dict.pricing.title}
                 </h2>
-                <p className="mt-3 whitespace-pre-line text-muted-foreground">
-                  {dict.pricing.subtitle}
-                </p>
+                <p className={cn("mt-3", bodyClass)}>{dict.pricing.subtitle}</p>
               </div>
 
-              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              <div className={cn(proseWidth, "mt-10 grid gap-4 sm:grid-cols-3")}>
                 <Card className="text-center">
                   <CardHeader>
-                    <CardTitle className="text-base">{dict.pricing.pricePerBooking}</CardTitle>
+                    <CardTitle className="text-balance text-base leading-relaxed tracking-wide">
+                      {dict.pricing.pricePerBooking}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
                 <Card className="text-center">
                   <CardHeader>
-                    <CardTitle className="text-base">{dict.pricing.noMonthlyFee}</CardTitle>
+                    <CardTitle className="text-balance text-base leading-relaxed tracking-wide">
+                      {dict.pricing.noMonthlyFee}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
                 <Card className="text-center">
                   <CardHeader>
-                    <CardTitle className="text-base">{dict.pricing.freeTier}</CardTitle>
+                    <CardTitle className="text-balance text-base leading-relaxed tracking-wide">
+                      {dict.pricing.freeTier}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
               </div>
 
-              <p className="mt-6 text-center text-sm text-muted-foreground">
+              <p className={cn(proseWidth, "mt-6 text-center text-sm", bodyClass)}>
                 {dict.pricing.footnote}
               </p>
             </div>
@@ -212,23 +218,24 @@ export function LandingPage({
           {/* How it works */}
           <section
             id="how-it-works"
-            className="border-y bg-muted/20 py-16 sm:py-20"
+            className="border-y bg-muted/20"
             aria-labelledby="how-heading"
           >
-            <div className="mx-auto max-w-6xl px-4">
-              <div className="mx-auto max-w-2xl text-center">
-                <h2
-                  id="how-heading"
-                  className="text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
+            <div className={cn(sectionShell, "py-16 sm:py-20")}>
+              <div className={cn(proseWidth, "text-center")}>
+                <h2 id="how-heading" className={headingClass}>
                   {dict.howItWorks.title}
                 </h2>
-                <p className="mt-3 whitespace-pre-line text-muted-foreground">
-                  {dict.howItWorks.subtitle}
-                </p>
+                <div className="mt-3 space-y-4">
+                  {dict.howItWorks.subtitle.split("\n").map((line) => (
+                    <p key={line} className={bodyClass}>
+                      {line}
+                    </p>
+                  ))}
+                </div>
               </div>
 
-              <div className="mt-12 grid gap-10 lg:grid-cols-2">
+              <div className={cn(proseWidth, "mt-12 grid gap-10 lg:grid-cols-2")}>
                 <FlowColumn
                   title={dict.howItWorks.clientTitle}
                   steps={dict.howItWorks.clientSteps}
@@ -246,28 +253,23 @@ export function LandingPage({
           {/* FAQ */}
           <section
             id="faq"
-            className="py-16 sm:py-20"
             aria-labelledby="faq-heading"
           >
-            <div className="mx-auto max-w-3xl px-4 text-left">
-              <div>
-                <h2
-                  id="faq-heading"
-                  className="text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
+            <div className={cn(sectionShell, "py-16 sm:py-20")}>
+              <div className={proseWidth}>
+                <h2 id="faq-heading" className={headingClass}>
                   {dict.faq.title}
                 </h2>
-                <p className="mt-3 text-muted-foreground">{dict.faq.subtitle}</p>
               </div>
 
-              <div className="mt-10 space-y-3 text-left">
+              <div className={cn(proseWidth, "mt-10 space-y-3 text-left")}>
                 {dict.faq.items.map((item, index) => (
                   <details
                     key={item.question}
                     className="group rounded-xl border bg-card ring-1 ring-foreground/5 open:ring-foreground/10"
                     {...(index === 0 ? { open: true } : {})}
                   >
-                    <summary className="cursor-pointer list-none px-5 py-4 font-medium marker:content-none [&::-webkit-details-marker]:hidden">
+                    <summary className="cursor-pointer list-none px-5 py-4 font-medium leading-relaxed tracking-wide marker:content-none [&::-webkit-details-marker]:hidden">
                       <span className="flex items-center justify-between gap-4">
                         {item.question}
                         <span
@@ -278,7 +280,7 @@ export function LandingPage({
                         </span>
                       </span>
                     </summary>
-                    <div className="whitespace-pre-line border-t px-5 pb-4 pt-3 text-sm leading-relaxed text-muted-foreground">
+                    <div className={cn("border-t px-5 pb-4 pt-3 text-sm", bodyClass)}>
                       {item.answer}
                     </div>
                   </details>
@@ -289,38 +291,44 @@ export function LandingPage({
 
           {/* CTA */}
           <section
-            className="border-t bg-primary py-16 text-primary-foreground sm:py-20"
+            className="border-t bg-primary text-primary-foreground"
             aria-labelledby="cta-heading"
           >
-            <div className="mx-auto max-w-3xl px-4 text-center">
-              <h2
-                id="cta-heading"
-                className="text-2xl font-semibold tracking-tight sm:text-3xl"
-              >
-                {dict.cta.title}
-              </h2>
-              <p className="mt-4 whitespace-pre-line text-primary-foreground/80">
-                {dict.cta.description}
-              </p>
-              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
-                <Link href="/login" prefetch={false}>
-                  <Button
-                    size="lg"
-                    variant="secondary"
-                    className="w-full min-w-[180px] sm:w-auto"
-                  >
-                    {dict.cta.loginButton}
-                  </Button>
-                </Link>
-                <Link href="/register" prefetch={false}>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-full min-w-[180px] border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 sm:w-auto"
-                  >
-                    {dict.cta.studioButton}
-                  </Button>
-                </Link>
+            <div className={cn(sectionShell, "py-16 text-center sm:py-20")}>
+              <div className={proseWidth}>
+                <h2 id="cta-heading" className={headingClass}>
+                  {dict.cta.title}
+                </h2>
+                <div className="mt-4 space-y-4">
+                  {dict.cta.description.split("\n").map((line) => (
+                    <p
+                      key={line}
+                      className="text-pretty leading-relaxed tracking-wide text-primary-foreground/80"
+                    >
+                      {line}
+                    </p>
+                  ))}
+                </div>
+                <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
+                  <Link href="/login" prefetch={false}>
+                    <Button
+                      size="lg"
+                      variant="secondary"
+                      className="w-full min-w-[180px] sm:w-auto"
+                    >
+                      {dict.cta.loginButton}
+                    </Button>
+                  </Link>
+                  <Link href="/register" prefetch={false}>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="w-full min-w-[180px] border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 sm:w-auto"
+                    >
+                      {dict.cta.studioButton}
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
           </section>
@@ -343,7 +351,9 @@ function FlowColumn({
 }) {
   return (
     <div className="text-center lg:text-left">
-      <h3 className="text-lg font-semibold">{title}</h3>
+      <h3 className="text-balance text-lg font-semibold leading-relaxed tracking-wide">
+        {title}
+      </h3>
       <ol className="mt-6 space-y-6">
         {steps.map((step, index) => (
           <li
@@ -362,10 +372,8 @@ function FlowColumn({
               {index + 1}
             </span>
             <div className="max-w-sm lg:max-w-none">
-              <p className="font-medium">{step.title}</p>
-              <p className="mt-1 whitespace-pre-line text-sm text-muted-foreground">
-                {step.description}
-              </p>
+              <p className="font-medium leading-relaxed tracking-wide">{step.title}</p>
+              <p className={cn("mt-1 text-sm", bodyClass)}>{step.description}</p>
             </div>
           </li>
         ))}

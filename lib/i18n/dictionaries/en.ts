@@ -3,18 +3,18 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "en",
   meta: {
-    title: "FLASH — Tattoo Studio Booking & Project Management",
+    title: "FLASH — Tattoo Studio Booking & Case Management",
     description:
-      "Tattoo studio booking system: fewer missed bookings, fewer repeat messages. Manage requests, quotes, scheduling, deposits, and multi-session bookings in one place.",
+      "FLASH tattoo booking management: automate intake, scheduling, and sketch protection — save 80% of communication time. No monthly fee, pay per booking.",
     keywords: [
       "tattoo booking",
       "tattoo studio management",
       "tattoo shop software",
       "FLASH",
-      "tattoo deposit",
-      "multi-session tattoo",
-      "tattoo project management",
-      "tattoo client management",
+      "tattoo case management",
+      "AI smart summary",
+      "tattoo booking management system",
+      "multi-language booking",
     ],
   },
   header: {
@@ -30,57 +30,56 @@ const dictionary: LandingDictionary = {
   hero: {
     eyebrow: "Built for tattoo studios",
     brand: "FLASH",
-    heading: "Tattoo studio booking & project management",
+    heading: "Tattoo Studio Booking & Case Management",
     subtitle:
-      "Fewer missed bookings, fewer repeat messages,\nso you can focus on tattooing.",
-    description:
-      "No more starting from scratch in DMs —\nyou and your clients always know what's next.",
+      "Every line, dot, and shade deserves 100% of your focus.",
+    description: "",
     ctaLogin: "Log in",
     ctaRegisterStudio: "Register studio",
   },
   about: {
-    title: "What is FLASH?",
+    title:
+      "Why Tattoo Artists Everywhere Are Using FLASH Booking Management System?",
     paragraphs: [
-      "A tattoo studio booking system for managing projects end to end.\nShop owners and artists run the back office; clients fill out requests and check progress on their own — separate flows, synced data.",
-      "Sound familiar? Clients explain half the idea, deposits don't match the books, multi-session pieces get mixed up, and the DMs keep asking \"any update?\"\nFLASH puts it all in one place: from intake and quoting to deposits and multi-session scheduling — clear steps, clear records.",
-      "Clients open your link to start a project; you open the back office when you're ready to work on it.",
+      "Every line, dot, and shade deserves 100% of your focus. But the reality is, replying to DMs and managing bookings takes up most of your energy.",
+      "FLASH was born to free your hands. We automate tedious tasks like gathering requirements, scheduling, and protecting sketches.",
+      "No more getting stuck waiting for client sizes, and no more juggling records across multiple social apps. Reduce unnecessary communication to zero, and save your most valuable time for the next masterpiece.",
     ],
   },
   features: {
-    title: "What saves studios time",
-    subtitle:
-      "The steps where bookings slip through —\nwithout relying on memory alone",
+    title: "Automated Studio Management, Saving 80% of Communication Time",
+    subtitle: "",
     items: [
       {
-        title: "Understand what clients mean",
-        schemaName: "AI client intake summary",
+        title: "AI Smart Summary: Accurately capture client tattoo needs",
+        schemaName: "AI Smart Summary",
         description:
-          "Vague requests, clear highlights when you open them —\nknow what you're quoting before you quote.",
+          "Once clients submit their request, AI summarizes key points — complexity and risks at a glance before you quote.",
       },
       {
-        title: "Quotes without endless back-and-forth",
-        schemaName: "Quote and scheduling",
+        title: "Multi-language Support: Seamlessly accept international traveler bookings",
+        schemaName: "Multi-language Support",
         description:
-          "New projects in one place, send times when you're ready —\nclients pick; you focus on the art.",
+          "Nine-language interface lets international travelers book with ease — zero communication barriers.",
       },
       {
-        title: "Deposits that add up",
-        schemaName: "Deposit tracking",
+        title: "Independent Two-Way Board: Sketch revision history never lost",
+        schemaName: "Independent Two-Way Board",
         description:
-          "Who paid, how much — all recorded.\nNo scrolling chat history to reconcile.",
+          "Separate views for clients and studios keep every sketch revision on record — no more buried DMs.",
       },
       {
-        title: "Custom vs Flash",
-        schemaName: "Custom and flash booking",
+        title: "Automatic Smart Watermark: All-round protection for original sketches",
+        schemaName: "Automatic Smart Watermark",
         description:
-          "Whether it's a custom consultation or picking a flash design,\nyou and your client can easily prep for the next tattoo session.",
+          "Uploads are watermarked automatically to protect original sketches from screenshots and leaks.",
       },
     ],
   },
   howItWorks: {
-    title: "How it works",
+    title: "From First Consultation to Consent: The Smoothest Tattoo Booking Flow",
     subtitle: "Clients and studios each have their own flow —\nprogress stays in sync",
-    clientTitle: "For clients",
+    clientTitle: "Client side: clear guidance, easy intake",
     clientSteps: [
       {
         title: "Open your booking link",
@@ -102,7 +101,7 @@ const dictionary: LandingDictionary = {
           "No more \"any update?\" — just open and see",
       },
     ],
-    studioTitle: "For studios",
+    studioTitle: "Studio side: at a glance, digital records",
     studioSteps: [
       {
         title: "Get your shop set up",
@@ -127,7 +126,7 @@ const dictionary: LandingDictionary = {
     ],
   },
   pricing: {
-    title: "Simple, usage-based pricing",
+    title: "Artist-friendly flexible pricing: no monthly fee, pay per booking",
     subtitle:
       "No monthly subscription — you only pay when bookings succeed through FLASH.",
     pricePerBooking: "USD $3 per successful booking each month",
@@ -137,7 +136,7 @@ const dictionary: LandingDictionary = {
       "Billing is based on your studio's successful bookings count each calendar month. Multi-session projects count as one booking when confirmed.",
   },
   faq: {
-    title: "FAQ",
+    title: "Frequently asked questions about FLASH tattoo management software",
     subtitle: "Common tattoo shop questions, plain answers",
     items: [
       {
@@ -205,7 +204,7 @@ const dictionary: LandingDictionary = {
     studioButton: "Register studio",
   },
   footer: {
-    tagline: "Tattoo studio booking & project management",
+    tagline: "Tattoo studio booking & case management",
     product: "Product",
     account: "Account",
     legal: "Legal",
