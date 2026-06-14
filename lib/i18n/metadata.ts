@@ -32,6 +32,8 @@ export function buildLandingMetadata(
     .map((loc) => localeOpenGraph[loc]);
 
   const ogImageUrl = `${siteUrl}/og/flash.svg`;
+  const ogTitle = dict.meta.ogTitle ?? dict.meta.title;
+  const ogDescription = dict.meta.ogDescription ?? dict.meta.description;
 
   return {
     title: dict.meta.title,
@@ -47,21 +49,21 @@ export function buildLandingMetadata(
       alternateLocale: alternateLocales,
       url: canonical,
       siteName: "FLASH",
-      title: dict.meta.title,
-      description: dict.meta.description,
+      title: ogTitle,
+      description: ogDescription,
       images: [
         {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: dict.meta.title,
+          alt: ogTitle,
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: dict.meta.title,
-      description: dict.meta.description,
+      title: ogTitle,
+      description: ogDescription,
       images: [ogImageUrl],
     },
     robots: {

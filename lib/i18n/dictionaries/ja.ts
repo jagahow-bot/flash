@@ -3,9 +3,11 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "ja",
   meta: {
-    title: "FLASH — タトゥースタジオ予約・案件管理",
+    title: "FLASH — タトゥースタジオのためのスマート予約・案件管理システム",
     description:
-      "FLASH タトゥー予約管理システム：ヒアリング・スケジュール調整・下絵保護を自動化し、コミュニケーション時間を80%削減。月額固定なし、案件ごとの課金。",
+      "煩雑なDM対応から解放！FLASHは、彫師専用の予約リンク、AI需要要約、自動ウォーターマーク、そして独立した2WAYチャットボードを提供します。固定月額費なし。カスタムオーダーやフラッシュデザインの管理を効率化し、創作に集中できます。",
+    ogDescription:
+      "煩雑なDM対応から解放！FLASHは、彫師専用の予約リンク、AI需要要約、自動ウォーターマーク、そして独立したチャットボードを提供します。",
     keywords: [
       "タトゥー予約",
       "タトゥースタジオ管理",

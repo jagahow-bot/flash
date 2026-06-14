@@ -3,9 +3,11 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "ko",
   meta: {
-    title: "FLASH — 타투 스튜디오 예약 및 고객 관리",
+    title: "FLASH — 타투 스튜디오를 위한 스마트 예약 및 고객 관리 시스템",
     description:
-      "FLASH 타투 예약 관리 시스템: 요구사항 파악, 일정 조율, 도안 보호를 자동화해 소통 시간 80% 절감. 월정액 없음, 건별 과금.",
+      "복잡한 SNS 메시지 관리에서 벗어나세요! FLASH는 타투이스트 전용 예약 링크, AI 요구사항 요약, 자동 워터마크 보호, 양방향 대화 보드를 제공합니다. 고정 월회비 없음—오직 창작에만 집중하며 커스텀 도안과 플래시 예약을 손쉽게 관리하세요.",
+    ogDescription:
+      "복잡한 SNS 메시지 관리에서 벗어나세요! FLASH는 타투이스트 전용 예약 링크, AI 요약, 자동 워터마크, 양방향 대화 보드를 제공합니다.",
     keywords: [
       "타투 예약",
       "타투 스튜디오 관리",

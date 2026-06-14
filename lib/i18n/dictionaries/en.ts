@@ -3,9 +3,12 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "en",
   meta: {
-    title: "FLASH — Tattoo Studio Booking & Case Management",
+    title:
+      "FLASH — Intelligent Booking & Case Management System for Tattoo Studios",
     description:
-      "FLASH tattoo booking management: automate intake, scheduling, and sketch protection — save 80% of communication time. No monthly fee, pay per booking.",
+      "Say goodbye to messy DMs! FLASH offers personalized booking links, AI-powered requirement summaries, automatic watermarking, and dedicated two-way boards. No fixed monthly fees—focus on your art and effortlessly manage custom work and flash designs.",
+    ogDescription:
+      "Say goodbye to messy DMs! FLASH offers personalized booking links, AI summaries, automatic watermarking, and dedicated two-way collaboration boards.",
     keywords: [
       "tattoo booking",
       "tattoo studio management",

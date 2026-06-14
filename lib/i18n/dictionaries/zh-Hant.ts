@@ -6,6 +6,8 @@ const dictionary: LandingDictionary = {
     title: "FLASH — 專為刺青工作室打造的智能預約與案件管理系統",
     description:
       "告別繁瑣的私訊溝通！FLASH 提供刺青師專屬的預約連結、AI 需求摘要、自動浮水印保護與雙向溝通看板。無固定月費，讓您專注於刺青創作，輕鬆管理客製化與認領圖訂單。",
+    ogDescription:
+      "告別繁瑣的私訊溝通！FLASH 提供刺青師專屬的預約連結、AI 需求摘要、自動浮水印保護與雙向溝通看板。",
     keywords: [
       "刺青預約",
       "刺青工作室管理",

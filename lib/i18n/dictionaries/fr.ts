@@ -3,9 +3,12 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "fr",
   meta: {
-    title: "FLASH — Réservation et Gestion de Cas pour Studios de Tatouage",
+    title:
+      "FLASH — Système Intelligent de Réservation et de Gestion pour Studios de Tatouage",
     description:
-      "Système de gestion de réservations FLASH : automatisez les besoins clients, la planification et la protection des croquis — économisez 80 % du temps de communication. Pas d'abonnement mensuel, paiement par réservation.",
+      "Fini le chaos des messages privés ! FLASH propose des liens de réservation personnalisés, des résumés de demandes par IA, un filigrane automatique et des panneaux de discussion dédiés. Sans abonnement mensuel fixe : concentrez-vous sur votre art et gérez facilement vos projets personnalisés et flashs.",
+    ogDescription:
+      "Fini le chaos des messages privés ! FLASH propose des liens de réservation personnalisés, des résumés par IA, un filigrane automatique et des panneaux dédiés.",
     keywords: [
       "réservation tatouage",
       "gestion studio tatouage",

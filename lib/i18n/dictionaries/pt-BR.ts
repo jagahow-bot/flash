@@ -3,9 +3,12 @@ import type { LandingDictionary } from "@/lib/i18n/types";
 const dictionary: LandingDictionary = {
   locale: "pt-BR",
   meta: {
-    title: "FLASH — Gestão de Casos e Reservas para Estúdios de Tatuagem",
+    title:
+      "FLASH — Sistema Inteligente de Reservas e Gestão de Casos para Estúdios de Tatuagem",
     description:
-      "Sistema de gestão de reservas FLASH: automatiza requisitos, horários e proteção de esboços, economizando 80% do tempo de comunicação. Sem mensalidade fixa, pague por reserva.",
+      "Diga adeus às mensagens diretas caóticas! O FLASH oferece links de reserva personalizados, resumos de requisitos por IA, marca de água automática e painéis de discussão dedicados. Sem taxas mensais fixas: concentre-se na sua arte e gerencie facilmente os seus desenhos personalizados e flash.",
+    ogDescription:
+      "Diga adeus às mensagens diretas caóticas! O FLASH oferece links de reserva personalizados, resumos por IA, marca de água automática e painéis dedicados.",
     keywords: [
       "agendamento tatuagem",
       "gestão estúdio tatuagem",

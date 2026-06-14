@@ -31,6 +31,8 @@ export interface LandingDictionary {
   meta: {
     title: string;
     description: string;
+    ogTitle?: string;
+    ogDescription?: string;
     keywords: string[];
   };
   header: {
