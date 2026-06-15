@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { auth } from "@/lib/firebase";
 import { EmailVerificationCard } from "@/components/auth/email-verification-card";
+import { completeVerificationRedirect } from "@/lib/auth/complete-verification-redirect";
 import { sanitizeRedirectTo } from "@/lib/auth/sanitize-redirect";
 import type { VerificationAudience } from "@/lib/auth/send-verification-email";
 
@@ -23,7 +24,6 @@ export function VerifyEmailPage({
   const dict = useAppDictionary();
   const t = dict.auth;
   const c = dict.common;
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = sanitizeRedirectTo(searchParams.get("redirect"));
   const [email, setEmail] = useState<string | null>(null);
@@ -47,7 +47,7 @@ export function VerifyEmailPage({
       setEmail(current?.email ?? user.email ?? null);
 
       if (current?.emailVerified && redirectTo) {
-        router.replace(redirectTo);
+        await completeVerificationRedirect(redirectTo, audience);
         return;
       }
 
@@ -55,7 +55,7 @@ export function VerifyEmailPage({
     });
 
     return unsubscribe;
-  }, [redirectTo, router]);
+  }, [audience, redirectTo]);
 
   if (loading) {
     return <p className="text-sm text-muted-foreground">{c.loading}</p>;

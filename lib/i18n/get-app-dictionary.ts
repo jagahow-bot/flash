@@ -23,6 +23,7 @@ const appDictionaries: Record<Locale, () => Promise<{ default: unknown }>> = {
   de: () => import("@/lib/i18n/dictionaries/app/de"),
   fr: () => import("@/lib/i18n/dictionaries/app/fr"),
   th: () => import("@/lib/i18n/dictionaries/app/th"),
+  vi: () => import("@/lib/i18n/dictionaries/app/vi"),
 };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {

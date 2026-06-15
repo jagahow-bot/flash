@@ -272,6 +272,7 @@ const dictionary = {
       "EUR": "EUR ユーロ",
       "GBP": "GBP 英ポンド",
       "THB": "THB タイバーツ",
+      "VND": "VND ベトナムドン",
       "BRL": "BRL ブラジルレアル"
     },
     "description": "ご要望の詳細",

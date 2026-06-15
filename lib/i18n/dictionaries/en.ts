@@ -63,7 +63,7 @@ const dictionary: LandingDictionary = {
         title: "Multi-language Support: Seamlessly accept international traveler bookings",
         schemaName: "Multi-language Support",
         description:
-          "Nine-language interface lets international travelers book with ease — zero communication barriers.",
+          "Ten-language interface lets international travelers book with ease — zero communication barriers.",
       },
       {
         title: "Independent Two-Way Board: Sketch revision history never lost",

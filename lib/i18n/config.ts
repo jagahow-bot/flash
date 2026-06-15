@@ -8,6 +8,7 @@ export const locales = [
   "de",
   "fr",
   "th",
+  "vi",
 ] as const;
 
 export type Locale = (typeof locales)[number];
@@ -25,6 +26,7 @@ export const localeRouteSegments: Record<Locale, string> = {
   de: "de",
   fr: "fr",
   th: "th",
+  vi: "vi",
 };
 
 /** Native names for the language switcher. */
@@ -38,6 +40,7 @@ export const localeLabels: Record<Locale, string> = {
   de: "Deutsch",
   fr: "Français",
   th: "ไทย",
+  vi: "Tiếng Việt",
 };
 
 /** BCP 47 tags for hreflang and lang attributes. */
@@ -51,6 +54,7 @@ export const localeHrefLang: Record<Locale, string> = {
   de: "de",
   fr: "fr",
   th: "th",
+  vi: "vi",
 };
 
 /** Open Graph locale codes. */
@@ -64,6 +68,7 @@ export const localeOpenGraph: Record<Locale, string> = {
   de: "de_DE",
   fr: "fr_FR",
   th: "th_TH",
+  vi: "vi_VN",
 };
 
 const segmentToLocale = Object.fromEntries(

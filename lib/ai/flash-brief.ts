@@ -23,6 +23,7 @@ const FLASH_SUMMARY: Record<Locale, string> = {
   de: "Flash-Design-Buchung",
   fr: "Réservation tatouage flash",
   th: "จองลายแฟลช",
+  vi: "Đặt lịch flash design",
 };
 
 const PLACEMENT_RISK_COPY: Record<
@@ -82,6 +83,12 @@ const PLACEMENT_RISK_COPY: Record<
       "ตำแหน่งที่เลือก (นิ้ว เท้า คอ) สีอาจจางเร็ว ควรยืนยันสเกลลายและความหนาเส้น",
     smallArea:
       "ขนาดที่เลือกค่อนข้างเล็ก ควรยืนยันว่ารายละเอียดแฟลชยังชัดในขนาดนั้น",
+  },
+  vi: {
+    sensitivePlacement:
+      "Vị trí đã chọn (ngón tay, bàn chân, cổ) dễ phai màu hơn; xác nhận tỷ lệ thiết kế và độ dày nét với khách.",
+    smallArea:
+      "Kích thước đã chọn khá nhỏ; xác nhận chi tiết flash design vẫn rõ ở quy mô đó.",
   },
 };
 

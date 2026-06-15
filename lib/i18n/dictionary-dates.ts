@@ -155,6 +155,23 @@ export const DATE_DICTIONARIES: Record<Locale, AppDictionary["dates"]> = {
     timeRange: "{start} – {end}",
     dateAtTime: "{date} {time}",
   },
+  vi: {
+    weekdays: {
+      sun: "CN",
+      mon: "T2",
+      tue: "T3",
+      wed: "T4",
+      thu: "T5",
+      fri: "T6",
+      sat: "T7",
+    },
+    monthDay: "{day}/{month}",
+    monthDayWeekday: "{base} ({weekday})",
+    yearMonth: "{month}/{year}",
+    fullDate: "{day}/{month}/{year} ({weekday})",
+    timeRange: "{start} – {end}",
+    dateAtTime: "{date} {time}",
+  },
 };
 
 export const PRICE_FORMAT_BY_LOCALE: Record<Locale, string> = {
@@ -167,4 +184,5 @@ export const PRICE_FORMAT_BY_LOCALE: Record<Locale, string> = {
   de: "NT$ {amount}",
   fr: "NT$ {amount}",
   th: "NT$ {amount}",
+  vi: "NT$ {amount}",
 };

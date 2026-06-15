@@ -14,6 +14,7 @@ const dictionaries: Record<
   de: () => import("@/lib/i18n/dictionaries/de"),
   fr: () => import("@/lib/i18n/dictionaries/fr"),
   th: () => import("@/lib/i18n/dictionaries/th"),
+  vi: () => import("@/lib/i18n/dictionaries/vi"),
 };
 
 export async function getDictionary(locale: Locale): Promise<LandingDictionary> {

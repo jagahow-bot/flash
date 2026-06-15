@@ -61,7 +61,7 @@ const dictionary: LandingDictionary = {
         title: "Suporte multi-idioma: Aceite reservas de viajantes internacionais sem complicações",
         schemaName: "Suporte multi-idioma",
         description:
-          "Interface em nove idiomas para que viajantes internacionais reservem com facilidade — zero barreiras de comunicação.",
+          "Interface em dez idiomas para que viajantes internacionais reservem com facilidade — zero barreiras de comunicação.",
       },
       {
         title: "Painel bidirecional independente: O histórico de revisões de esboços nunca se perde",

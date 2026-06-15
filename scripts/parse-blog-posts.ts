@@ -79,6 +79,7 @@ const localeMap: Record<string, string> = {
   de: "de",
   fr: "fr",
   th: "th",
+  vi: "vi",
 };
 
 type PostLocaleContent = {

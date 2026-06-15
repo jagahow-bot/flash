@@ -61,7 +61,7 @@ const dictionary: LandingDictionary = {
         title: "Multilinguale Unterstützung: Buchungen internationaler Reisender nahtlos annehmen",
         schemaName: "Multilinguale Unterstützung",
         description:
-          "Neunsprachige Oberfläche, damit internationale Reisende mühelos buchen können — null Kommunikationsbarrieren.",
+          "Zehnsprachige Oberfläche, damit internationale Reisende mühelos buchen können — null Kommunikationsbarrieren.",
       },
       {
         title: "Unabhängiges Dashboard: Verlauf der Design-Anpassungen geht nie verloren",

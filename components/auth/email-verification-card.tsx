@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { type FirebaseError } from "firebase/app";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import { completeVerificationRedirect } from "@/lib/auth/complete-verification-redirect";
 import { resendRegistrationVerificationEmail } from "@/lib/auth/send-verification-email";
 import type { VerificationAudience } from "@/lib/auth/send-verification-email";
 import { auth } from "@/lib/firebase";
 import { formatMessage } from "@/lib/i18n/format";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -35,9 +35,11 @@ export function EmailVerificationCard({
 }: EmailVerificationCardProps) {
   const dict = useAppDictionary();
   const t = dict.auth;
+  const c = dict.common;
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [continuing, setContinuing] = useState(false);
 
   async function handleResend() {
     setMessage(null);
@@ -70,8 +72,18 @@ export function EmailVerificationCard({
     }
   }
 
-  const continueHref =
-    redirectTo && redirectTo.startsWith("/") ? redirectTo : homeHref;
+  async function handleContinue() {
+    setContinuing(true);
+    try {
+      if (redirectTo && redirectTo.startsWith("/")) {
+        await completeVerificationRedirect(redirectTo, audience);
+      } else {
+        window.location.assign(homeHref);
+      }
+    } catch {
+      setContinuing(false);
+    }
+  }
 
   const description =
     audience === "client"
@@ -101,12 +113,14 @@ export function EmailVerificationCard({
           </p>
         )}
 
-        <Link
-          href={continueHref}
-          className={cn(buttonVariants(), "w-full")}
+        <Button
+          type="button"
+          disabled={continuing}
+          onClick={handleContinue}
+          className="w-full"
         >
-          {t.verifyEmailContinue}
-        </Link>
+          {continuing ? c.loading : t.verifyEmailContinue}
+        </Button>
 
         <Button
           type="button"

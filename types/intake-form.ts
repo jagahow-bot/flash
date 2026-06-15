@@ -10,6 +10,7 @@ export const BUDGET_CURRENCIES = [
   "EUR",
   "GBP",
   "THB",
+  "VND",
   "BRL",
 ] as const;
 export type BudgetCurrency = (typeof BUDGET_CURRENCIES)[number];

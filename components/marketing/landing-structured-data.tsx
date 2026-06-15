@@ -12,6 +12,7 @@ const LOCALE_CURRENCY: Partial<Record<LandingDictionary["locale"], string>> = {
   de: "EUR",
   fr: "EUR",
   th: "THB",
+  vi: "VND",
 };
 
 const LOCALE_AUDIENCE: Partial<Record<LandingDictionary["locale"], string>> = {
@@ -23,6 +24,7 @@ const LOCALE_AUDIENCE: Partial<Record<LandingDictionary["locale"], string>> = {
   de: "Tattoo-Studios und Kunden",
   fr: "Studios de tatouage et clients",
   th: "สตูดิโอสักและลูกค้า",
+  vi: "Studio xăm và khách hàng",
 };
 
 export function LandingStructuredData({

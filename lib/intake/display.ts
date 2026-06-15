@@ -23,6 +23,7 @@ export const LOCALE_DEFAULT_BUDGET_CURRENCY: Record<Locale, BudgetCurrency> = {
   de: "EUR",
   fr: "EUR",
   th: "THB",
+  vi: "VND",
 };
 
 export function resolveSizeUnit(sizeUnit?: SizeUnit): SizeUnit {

@@ -24,7 +24,8 @@ export type LandingLocale =
   | "pt-BR"
   | "de"
   | "fr"
-  | "th";
+  | "th"
+  | "vi";
 
 export interface LandingDictionary {
   locale: LandingLocale;

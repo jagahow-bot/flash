@@ -19,6 +19,7 @@ const OUTPUT_LANGUAGE: Record<Locale, string> = {
   de: "German (Deutsch)",
   fr: "French (Français)",
   th: "Thai (ไทย)",
+  vi: "Vietnamese (Tiếng Việt)",
 };
 
 export function buildBriefSystemPrompt(locale: Locale): string {
@@ -144,6 +145,7 @@ function localeNotProvidedLabel(locale: Locale): string {
     de: "Nicht angegeben",
     fr: "Non renseigné",
     th: "ไม่ได้ระบุ",
+    vi: "Chưa cung cấp",
   };
   return labels[locale];
 }
@@ -159,6 +161,7 @@ function localeNoneLabel(locale: Locale): string {
     de: "Keine",
     fr: "Aucun",
     th: "ไม่มี",
+    vi: "Không có",
   };
   return labels[locale];
 }
@@ -273,6 +276,17 @@ const FALLBACK_COPY: Record<Locale, BriefFallbackCopy> = {
       "บริการสรุป AI ต้องอัปเดตการตั้งค่า แสดงสรุปพื้นฐานชั่วคราว",
     serviceUnavailable:
       "บริการสรุป AI ใช้งานไม่ได้ชั่วคราว แสดงสรุปพื้นฐานชั่วคราว",
+  },
+  vi: {
+    smallCoverUpDanger:
+      "Cover-up nhỏ đòi hỏi kỹ thuật cao; xác nhận khách có chấp nhận phóng to thiết kế hoặc chia nhiều buổi không.",
+    coverUpWarning: "Yêu cầu cover-up cần thêm thời gian tư vấn và chỉnh sửa.",
+    quotaExhausted:
+      "Hạn mức tóm tắt AI đã hết; hiện hiển thị tóm tắt cơ bản.",
+    configUpdateNeeded:
+      "Dịch vụ tóm tắt AI cần cập nhật cấu hình; hiện hiển thị tóm tắt cơ bản.",
+    serviceUnavailable:
+      "Tóm tắt AI tạm thời không khả dụng; hiện hiển thị tóm tắt cơ bản.",
   },
 };
 

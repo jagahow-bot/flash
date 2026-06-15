@@ -285,6 +285,7 @@ const dictionary: AppDictionary = {
       EUR: "EUR 歐元",
       GBP: "GBP 英鎊",
       THB: "THB 泰銖",
+      VND: "VND 越南盾",
       BRL: "BRL 巴西雷亞爾",
     },
     description: "需求描述",

@@ -15,6 +15,7 @@ const emailDictionaries: Record<
   de: () => import("@/lib/i18n/dictionaries/email/de"),
   fr: () => import("@/lib/i18n/dictionaries/email/fr"),
   th: () => import("@/lib/i18n/dictionaries/email/th"),
+  vi: () => import("@/lib/i18n/dictionaries/email/vi"),
 };
 
 function mergeEmailDictionary(

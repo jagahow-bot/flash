@@ -22,6 +22,7 @@ const LOCALE_NAMES: Record<Locale, string> = {
   de: "German",
   fr: "French",
   th: "Thai",
+  vi: "Vietnamese",
 };
 
 const LOCALE_INSTRUCTIONS: Partial<Record<Locale, string>> = {
@@ -30,6 +31,7 @@ const LOCALE_INSTRUCTIONS: Partial<Record<Locale, string>> = {
   ko: "Use polite 해요체 suitable for customer-facing services.",
   "pt-BR": "Use Brazilian Portuguese (pt-BR), not European Portuguese.",
   th: "Use polite Thai suitable for customer-facing services.",
+  vi: "Use natural Vietnamese suitable for customer-facing tattoo studio services.",
 };
 
 async function translateDictionary(
