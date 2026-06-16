@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "Buchung, Angebote und Kundenmanagement für Tattoo-Studios",
     "login": "Anmelden"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP oder GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "Wird vor dem Upload automatisch komprimiert (ca. 1 MB, max. Breite 1920 px)",
+    "singleImageLimits": "{formats} · Max. {maxSize} pro Bild · {compression}",
+    "multipleImageLimits": "Bis zu {maxCount} Bilder · {formats} · Max. {maxSize} je Bild · {compression}",
+    "documentTemplateLimits": "PDF oder Bild (JPG, PNG, WebP) · Eine Datei pro Vorlage"
+  },
   "roles": {
     "admin": "Administrator",
     "artist": "Tätowierer",

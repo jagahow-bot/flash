@@ -1,3 +1,4 @@
+import { hardNavigate } from "@/lib/auth/hard-navigate";
 import type { VerificationAudience } from "@/lib/auth/send-verification-email";
 import { auth } from "@/lib/firebase";
 
@@ -5,11 +6,7 @@ function getSessionEndpoint(audience: VerificationAudience): string {
   return audience === "client" ? "/api/auth/client/session" : "/api/auth/session";
 }
 
-/**
- * After email verification, refresh the HTTP session cookie then hard-navigate.
- * Soft router navigation from /verify-email into (dashboard) can render a blank
- * page until a full reload; window.location avoids that RSC layout transition bug.
- */
+/** After email verification, refresh the HTTP session cookie then hard-navigate. */
 export async function completeVerificationRedirect(
   redirectTo: string,
   audience: VerificationAudience,
@@ -30,5 +27,5 @@ export async function completeVerificationRedirect(
     }
   }
 
-  window.location.assign(redirectTo);
+  hardNavigate(redirectTo);
 }

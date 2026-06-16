@@ -332,6 +332,9 @@ export function PreSessionDocumentsSettings({ studio }: { studio: Studio }) {
                     </a>
                   ) : null}
                 </div>
+                <p className="text-sm text-muted-foreground">
+                  {dict.upload.documentTemplateLimits}
+                </p>
               </div>
             </div>
           </div>

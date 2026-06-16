@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "Réservations, devis et gestion de projet pour studios de tatouage",
     "login": "Se connecter"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP ou GIF",
+    "maxFileSize": "10 Mo",
+    "compressionNote": "Compression automatique avant envoi (environ 1 Mo, largeur max. 1920 px)",
+    "singleImageLimits": "{formats} · Max. {maxSize} par image · {compression}",
+    "multipleImageLimits": "Jusqu'à {maxCount} images · {formats} · Max. {maxSize} chacune · {compression}",
+    "documentTemplateLimits": "PDF ou image (JPG, PNG, WebP) · Un fichier par modèle"
+  },
   "roles": {
     "admin": "Administrateur",
     "artist": "Tatoueur",

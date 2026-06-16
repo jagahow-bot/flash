@@ -14,12 +14,12 @@ export function SiteHeaderNav({
   dict,
   isAuthenticated,
   isClient,
-  isStudio,
+  studioPortalHref,
 }: {
   dict: LandingDictionary;
   isAuthenticated: boolean;
   isClient: boolean;
-  isStudio: boolean;
+  studioPortalHref?: "/dashboard" | "/setup";
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const homeHref = localePath(dict.locale);
@@ -64,12 +64,12 @@ export function SiteHeaderNav({
               {dict.header.myProjects}
             </Link>
           ) : null}
-          {isStudio ? (
-            <Link href="/dashboard">
+          {studioPortalHref ? (
+            <a href={studioPortalHref}>
               <Button size="sm" variant={isClient ? "outline" : "default"}>
                 {dict.header.studioDashboard}
               </Button>
-            </Link>
+            </a>
           ) : null}
           <LogoutButton redirectTo={homeHref} />
         </nav>
@@ -115,8 +115,12 @@ export function SiteHeaderNav({
                 {dict.header.myProjects}
               </Link>
             ) : null}
-            {isStudio ? (
-              <Link href="/dashboard" onClick={closeMobileMenu} className="w-full">
+            {studioPortalHref ? (
+              <a
+                href={studioPortalHref}
+                onClick={closeMobileMenu}
+                className="w-full"
+              >
                 <Button
                   size="sm"
                   variant={isClient ? "outline" : "default"}
@@ -124,7 +128,7 @@ export function SiteHeaderNav({
                 >
                   {dict.header.studioDashboard}
                 </Button>
-              </Link>
+              </a>
             ) : null}
             <LogoutButton redirectTo={homeHref} className="w-full" />
           </nav>

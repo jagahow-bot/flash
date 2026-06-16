@@ -37,6 +37,14 @@ const dictionary = {
     "login": "Đăng nhập",
     "priceFormat": "NT$ {amount}"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP hoặc GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "Tự động nén trước khi tải lên (khoảng 1 MB, chiều dài tối đa 1920 px)",
+    "singleImageLimits": "{formats} · Tối đa {maxSize}/ảnh · {compression}",
+    "multipleImageLimits": "Tối đa {maxCount} ảnh · {formats} · Tối đa {maxSize}/ảnh · {compression}",
+    "documentTemplateLimits": "PDF hoặc ảnh (JPG, PNG, WebP) · Mỗi mẫu một tệp"
+  },
   "dates": {
     "weekdays": {
       "sun": "Chủ Nhật",

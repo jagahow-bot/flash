@@ -43,6 +43,15 @@ const dictionary: AppDictionary = {
     login: "登入",
     priceFormat: PRICE_FORMAT_BY_LOCALE["zh-Hant"],
   },
+  upload: {
+    imageFormats: "JPG、PNG、WebP、GIF",
+    maxFileSize: "10 MB",
+    compressionNote: "上傳前會自動壓縮（約 1 MB，最長邊 1920 像素）",
+    singleImageLimits: "格式：{formats} · 單檔最大 {maxSize} · {compression}",
+    multipleImageLimits:
+      "最多 {maxCount} 張 · 格式：{formats} · 單檔最大 {maxSize} · {compression}",
+    documentTemplateLimits: "PDF 或圖片（JPG、PNG、WebP）· 每份文件一個檔案",
+  },
   dates: DATE_DICTIONARIES["zh-Hant"],
   roles: {
     admin: "管理員",

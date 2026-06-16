@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "Reservas, cotizaciones y gestión de clientes para estudios de tatuajes",
     "login": "Iniciar sesión"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP o GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "Se comprime automáticamente antes de subir (aprox. 1 MB, ancho máx. 1920 px)",
+    "singleImageLimits": "{formats} · Máx. {maxSize} por imagen · {compression}",
+    "multipleImageLimits": "Hasta {maxCount} imágenes · {formats} · Máx. {maxSize} cada una · {compression}",
+    "documentTemplateLimits": "PDF o imagen (JPG, PNG, WebP) · Un archivo por plantilla"
+  },
   "roles": {
     "admin": "Administrador",
     "artist": "Tatuador",

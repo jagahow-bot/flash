@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import { getAuthenticatedUser } from "@/lib/auth/session";
+import { getStudioPortalHref } from "@/lib/auth/redirects";
 import { canActAsClient, canAccessStudioPortal } from "@/lib/auth/user-roles";
 import { SiteHeaderNav } from "@/components/marketing/site-header-nav";
 import { LanguageSwitcher } from "@/components/marketing/language-switcher";
@@ -23,6 +24,8 @@ export async function SiteHeader({ dict: dictProp }: SiteHeaderProps = {}) {
   const isAuthenticated = Boolean(user);
   const isClient = user ? canActAsClient(user) : false;
   const isStudio = user ? canAccessStudioPortal(user) : false;
+  const studioPortalHref =
+    user && isStudio ? getStudioPortalHref(user) : undefined;
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur">
@@ -41,7 +44,7 @@ export async function SiteHeader({ dict: dictProp }: SiteHeaderProps = {}) {
             dict={dict}
             isAuthenticated={isAuthenticated}
             isClient={isClient}
-            isStudio={isStudio}
+            studioPortalHref={studioPortalHref}
           />
         </div>
       </div>

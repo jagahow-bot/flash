@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "ระบบจองคิว เสนอราคา และจัดการลูกค้าสำหรับสตูดิโอสัก",
     "login": "เข้าสู่ระบบ"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP หรือ GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "ระบบจะบีบอัดอัตโนมัติก่อนอัปโหลด (ประมาณ 1 MB ความกว้างสูงสุด 1920 px)",
+    "singleImageLimits": "{formats} · สูงสุด {maxSize} ต่อไฟล์ · {compression}",
+    "multipleImageLimits": "สูงสุด {maxCount} ภาพ · {formats} · สูงสุด {maxSize} ต่อไฟล์ · {compression}",
+    "documentTemplateLimits": "PDF หรือรูปภาพ (JPG, PNG, WebP) · หนึ่งไฟล์ต่อแม่แบบ"
+  },
   "roles": {
     "admin": "ผู้ดูแลระบบ",
     "artist": "ช่างสัก",

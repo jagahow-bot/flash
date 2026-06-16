@@ -46,6 +46,14 @@ export interface AppDictionary {
     login: string;
     priceFormat: string;
   };
+  upload: {
+    imageFormats: string;
+    maxFileSize: string;
+    compressionNote: string;
+    singleImageLimits: string;
+    multipleImageLimits: string;
+    documentTemplateLimits: string;
+  };
   dates: {
     weekdays: Record<DayOfWeek, string>;
     monthDay: string;

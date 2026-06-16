@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "Agendamento de estúdios de tatuagem, orçamentos e gerenciamento de clientes",
     "login": "Entrar"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP ou GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "Comprimido automaticamente antes do envio (cerca de 1 MB, largura máx. 1920 px)",
+    "singleImageLimits": "{formats} · Máx. {maxSize} por imagem · {compression}",
+    "multipleImageLimits": "Até {maxCount} imagens · {formats} · Máx. {maxSize} cada · {compression}",
+    "documentTemplateLimits": "PDF ou imagem (JPG, PNG, WebP) · Um arquivo por modelo"
+  },
   "roles": {
     "admin": "Administrador",
     "artist": "Tatuador",

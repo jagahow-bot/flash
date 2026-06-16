@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "タトゥースタジオの予約、見積もり、顧客管理",
     "login": "ログイン"
   },
+  "upload": {
+    "imageFormats": "JPG、PNG、WebP、GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "アップロード前に自動圧縮されます（約1 MB、最大幅1920 px）",
+    "singleImageLimits": "{formats} · 1ファイル最大 {maxSize} · {compression}",
+    "multipleImageLimits": "最大 {maxCount} 枚 · {formats} · 1ファイル最大 {maxSize} · {compression}",
+    "documentTemplateLimits": "PDF または画像（JPG、PNG、WebP）· テンプレートごとに1ファイル"
+  },
   "roles": {
     "admin": "管理者",
     "artist": "アーティスト",

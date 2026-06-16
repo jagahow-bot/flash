@@ -31,6 +31,8 @@ interface ImageUploadZoneProps {
   compact?: boolean;
   thumbnailSize?: "default" | "sm";
   maxImages?: number;
+  showLimits?: boolean;
+  compresses?: boolean;
 }
 
 export function ImageUploadZone({
@@ -45,10 +47,13 @@ export function ImageUploadZone({
   compact = false,
   thumbnailSize = "default",
   maxImages = DEFAULT_MAX_IMAGES,
+  showLimits = true,
+  compresses = true,
 }: ImageUploadZoneProps) {
   const dict = useAppDictionary();
   const b = dict.booking;
   const c = dict.common;
+  const u = dict.upload;
   const isSmallThumbnail = thumbnailSize === "sm";
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -99,6 +104,21 @@ export function ImageUploadZone({
   }
 
   const hasImages = previews.length > 0 || existingUrls.length > 0;
+
+  const limitsText =
+    showLimits &&
+    (mode === "multiple"
+      ? formatMessage(u.multipleImageLimits, {
+          maxCount: maxImages,
+          formats: u.imageFormats,
+          maxSize: u.maxFileSize,
+          compression: compresses ? u.compressionNote : "",
+        })
+      : formatMessage(u.singleImageLimits, {
+          formats: u.imageFormats,
+          maxSize: u.maxFileSize,
+          compression: compresses ? u.compressionNote : "",
+        }));
 
   return (
     <div className={cn("flex flex-col", compact ? "gap-2" : "gap-3")}>
@@ -257,6 +277,10 @@ export function ImageUploadZone({
       )}
 
       {error && <p className="text-sm text-destructive">{error}</p>}
+
+      {limitsText ? (
+        <p className="text-sm text-muted-foreground">{limitsText}</p>
+      ) : null}
     </div>
   );
 }

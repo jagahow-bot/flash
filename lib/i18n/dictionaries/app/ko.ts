@@ -36,6 +36,14 @@ const dictionary = {
     "appDescription": "타투 스튜디오 예약, 견적 및 고객 관리",
     "login": "로그인"
   },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP 또는 GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "업로드 전 자동 압축 (약 1 MB, 최대 너비 1920 px)",
+    "singleImageLimits": "{formats} · 파일당 최대 {maxSize} · {compression}",
+    "multipleImageLimits": "최대 {maxCount}장 · {formats} · 파일당 최대 {maxSize} · {compression}",
+    "documentTemplateLimits": "PDF 또는 이미지 (JPG, PNG, WebP) · 템플릿당 1개 파일"
+  },
   "roles": {
     "admin": "관리자",
     "artist": "타투이스트",

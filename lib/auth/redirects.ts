@@ -42,6 +42,12 @@ export function getPostLoginRedirect(
   return "/";
 }
 
+export function getStudioPortalHref(
+  user: Pick<User, "studioId">
+): "/dashboard" | "/setup" {
+  return user.studioId ? "/dashboard" : "/setup";
+}
+
 export function getRoleGuardRedirect(
   user: User,
   pathname: string

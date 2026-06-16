@@ -34,7 +34,16 @@ const dictionary = {
     "backToUpcomingAria": "Back to upcoming",
     "appTitle": "FLASH — Tattoo Studio Booking System",
     "appDescription": "Tattoo studio booking, quotes, and client management",
-    "login": "Log in"
+    "login": "Log in",
+    "priceFormat": "${amount}"
+  },
+  "upload": {
+    "imageFormats": "JPG, PNG, WebP, or GIF",
+    "maxFileSize": "10 MB",
+    "compressionNote": "Automatically compressed to about 1 MB (max width 1920 px) before upload",
+    "singleImageLimits": "{formats} · Max {maxSize} per image · {compression}",
+    "multipleImageLimits": "Up to {maxCount} images · {formats} · Max {maxSize} each · {compression}",
+    "documentTemplateLimits": "PDF or image (JPG, PNG, WebP) · One file per template"
   },
   "roles": {
     "admin": "Admin",
