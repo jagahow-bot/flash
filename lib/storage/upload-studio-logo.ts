@@ -1,18 +1,21 @@
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "@/lib/firebase";
-
+/** Studio-admin only (via /api/studio/logo/upload). */
 export async function uploadStudioLogo(
-  studioId: string,
+  _studioId: string,
   file: File
 ): Promise<string> {
-  const ext = file.name.split(".").pop() ?? "jpg";
-  const filename = `logo-${Date.now()}-${crypto.randomUUID().slice(0, 8)}.${ext}`;
-  const path = `studios/${studioId}/brand/${filename}`;
-  const storageRef = ref(storage, path);
+  const formData = new FormData();
+  formData.append("file", file);
 
-  await uploadBytes(storageRef, file, {
-    contentType: file.type,
+  const response = await fetch("/api/studio/logo/upload", {
+    method: "POST",
+    body: formData,
   });
 
-  return getDownloadURL(storageRef);
+  const data = (await response.json()) as { url?: string; error?: string };
+
+  if (!response.ok || !data.url) {
+    throw new Error(data.error ?? "上傳失敗，請稍後再試");
+  }
+
+  return data.url;
 }
