@@ -1,37 +1,72 @@
+import { defaultLocale, localeHrefLang, type Locale } from "@/lib/i18n/config";
+
 export type PhoneCountryCodeOption = {
   code: string;
-  label: string;
-  region: string;
+  regions: string[];
 };
 
-/** 常用國碼（依使用頻率排序，台灣預設） */
+/** Common dial codes (by usage frequency; Taiwan is the default). */
 export const PHONE_COUNTRY_CODES: PhoneCountryCodeOption[] = [
-  { code: "+886", label: "台灣", region: "TW" },
-  { code: "+852", label: "香港", region: "HK" },
-  { code: "+853", label: "澳門", region: "MO" },
-  { code: "+86", label: "中國", region: "CN" },
-  { code: "+81", label: "日本", region: "JP" },
-  { code: "+82", label: "韓國", region: "KR" },
-  { code: "+65", label: "新加坡", region: "SG" },
-  { code: "+60", label: "馬來西亞", region: "MY" },
-  { code: "+66", label: "泰國", region: "TH" },
-  { code: "+63", label: "菲律賓", region: "PH" },
-  { code: "+84", label: "越南", region: "VN" },
-  { code: "+62", label: "印尼", region: "ID" },
-  { code: "+1", label: "美國／加拿大", region: "US" },
-  { code: "+44", label: "英國", region: "GB" },
-  { code: "+61", label: "澳洲", region: "AU" },
-  { code: "+33", label: "法國", region: "FR" },
-  { code: "+49", label: "德國", region: "DE" },
+  { code: "+886", regions: ["TW"] },
+  { code: "+852", regions: ["HK"] },
+  { code: "+853", regions: ["MO"] },
+  { code: "+86", regions: ["CN"] },
+  { code: "+81", regions: ["JP"] },
+  { code: "+82", regions: ["KR"] },
+  { code: "+65", regions: ["SG"] },
+  { code: "+60", regions: ["MY"] },
+  { code: "+66", regions: ["TH"] },
+  { code: "+63", regions: ["PH"] },
+  { code: "+84", regions: ["VN"] },
+  { code: "+62", regions: ["ID"] },
+  { code: "+1", regions: ["US", "CA"] },
+  { code: "+44", regions: ["GB"] },
+  { code: "+61", regions: ["AU"] },
+  { code: "+33", regions: ["FR"] },
+  { code: "+49", regions: ["DE"] },
 ];
 
 export const DEFAULT_PHONE_COUNTRY_CODE = "+886";
+
+const regionDisplayNamesCache = new Map<string, Intl.DisplayNames>();
+
+function getRegionDisplayNames(locale: Locale): Intl.DisplayNames {
+  const tag = localeHrefLang[locale];
+  let cached = regionDisplayNamesCache.get(tag);
+  if (!cached) {
+    cached = new Intl.DisplayNames([tag], { type: "region" });
+    regionDisplayNamesCache.set(tag, cached);
+  }
+  return cached;
+}
+
+export function getPhoneCountryRegionLabel(
+  regions: string[],
+  locale: Locale
+): string {
+  const displayNames = getRegionDisplayNames(locale);
+  return regions
+    .map((region) => displayNames.of(region) ?? region)
+    .join(" / ");
+}
+
+export function getPhoneCountryCodeOptionLabel(
+  option: PhoneCountryCodeOption,
+  locale: Locale
+): string {
+  return getPhoneCountryRegionLabel(option.regions, locale);
+}
 
 export function isValidPhoneCountryCode(code: string): boolean {
   return PHONE_COUNTRY_CODES.some((option) => option.code === code);
 }
 
-export function getPhoneCountryCodeLabel(code: string): string {
+export function getPhoneCountryCodeLabel(
+  code: string,
+  locale: Locale = defaultLocale
+): string {
   const match = PHONE_COUNTRY_CODES.find((option) => option.code === code);
-  return match ? `${match.label} ${match.code}` : code;
+  return match
+    ? `${getPhoneCountryCodeOptionLabel(match, locale)} ${match.code}`
+    : code;
 }

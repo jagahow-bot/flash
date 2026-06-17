@@ -1,12 +1,17 @@
 "use client";
 
+import { useMemo } from "react";
 import type { Control, FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import {
   DEFAULT_PHONE_COUNTRY_CODE,
+  getPhoneCountryCodeOptionLabel,
   PHONE_COUNTRY_CODES,
 } from "@/lib/phone/country-codes";
-import { useAppDictionary } from "@/components/providers/locale-provider";
+import {
+  useAppDictionary,
+  useAppLocale,
+} from "@/components/providers/locale-provider";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -33,6 +38,15 @@ export function PhoneNumberField<T extends FieldValues>({
   error,
 }: PhoneNumberFieldProps<T>) {
   const c = useAppDictionary().common;
+  const locale = useAppLocale();
+  const countryOptions = useMemo(
+    () =>
+      PHONE_COUNTRY_CODES.map((option) => ({
+        code: option.code,
+        label: getPhoneCountryCodeOptionLabel(option, locale),
+      })),
+    [locale]
+  );
 
   return (
     <div className="flex flex-col gap-2">
@@ -57,7 +71,7 @@ export function PhoneNumberField<T extends FieldValues>({
               }
               onChange={(event) => field.onChange(event.target.value)}
             >
-              {PHONE_COUNTRY_CODES.map((option) => (
+              {countryOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label} {option.code}
                 </option>
