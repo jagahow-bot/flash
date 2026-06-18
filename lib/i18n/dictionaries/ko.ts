@@ -46,6 +46,22 @@ const dictionary: LandingDictionary = {
       "고객의 사이즈 답변을 기다리며 멈출 필요도, 여러 SNS를 넘나들며 기록을 찾을 필요도 없습니다. 불필요한 소통을 제로로 만들고, 가장 가치 있는 시간을 다음에 탄생할 완벽한 작품에 투자하세요.",
     ],
   },
+  productShowcase: {
+    title: "FLASH 실제 화면 보기",
+    subtitle:
+      "스튜디오 대시보드와 고객 프로젝트 페이지——각자의 화면에서 진행 상황이 동기화됩니다",
+    studioTitle: "스튜디오 대시보드",
+    studioDescription:
+      "할 일 받은편지함, 캘린더, 프로젝트 상태——한 화면에서 스튜디오 전체 운영",
+    studioAlt:
+      "FLASH 스튜디오 대시보드. 대기 중인 프로젝트와 다가오는 일정 표시",
+    clientTitle: "고객 프로젝트 페이지",
+    clientDescription:
+      "견적 확인, 시간대 선택, 도안 진행 상황——링크를 열면 다음 단계를 바로 확인",
+    clientProgressAlt: "FLASH 고객 프로젝트 페이지 견적 단계 화면",
+    clientArtworkAlt:
+      "FLASH 고객 프로젝트 페이지 도안 및 진행 타임라인",
+  },
   features: {
     title: "자동화된 스튜디오 관리, 소통 시간 80% 절감",
     subtitle: "",

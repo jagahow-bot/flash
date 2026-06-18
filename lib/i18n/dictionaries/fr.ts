@@ -47,6 +47,23 @@ const dictionary: LandingDictionary = {
       "Plus besoin de relancer le client pour ses dimensions, ni de jongler entre plusieurs applications pour retrouver un historique. Réduisez les communications inutiles à zéro et consacrez votre temps si précieux à votre prochain chef-d'œuvre.",
     ],
   },
+  productShowcase: {
+    title: "Voir FLASH en action",
+    subtitle:
+      "Tableau de bord studio et page projet client — deux perspectives, toujours synchronisées",
+    studioTitle: "Tableau de bord studio",
+    studioDescription:
+      "Boîte de réception, calendrier et statut des projets — gérez votre studio depuis un seul écran",
+    studioAlt:
+      "Tableau de bord studio FLASH affichant les tâches en attente et les prochains rendez-vous",
+    clientTitle: "Page projet client",
+    clientDescription:
+      "Vérification du devis, choix du créneau et avancement du dessin — le client sait toujours quelle est la prochaine étape",
+    clientProgressAlt:
+      "Page projet client FLASH à l'étape du devis",
+    clientArtworkAlt:
+      "Page projet client FLASH avec dessin et chronologie d'avancement",
+  },
   features: {
     title: "Gestion automatisée du studio, économisant 80 % du temps de communication",
     subtitle: "",

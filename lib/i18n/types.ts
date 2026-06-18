@@ -59,6 +59,17 @@ export interface LandingDictionary {
     title: string;
     paragraphs: string[];
   };
+  productShowcase: {
+    title: string;
+    subtitle: string;
+    studioTitle: string;
+    studioDescription: string;
+    studioAlt: string;
+    clientTitle: string;
+    clientDescription: string;
+    clientProgressAlt: string;
+    clientArtworkAlt: string;
+  };
   features: {
     title: string;
     subtitle: string;

@@ -47,6 +47,22 @@ const dictionary: LandingDictionary = {
       "Kein Warten mehr auf die Größenangaben des Kunden, kein Suchen mehr nach Nachrichten in verschiedenen Social-Media-Apps. Reduziere unnötige Kommunikation auf Null und spare deine wertvollste Zeit für das nächste Meisterwerk.",
     ],
   },
+  productShowcase: {
+    title: "FLASH in Aktion sehen",
+    subtitle:
+      "Studio-Dashboard und Kundenprojektseite — zwei Perspektiven, immer synchron",
+    studioTitle: "Studio-Dashboard",
+    studioDescription:
+      "Aufgaben-Posteingang, Kalender und Projektstatus — dein Studio von einem Bildschirm aus steuern",
+    studioAlt:
+      "FLASH Studio-Dashboard mit offenen Aufgaben und anstehenden Terminen",
+    clientTitle: "Kundenprojektseite",
+    clientDescription:
+      "Angebotsprüfung, Terminauswahl und Design-Fortschritt — Kunden wissen immer, was als Nächstes kommt",
+    clientProgressAlt: "FLASH Kundenprojektseite in der Angebotsphase",
+    clientArtworkAlt:
+      "FLASH Kundenprojektseite mit Design und Fortschritts-Timeline",
+  },
   features: {
     title: "Automatisierte Studioverwaltung, spart 80 % der Kommunikationszeit",
     subtitle: "",

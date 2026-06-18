@@ -47,6 +47,23 @@ const dictionary: LandingDictionary = {
       "Chega de ficar travado à espera das medidas do cliente e de buscar registos em várias aplicações sociais. Reduza a comunicação desnecessária a zero e guarde o seu tempo mais valioso para a próxima obra-prima.",
     ],
   },
+  productShowcase: {
+    title: "Veja o FLASH em ação",
+    subtitle:
+      "Painel do estúdio e página do projeto do cliente — duas perspectivas, sempre sincronizadas",
+    studioTitle: "Painel do estúdio",
+    studioDescription:
+      "Caixa de tarefas, calendário e status dos projetos — gerencie seu estúdio em uma única tela",
+    studioAlt:
+      "Painel do estúdio FLASH mostrando tarefas pendentes e próximos compromissos",
+    clientTitle: "Página do projeto do cliente",
+    clientDescription:
+      "Revisão do orçamento, escolha de horário e progresso do desenho — o cliente sempre sabe o próximo passo",
+    clientProgressAlt:
+      "Página do projeto do cliente FLASH na etapa de orçamento",
+    clientArtworkAlt:
+      "Página do projeto do cliente FLASH com desenho e linha do tempo de progresso",
+  },
   features: {
     title: "Gestão automatizada do estúdio, economizando 80% do tempo de comunicação",
     subtitle: "",

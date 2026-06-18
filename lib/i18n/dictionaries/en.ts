@@ -49,6 +49,22 @@ const dictionary: LandingDictionary = {
       "No more getting stuck waiting for client sizes, and no more juggling records across multiple social apps. Reduce unnecessary communication to zero, and save your most valuable time for the next masterpiece.",
     ],
   },
+  productShowcase: {
+    title: "See FLASH in action",
+    subtitle:
+      "Studio dashboard and client project views — twin perspectives, always in sync",
+    studioTitle: "Studio dashboard",
+    studioDescription:
+      "Action inbox, calendar, and project status — run your shop from one screen",
+    studioAlt:
+      "FLASH studio dashboard showing pending tasks and upcoming appointments",
+    clientTitle: "Client project view",
+    clientDescription:
+      "Quote review, time slot selection, and artwork progress — clients always know what's next",
+    clientProgressAlt: "FLASH client project page at the quote stage",
+    clientArtworkAlt:
+      "FLASH client project page showing artwork and progress timeline",
+  },
   features: {
     title: "Automated Studio Management, Saving 80% of Communication Time",
     subtitle: "",

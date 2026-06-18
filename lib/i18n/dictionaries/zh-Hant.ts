@@ -46,6 +46,19 @@ const dictionary: LandingDictionary = {
       "不需要再為了沒收到客人的尺寸而卡關，也不用在多個社群軟體切換找紀錄。讓多餘的溝通歸零，把最有價值的時間，留給下一個即將誕生的完美作品。",
     ],
   },
+  productShowcase: {
+    title: "看看 FLASH 實際運作",
+    subtitle: "工作室後台與客端專案頁——雙視角同步，各走各的也能對上進度",
+    studioTitle: "工作室後台",
+    studioDescription:
+      "待辦信箱、行程日曆與案件狀態——一個畫面掌握全店營運",
+    studioAlt: "FLASH 工作室後台儀表板，顯示待辦案件與近期行程",
+    clientTitle: "客端專案頁",
+    clientDescription:
+      "報價確認、時段選擇與圖稿進度——客人打開連結就知道下一步",
+    clientProgressAlt: "FLASH 客端專案頁報價階段畫面",
+    clientArtworkAlt: "FLASH 客端專案頁圖稿與進度時間軸",
+  },
   features: {
     title: "自動化店務管理，替刺青工作室省下 80% 的通訊時間",
     subtitle: "",

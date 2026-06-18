@@ -10,6 +10,7 @@ import {
 import { SiteHeader } from "@/components/marketing/site-header";
 import { SiteFooter } from "@/components/marketing/site-footer";
 import { LandingStructuredData } from "@/components/marketing/landing-structured-data";
+import { ProductShowcase } from "@/components/marketing/product-showcase";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -121,6 +122,8 @@ export function LandingPage({
               </div>
             </div>
           </section>
+
+          <ProductShowcase dict={dict} />
 
           {/* Features */}
           <section

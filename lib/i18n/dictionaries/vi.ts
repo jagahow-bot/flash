@@ -49,6 +49,22 @@ const dictionary: LandingDictionary = {
       "Không còn chờ khách gửi kích thước, không còn phải chuyển qua lại giữa nhiều ứng dụng mạng xã hội để tra cứu lịch sử. Giảm giao tiếp thừa xuống mức tối thiểu, dành thời gian quý báu nhất cho tác phẩm tiếp theo.",
     ],
   },
+  productShowcase: {
+    title: "Xem FLASH hoạt động thực tế",
+    subtitle:
+      "Bảng điều khiển studio và trang dự án phía khách — hai góc nhìn, luôn đồng bộ",
+    studioTitle: "Bảng điều khiển studio",
+    studioDescription:
+      "Hộp thư việc cần làm, lịch và trạng thái dự án — quản lý studio từ một màn hình",
+    studioAlt:
+      "Bảng điều khiển studio FLASH hiển thị việc chờ xử lý và lịch hẹn sắp tới",
+    clientTitle: "Trang dự án phía khách",
+    clientDescription:
+      "Xem báo giá, chọn khung giờ và theo dõi tiến độ phác thảo — khách mở liên kết là biết bước tiếp theo",
+    clientProgressAlt: "Trang dự án khách FLASH ở giai đoạn báo giá",
+    clientArtworkAlt:
+      "Trang dự án khách FLASH hiển thị phác thảo và dòng thời gian tiến độ",
+  },
   features: {
     title: "Quản lý studio tự động, tiết kiệm 80% thời gian giao tiếp",
     subtitle: "",

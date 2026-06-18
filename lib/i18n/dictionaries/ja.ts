@@ -46,6 +46,22 @@ const dictionary: LandingDictionary = {
       "サイズ確認の返信待ちで作業が止まることも、複数のSNSを切り替えて記録を探す必要もありません。無駄なやり取りをゼロにし、最も価値のある時間を、次に誕生する完璧な作品のために残しましょう。",
     ],
   },
+  productShowcase: {
+    title: "FLASHの実際の画面を見る",
+    subtitle:
+      "スタジオダッシュボードとお客様のプロジェクトページ——それぞれの視点で、進捗は常に同期",
+    studioTitle: "スタジオダッシュボード",
+    studioDescription:
+      "タスク受信箱、カレンダー、案件ステータス——一画面でスタジオ全体を把握",
+    studioAlt:
+      "FLASHスタジオダッシュボード。未対応案件と直近の予定を表示",
+    clientTitle: "お客様プロジェクトページ",
+    clientDescription:
+      "見積もり確認、時間帯の選択、下絵の進捗——リンクを開けば次のステップがわかる",
+    clientProgressAlt: "FLASHお客様プロジェクトページの見積もり段階の画面",
+    clientArtworkAlt:
+      "FLASHお客様プロジェクトページの下絵と進捗タイムライン",
+  },
   features: {
     title: "自動化されたスタジオ管理、コミュニケーション時間を80%削減",
     subtitle: "",
