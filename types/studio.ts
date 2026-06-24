@@ -1,4 +1,5 @@
 import type { Locale } from "@/lib/i18n/config";
+import type { BudgetCurrency } from "@/types/intake-form";
 import type {
   PlatformBillingTier,
   StudioBilling,
@@ -13,6 +14,11 @@ import type { StudioOperatingHours } from "@/types/operating-hours";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
 
 export type { PlatformBillingTier, StudioBillingStatus };
+
+export type StudioLifecycleStatus =
+  | "pending_activation"
+  | "active"
+  | "suspended";
 
 export interface StudioSocialLinks {
   /** Instagram 帳號（不含 @） */
@@ -51,6 +57,8 @@ export interface Studio {
   socialLinks?: StudioSocialLinks;
   /** FLASH 需求摘要輸出語言（預設 zh-Hant） */
   preferredLocale?: Locale;
+  /** 報價與訂金欄位使用的幣別（預設 TWD） */
+  quoteCurrency?: BudgetCurrency;
   /**
    * 上傳設計稿時是否加上工作室名稱與預約連結浮水印。
    * 未設定時視為 `true`（預設開啟）。
@@ -73,6 +81,15 @@ export interface Studio {
   stripeSubscriptionId?: string;
   lastBilledMonth?: string;
   createdAt?: Date;
+  /** Shadow / prospect studio lifecycle (defaults to active when unset). */
+  lifecycleStatus?: StudioLifecycleStatus;
+  /** Outreach target email before the studio claims the account. */
+  prospectEmail?: string;
+  /** Scraped / AI-extracted artist display names before real accounts exist. */
+  prospectArtistNames?: string[];
+  /** SHA-256 hash of the one-time claim token. */
+  claimTokenHash?: string;
+  claimTokenExpiresAt?: Date;
 }
 
 export type StudioBillingFields = Pick<

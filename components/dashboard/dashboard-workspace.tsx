@@ -22,6 +22,8 @@ interface DashboardWorkspaceProps {
   canFilterArtists: boolean;
   defaultArtistFilter?: string;
   unreadDiscussionCounts?: Record<string, number>;
+  readonly?: boolean;
+  projectHrefPrefix?: string;
 }
 
 function filterProjectsByArtist(
@@ -47,6 +49,8 @@ export function DashboardWorkspace({
   canFilterArtists,
   defaultArtistFilter = FILTER_ALL,
   unreadDiscussionCounts = {},
+  readonly = false,
+  projectHrefPrefix,
 }: DashboardWorkspaceProps) {
   const dict = useAppDictionary();
   const d = dict.dashboard;
@@ -112,6 +116,8 @@ export function DashboardWorkspace({
             artists={artists}
             studio={studio}
             unreadDiscussionCounts={unreadDiscussionCounts}
+            readonly={readonly}
+            projectHrefPrefix={projectHrefPrefix}
           />
         </div>
         <div className="min-w-0">
@@ -119,6 +125,7 @@ export function DashboardWorkspace({
             projects={filteredProjects}
             artists={artists}
             closures={closures}
+            projectHrefPrefix={projectHrefPrefix}
           />
         </div>
       </div>

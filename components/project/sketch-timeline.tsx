@@ -16,6 +16,7 @@ import {
 import { formatMonthDay } from "@/lib/project/format";
 import type { AppDictionary } from "@/lib/i18n/app-types";
 import type { ProjectSketchRecord } from "@/types/project-sketch";
+import { toPublicImageSrc } from "@/lib/images/public-src";
 import { cn } from "@/lib/utils";
 
 function formatSketchDate(
@@ -103,7 +104,7 @@ export function SketchTimeline({
                   )}
                 >
                   <Image
-                    src={record.url}
+                    src={toPublicImageSrc(record.url)}
                     alt={formatMessage(p.versionLabel, { version })}
                     fill
                     className="object-cover"

@@ -124,6 +124,7 @@ export function FlashBookingForm({ studio }: FlashBookingFormProps) {
         designs={designs}
         flashUniformPrice={flashUniformPrice}
         isLoadingDesigns={isLoadingDesigns}
+        studio={studio}
       />
 
       {designs.length > 0 && (

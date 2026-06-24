@@ -98,7 +98,7 @@ export default async function ProjectPage({
         clientEmail={user?.email}
       />
 
-      <SessionHistoryPanel project={project} audience="client" />
+      <SessionHistoryPanel project={project} studio={studio} audience="client" />
 
       <Card>
         <CardHeader>

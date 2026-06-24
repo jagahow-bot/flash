@@ -17,6 +17,8 @@ import {
 import { COLLECTIONS } from "@/lib/firestore/collections";
 import { getAdminDb } from "@/lib/firebase-admin";
 import { parseStudioPreferredLocale } from "@/lib/studio/resolve-studio-locale";
+import { parseQuoteCurrency } from "@/lib/currency/quote-currency";
+import { DEFAULT_BUDGET_CURRENCY, type BudgetCurrency } from "@/types/intake-form";
 import { normalizeStudioSocialLinks } from "@/lib/studio/social-links";
 import type { PreSessionDocumentTemplate } from "@/types/pre-session-document";
 import { defaultLocale } from "@/lib/i18n/config";
@@ -24,7 +26,7 @@ import type { Locale } from "@/lib/i18n/config";
 import { FREE_TIER_BOOKINGS, LAUNCH_PROMO_END_DATE } from "@/lib/billing/constants";
 import { normalizePlatformBillingTier } from "@/lib/billing/promo.server";
 import type { StudioBillingStatus } from "@/types/billing";
-import type { Studio, StudioSocialLinks } from "@/types/studio";
+import type { Studio, StudioSocialLinks, StudioLifecycleStatus } from "@/types/studio";
 import { Timestamp } from "firebase-admin/firestore";
 
 function normalizeBillingStatus(value: unknown): StudioBillingStatus {
@@ -76,6 +78,18 @@ function normalizePreSessionDocuments(
     .sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
+function normalizeLifecycleStatus(value: unknown): StudioLifecycleStatus {
+  if (
+    value === "pending_activation" ||
+    value === "active" ||
+    value === "suspended"
+  ) {
+    return value;
+  }
+
+  return "active";
+}
+
 function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
   const weeklySchedule = normalizeWeeklySchedule(
     data.weeklySchedule ?? data.operatingHours
@@ -109,6 +123,7 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       data.socialLinks as StudioSocialLinks | undefined
     ),
     preferredLocale: parseStudioPreferredLocale(data.preferredLocale),
+    quoteCurrency: parseQuoteCurrency(data.quoteCurrency) ?? DEFAULT_BUDGET_CURRENCY,
     watermarkSketches: data.watermarkSketches !== false,
     flashBookingEnabled: Boolean(data.flashBookingEnabled),
     flashUniformPrice:
@@ -145,6 +160,14 @@ function normalizeStudio(docId: string, data: Record<string, unknown>): Studio {
       typeof data.lastBilledMonth === "string"
         ? data.lastBilledMonth
         : undefined,
+    lifecycleStatus: normalizeLifecycleStatus(data.lifecycleStatus),
+    prospectEmail:
+      typeof data.prospectEmail === "string" && data.prospectEmail.trim()
+        ? data.prospectEmail.trim()
+        : undefined,
+    claimTokenHash:
+      typeof data.claimTokenHash === "string" ? data.claimTokenHash : undefined,
+    claimTokenExpiresAt: parseFirestoreDate(data.claimTokenExpiresAt),
     createdAt: parseFirestoreDate(data.createdAt),
   };
 }
@@ -238,6 +261,7 @@ export async function createStudio(
     bookingCode?: string;
     isSoloStudio?: boolean;
     preferredLocale?: Locale;
+    quoteCurrency?: BudgetCurrency;
   }
 ): Promise<Studio> {
   const ref = getAdminDb().collection(COLLECTIONS.studios).doc();
@@ -260,6 +284,7 @@ export async function createStudio(
     closures: [],
     operatingHours: weeklyScheduleToOperatingHours(weeklySchedule),
     preferredLocale: input.preferredLocale ?? defaultLocale,
+    quoteCurrency: input.quoteCurrency ?? DEFAULT_BUDGET_CURRENCY,
     watermarkSketches: true,
     billingStatus: "active",
     platformBillingTier: "paid",
@@ -301,6 +326,7 @@ function isPublicStudioForSitemap(data: Record<string, unknown>): boolean {
   const slug = String(data.slug ?? "").trim();
   if (!slug) return false;
   if (data.billingStatus === "suspended") return false;
+  if (data.lifecycleStatus === "pending_activation") return false;
   return true;
 }
 
@@ -377,6 +403,7 @@ export async function updateStudioFields(
       | "artists"
       | "preSessionDocuments"
       | "preferredLocale"
+      | "quoteCurrency"
       | "watermarkSketches"
       | "billingStatus"
       | "platformBillingTier"

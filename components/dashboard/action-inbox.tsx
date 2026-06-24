@@ -65,11 +65,15 @@ export function ActionInbox({
   artists,
   studio,
   unreadDiscussionCounts = {},
+  readonly = false,
+  projectHrefPrefix,
 }: {
   projects: Project[];
   artists: Artist[];
   studio?: Studio;
   unreadDiscussionCounts?: Record<string, number>;
+  readonly?: boolean;
+  projectHrefPrefix?: string;
 }) {
   const dict = useAppDictionary();
   const d = dict.dashboard;
@@ -170,6 +174,12 @@ export function ActionInbox({
               artistName={artistNames.get(project.artistId) ?? null}
               unreadDiscussionCount={
                 unreadDiscussionCounts[project.projectId] ?? 0
+              }
+              readonly={readonly}
+              projectHref={
+                projectHrefPrefix
+                  ? `${projectHrefPrefix}/${project.projectId}`
+                  : undefined
               }
             />
           ))

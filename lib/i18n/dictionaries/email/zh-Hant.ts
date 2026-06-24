@@ -110,6 +110,17 @@ const email: EmailDictionary = {
     dashboardButton: "前往後台",
     bookingPageButton: "查看預約頁面",
   },
+  studioOutreach: {
+    subject: "為 {studioName} 準備的 FLASH 工作室預覽",
+    title: "我們為您準備了 FLASH 工作室示範",
+    body: "您好，{studioName}：\n\n我們已建立含示範預約單的 FLASH 工作室，讓您在正式啟用前，就能體驗諮詢、報價與排程流程。",
+    ctaTitle: "認領您的工作室",
+    ctaBody:
+      "請使用下方安全連結預覽後台（唯讀），並設定密碼啟用帳號。連結 7 天內有效。",
+    claimButton: "認領工作室並預覽後台",
+    previewButton: "預覽後台",
+    storefrontButton: "查看預約頁面",
+  },
   countHint: "（共 {count} 張）",
 };
 

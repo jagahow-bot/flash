@@ -28,3 +28,7 @@ npm run dev
 | `npm run lint` | ESLint |
 | `npm run seed` | 寫入 Firestore 測試資料（需 `.env.local`） |
 | `npm run firebase:deploy:rules` | 部署 Firestore / Storage 規則 |
+
+## 爬蟲 → 體驗工作室 → Cold Outreach
+
+與 **yoga-scraper** 專案串接的完整流程見 **[docs/SCRAPER_PIPELINE.md](./docs/SCRAPER_PIPELINE.md)**。

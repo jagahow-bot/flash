@@ -13,6 +13,7 @@ import { useAppDictionary } from "@/components/providers/locale-provider";
 import { getProjectStatusLabel } from "@/lib/project/status";
 import { buildContactLinkItems } from "@/lib/social/contact-links";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import type { User } from "@/types/user";
 import { cn } from "@/lib/utils";
 
@@ -51,12 +52,16 @@ function OverviewField({
 
 export function ProjectOverviewHeader({
   project,
+  studio,
   artistName,
   clientUser,
+  readOnly = false,
 }: {
   project: Project;
+  studio?: Pick<Studio, "quoteCurrency"> | null;
   artistName: string | null;
   clientUser: User | null;
+  readOnly?: boolean;
 }) {
   const dict = useAppDictionary();
   const appointment = getAppointmentDisplay(project, dict);
@@ -82,7 +87,7 @@ export function ProjectOverviewHeader({
             <span className="rounded-full bg-muted px-3 py-1 text-sm font-medium">
               {getProjectStatusLabel(project.status, dict)}
             </span>
-            <CancelProjectButton project={project} />
+            {!readOnly ? <CancelProjectButton project={project} /> : null}
           </div>
         </div>
       </div>
@@ -125,6 +130,7 @@ export function ProjectOverviewHeader({
               project,
               dict,
               dict.common.emptyDash,
+              studio,
             ) ?? undefined
           }
         />

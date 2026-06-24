@@ -3,6 +3,12 @@ import { formatMessage } from "@/lib/i18n/format";
 import type { TimeSlot } from "@/types/session-details";
 import type { DayOfWeek } from "@/types/operating-hours";
 
+export {
+  formatPrice,
+  formatStudioPrice,
+  type FormatPriceOptions,
+} from "@/lib/currency/quote-currency";
+
 const JS_DAY_TO_DOW: DayOfWeek[] = [
   "sun",
   "mon",
@@ -73,17 +79,6 @@ export function formatDepositDeadline(
     date: formatFullDateLabel(date, dates),
     time: formatTime(date),
   });
-}
-
-export function formatPrice(
-  value: number | string,
-  common: Pick<AppDictionary["common"], "priceFormat">,
-): string {
-  if (typeof value === "string") {
-    return value;
-  }
-  const amount = value.toLocaleString("en-US");
-  return formatMessage(common.priceFormat, { amount });
 }
 
 export function formatTimeSlot(

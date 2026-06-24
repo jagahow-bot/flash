@@ -11,6 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "tsx --env-file=.env.local scripts/seed-firestore.ts",
+    "patch:demo-client-names": "tsx --env-file=.env.local scripts/patch-demo-client-names.ts",
+    "generate:demo-images": "tsx --env-file=.env.local scripts/generate-demo-images.ts",
     "translate:app": "tsx --env-file=.env.local scripts/translate-app-i18n.ts",
     "firebase:deploy:rules": "firebase deploy --only firestore:rules,storage"
   },
@@ -23,6 +25,7 @@
     "clsx": "^2.1.1",
     "firebase": "^12.14.0",
     "firebase-admin": "^13.10.0",
+    "jose": "^6.2.3",
     "lucide-react": "^1.17.0",
     "next": "16.2.7",
     "react": "19.2.4",

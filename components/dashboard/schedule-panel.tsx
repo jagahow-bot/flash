@@ -49,18 +49,23 @@ function ScheduleEntryLink({
   entry,
   artistName,
   dict,
+  projectHrefPrefix,
 }: {
   entry: ScheduleCalendarEntry;
   artistName?: string;
   dict: ReturnType<typeof useAppDictionary>;
+  projectHrefPrefix?: string;
 }) {
   const { project, slot, kind } = entry;
   const sessionIndex = getSessionIndexForSlot(project, slot.startTime);
   const d = dict.dashboard;
+  const href = projectHrefPrefix
+    ? `${projectHrefPrefix}/${project.projectId}`
+    : `/dashboard/projects/${project.projectId}`;
 
   return (
     <Link
-      href={`/dashboard/projects/${project.projectId}`}
+      href={href}
       className={cn(
         "rounded-lg border px-3 py-2 text-sm transition-colors hover:bg-muted/40",
         kind === "completed" && "border-muted bg-muted/20",
@@ -99,10 +104,12 @@ export function SchedulePanel({
   projects,
   artists,
   closures = [],
+  projectHrefPrefix,
 }: {
   projects: Project[];
   artists: Artist[];
   closures?: StudioClosure[];
+  projectHrefPrefix?: string;
 }) {
   const dict = useAppDictionary();
   const d = dict.dashboard;
@@ -203,6 +210,7 @@ export function SchedulePanel({
                           artistNames.get(entry.project.artistId) ?? undefined
                         }
                         dict={dict}
+                        projectHrefPrefix={projectHrefPrefix}
                       />
                     ))
                   )}
@@ -224,6 +232,7 @@ export function SchedulePanel({
                         artistNames.get(entry.project.artistId) ?? undefined
                       }
                       dict={dict}
+                      projectHrefPrefix={projectHrefPrefix}
                     />
                   ))
                 )}

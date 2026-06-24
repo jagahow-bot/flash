@@ -13,7 +13,8 @@ import type {
 import Image from "next/image";
 import { ImageUploadZone } from "@/components/intake/image-upload-zone";
 import { useAppDictionary } from "@/components/providers/locale-provider";
-import { formatMessage } from "@/lib/i18n/format";
+import { toPublicImageSrc } from "@/lib/images/public-src";
+import { formatStudioPrice } from "@/lib/project/format";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -27,6 +28,7 @@ import {
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { ZoomIn } from "lucide-react";
+import type { Studio } from "@/types/studio";
 
 export interface PublicFlashDesign {
   designId: string;
@@ -47,6 +49,7 @@ interface FlashBookingSectionProps<T extends FieldValues> {
   designs: PublicFlashDesign[];
   flashUniformPrice: number | null;
   isLoadingDesigns: boolean;
+  studio: Pick<Studio, "quoteCurrency">;
 }
 
 export function FlashBookingSection<T extends FieldValues>({
@@ -59,6 +62,7 @@ export function FlashBookingSection<T extends FieldValues>({
   designs,
   flashUniformPrice,
   isLoadingDesigns,
+  studio,
 }: FlashBookingSectionProps<T>) {
   const dict = useAppDictionary();
   const b = dict.booking;
@@ -74,9 +78,9 @@ export function FlashBookingSection<T extends FieldValues>({
     null
   );
 
-  function formatPrice(price: number | null): string {
+  function formatDesignPrice(price: number | null): string {
     if (price === null) return c.emptyDash;
-    return formatMessage(c.priceFormat, { amount: price });
+    return formatStudioPrice(price, studio, dict);
   }
 
   function handleSelectDesign(design: PublicFlashDesign) {
@@ -138,7 +142,7 @@ export function FlashBookingSection<T extends FieldValues>({
                   >
                     <div className="relative aspect-square bg-muted">
                       <Image
-                        src={design.imageUrl}
+                        src={toPublicImageSrc(design.imageUrl)}
                         alt={design.title}
                         fill
                         className="object-cover"
@@ -165,7 +169,7 @@ export function FlashBookingSection<T extends FieldValues>({
                         {design.title}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {formatPrice(design.price)}
+                        {formatDesignPrice(design.price)}
                       </p>
                     </div>
                   </div>
@@ -207,7 +211,7 @@ export function FlashBookingSection<T extends FieldValues>({
                 <p className="text-sm text-destructive">{errors.size.message as string}</p>
               )}
               <p className="text-sm text-muted-foreground">
-                {f.priceLabel}: {formatPrice(selectedDesign.price)}
+                {f.priceLabel}: {formatDesignPrice(selectedDesign.price)}
                 {selectedDesign.usesUniformPrice && flashUniformPrice !== null
                   ? ` (${f.uniformPriceNote})`
                   : null}
@@ -255,7 +259,7 @@ export function FlashBookingSection<T extends FieldValues>({
               <DialogTitle className="sr-only">{lightboxDesign.title}</DialogTitle>
               <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted">
                 <Image
-                  src={lightboxDesign.imageUrl}
+                  src={toPublicImageSrc(lightboxDesign.imageUrl)}
                   alt={lightboxDesign.title}
                   fill
                   className="object-contain"

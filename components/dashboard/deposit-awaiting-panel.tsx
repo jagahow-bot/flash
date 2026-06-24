@@ -4,6 +4,7 @@ import { useAppDictionary } from "@/components/providers/locale-provider";
 import { getActiveProjectTimeSlot } from "@/lib/project/active-session-state";
 import { isAwaitingDepositPayment } from "@/lib/project/deposit-deadline";
 import { formatDepositDeadline } from "@/lib/project/format";
+import { formatStudioPrice } from "@/lib/project/format";
 import {
   formatSessionSlotLabel,
   getCurrentSessionIndex,
@@ -11,6 +12,7 @@ import {
   getSessionProgressLabel,
 } from "@/lib/project/session-schedule";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import {
   Card,
   CardContent,
@@ -19,7 +21,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function DepositAwaitingPanel({ project }: { project: Project }) {
+export function DepositAwaitingPanel({
+  project,
+  studio,
+}: {
+  project: Project;
+  studio?: Pick<Studio, "quoteCurrency"> | null;
+}) {
   const dict = useAppDictionary();
   const d = dict.dashboard;
   const p = dict.project;
@@ -56,10 +64,11 @@ export function DepositAwaitingPanel({ project }: { project: Project }) {
         {getCurrentSessionPricing(project) && (
           <p>
             <span className="text-muted-foreground">{d.depositDue}</span>
-            NT${" "}
-            {Number(
-              getCurrentSessionPricing(project)!.depositRequired
-            ).toLocaleString("en-US")}
+            {formatStudioPrice(
+              getCurrentSessionPricing(project)!.depositRequired,
+              studio,
+              dict,
+            )}
           </p>
         )}
         {project.depositDeadlineAt ? (

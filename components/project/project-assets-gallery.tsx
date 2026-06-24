@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { toPublicImageSrc } from "@/lib/images/public-src";
 import { cn } from "@/lib/utils";
 
 export function ProjectAssetsGallery({
@@ -49,7 +50,7 @@ export function ProjectAssetsGallery({
             )}
           >
             <Image
-              src={url}
+              src={toPublicImageSrc(url)}
               alt={`${title} ${index + 1}`}
               fill
               className="object-cover"

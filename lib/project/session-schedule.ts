@@ -1,6 +1,13 @@
 import type { AppDictionary } from "@/lib/i18n/app-types";
 import { formatMessage } from "@/lib/i18n/format";
-import { formatPrice, formatTimeSlot } from "@/lib/project/format";
+import {
+  formatPrice,
+  formatPriceFieldLabel,
+  resolveStudioQuoteCurrency,
+} from "@/lib/currency/quote-currency";
+import type { BudgetCurrency } from "@/types/intake-form";
+import type { Studio } from "@/types/studio";
+import { formatTimeSlot } from "@/lib/project/format";
 import { getPersistedSessionRecords } from "@/lib/project/session-history";
 import type { Project } from "@/types/project";
 import type { SessionRecord } from "@/types/session-record";
@@ -21,6 +28,18 @@ export function isMultiSession(project: Project): boolean {
 export interface SessionLabelOptions {
   sessionCountOverride?: number;
   currentSessionIndexOverride?: number;
+  currency?: BudgetCurrency;
+  studio?: Pick<Studio, "quoteCurrency"> | null;
+}
+
+function resolveQuoteCurrency(options?: SessionLabelOptions): BudgetCurrency {
+  if (options?.currency) {
+    return options.currency;
+  }
+  if (options?.studio) {
+    return resolveStudioQuoteCurrency(options.studio);
+  }
+  return resolveStudioQuoteCurrency(null);
 }
 
 function resolveSessionCount(
@@ -256,13 +275,15 @@ export function requiresDepositForCurrentSession(project: Project): boolean {
 export function getCurrentSessionDepositLabel(
   project: Project,
   dict: AppDictionary,
+  studio?: Pick<Studio, "quoteCurrency"> | null,
 ): string {
   const amount = getCurrentSessionPricing(project)?.depositRequired;
+  const currency = resolveStudioQuoteCurrency(studio);
   if (amount === undefined) {
     return dict.project.depositLabel;
   }
 
-  const formatted = formatPrice(amount, dict.common);
+  const formatted = formatPrice(amount, { currency });
 
   if (!isMultiSession(project)) {
     return formatted;
@@ -279,11 +300,12 @@ export function getSessionPriceFieldLabel(
   dict: AppDictionary["project"],
   options?: SessionLabelOptions,
 ): string {
+  const currency = resolveQuoteCurrency(options);
   if (!isEffectivelyMultiSession(project, options)) {
-    return dict.totalPriceField;
+    return formatPriceFieldLabel(dict.totalPriceField, currency);
   }
 
-  return formatMessage(dict.sessionPriceField, {
+  return formatPriceFieldLabel(dict.sessionPriceField, currency, {
     index: resolveCurrentSessionIndex(project, options),
   });
 }
@@ -293,11 +315,12 @@ export function getSessionDepositFieldLabel(
   dict: AppDictionary["project"],
   options?: SessionLabelOptions,
 ): string {
+  const currency = resolveQuoteCurrency(options);
   if (!isEffectivelyMultiSession(project, options)) {
-    return dict.depositField;
+    return formatPriceFieldLabel(dict.depositField, currency);
   }
 
-  return dict.sessionDepositField;
+  return formatPriceFieldLabel(dict.sessionDepositField, currency);
 }
 
 export function getSessionPriceDisplayLabel(
@@ -330,6 +353,7 @@ export function getSessionPriceOverviewHint(
   project: Project,
   dict: AppDictionary,
   emptyDash: string,
+  studio?: Pick<Studio, "quoteCurrency"> | null,
 ): string | null {
   if (!project.sessionDetails) {
     return null;
@@ -348,9 +372,10 @@ export function getSessionPriceOverviewHint(
     return null;
   }
 
-  const price = hasPrice ? formatPrice(totalPrice, dict.common) : emptyDash;
+  const currency = resolveStudioQuoteCurrency(studio);
+  const price = hasPrice ? formatPrice(totalPrice, { currency }) : emptyDash;
   const deposit = hasDeposit
-    ? formatPrice(depositRequired, dict.common)
+    ? formatPrice(depositRequired, { currency })
     : emptyDash;
 
   if (!isMultiSession(project)) {
@@ -368,6 +393,7 @@ export function getSessionPriceOverviewHint(
 export function getSessionInboxPriceLabel(
   project: Project,
   dict: AppDictionary,
+  studio?: Pick<Studio, "quoteCurrency"> | null,
 ): string | null {
   if (!project.sessionDetails) {
     return null;
@@ -378,7 +404,9 @@ export function getSessionInboxPriceLabel(
     return null;
   }
 
-  const price = formatPrice(rawPrice, dict.common);
+  const price = formatPrice(rawPrice, {
+    currency: resolveStudioQuoteCurrency(studio),
+  });
 
   if (!isMultiSession(project)) {
     return price;

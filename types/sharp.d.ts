@@ -8,14 +8,20 @@ declare module "sharp" {
     composite(
       images: Array<{ input: Buffer; blend?: string }>
     ): SharpInstance;
+    resize(
+      width: number,
+      height: number,
+      options?: { fit?: string },
+    ): SharpInstance;
     png(): SharpInstance;
     jpeg(options?: { quality?: number }): SharpInstance;
     webp(options?: { quality?: number }): SharpInstance;
     toBuffer(): Promise<Buffer>;
+    toFile(path: string): Promise<void>;
   }
 
   interface SharpConstructor {
-    (input?: Buffer, options?: { failOn?: string }): SharpInstance;
+    (input?: Buffer | string, options?: { failOn?: string }): SharpInstance;
   }
 
   const sharp: SharpConstructor;

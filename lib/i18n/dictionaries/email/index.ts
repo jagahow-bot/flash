@@ -105,7 +105,15 @@ function mergeEmailDictionary(
       ...override.preSessionArchivedClient,
     },
     studioWelcome: { ...base.studioWelcome, ...override.studioWelcome },
-  };
+    ...(base.studioOutreach || override.studioOutreach
+      ? {
+          studioOutreach: {
+            ...base.studioOutreach,
+            ...override.studioOutreach,
+          },
+        }
+      : {}),
+  } as EmailDictionary;
 }
 
 export async function getEmailDictionary(locale: Locale): Promise<EmailDictionary> {

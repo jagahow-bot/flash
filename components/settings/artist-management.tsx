@@ -295,10 +295,12 @@ export function ArtistManagement({
   studio,
   artists: initialArtists,
   adminEmail,
+  readOnly = false,
 }: {
   studio: Studio;
   artists: Artist[];
   adminEmail?: string;
+  readOnly?: boolean;
 }) {
   const dict = useAppDictionary();
   const ar = dict.artists;
@@ -409,7 +411,7 @@ export function ArtistManagement({
               onCheckedChange={(checked) =>
                 void handleSoloStudioChange(checked === true)
               }
-              disabled={soloSaving}
+              disabled={readOnly || soloSaving}
               className="mt-0.5"
             />
             <span>
@@ -435,7 +437,7 @@ export function ArtistManagement({
               {soloMode ? ar.artistListSolo : ar.artistListTeam}
             </CardDescription>
           </div>
-          {!soloMode && !isCreating && (
+          {!readOnly && !soloMode && !isCreating && (
             <Button type="button" size="sm" onClick={() => setIsCreating(true)}>
               {ar.addArtist}
             </Button>
@@ -448,7 +450,7 @@ export function ArtistManagement({
             </p>
           )}
 
-          {isCreating && !soloMode && (
+          {isCreating && !soloMode && !readOnly && (
             <div className="rounded-xl border border-dashed p-4">
               <p className="mb-4 text-sm font-medium">{ar.addArtist}</p>
               <ArtistEditor
@@ -520,15 +522,17 @@ export function ArtistManagement({
                         />
                       ) : null}
                     </div>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="shrink-0"
-                      onClick={() => setEditingId(artist.artistId)}
-                    >
-                      {c.edit}
-                    </Button>
+                    {!readOnly ? (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="shrink-0"
+                        onClick={() => setEditingId(artist.artistId)}
+                      >
+                        {c.edit}
+                      </Button>
+                    ) : null}
                   </div>
                 )}
               </div>

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
+import { StudioStorefront } from "@/components/studio/studio-storefront";
+import { getPreviewSessionFromCookies } from "@/lib/auth/preview-session";
 import { getStudioBySlug } from "@/lib/firestore/studios.server";
 import { getAppDictionary } from "@/lib/i18n/get-app-dictionary";
 import { getRequestLocale } from "@/lib/i18n/resolve-locale";
 import { getSiteUrl } from "@/lib/i18n/site-url";
-import { StudioBrandHeader } from "@/components/studio/studio-brand-header";
-import { StudioSocialLinks } from "@/components/studio/studio-social-links";
-import { Button } from "@/components/ui/button";
+import { applyProspectDefaultsToStudio } from "@/lib/studio/prospect-defaults";
+import { resolveStudioLocale } from "@/lib/studio/resolve-studio-locale";
 
 function buildStudioDescription(
   studio: { name: string; bio: string },
@@ -44,6 +44,7 @@ export async function generateMetadata({
   );
   const title = `${studio.name} | FLASH`;
   const ogImageUrl = studio.logoUrl ?? `${siteUrl}/og/flash.svg`;
+  const isPendingActivation = studio.lifecycleStatus === "pending_activation";
 
   return {
     title,
@@ -69,8 +70,8 @@ export async function generateMetadata({
       images: [ogImageUrl],
     },
     robots: {
-      index: true,
-      follow: true,
+      index: !isPendingActivation,
+      follow: !isPendingActivation,
     },
   };
 }
@@ -81,28 +82,30 @@ export default async function StudioPage({
   params: Promise<{ studioSlug: string }>;
 }) {
   const { studioSlug } = await params;
-  const [studio, dict] = await Promise.all([
+  const [rawStudio, previewSession] = await Promise.all([
     getStudioBySlug(studioSlug),
-    getAppDictionary(await getRequestLocale()),
+    getPreviewSessionFromCookies(),
   ]);
 
-  if (!studio) {
+  if (!rawStudio) {
     notFound();
   }
 
+  const locale = resolveStudioLocale(rawStudio);
+  const studio =
+    rawStudio.lifecycleStatus === "pending_activation"
+      ? applyProspectDefaultsToStudio(rawStudio, locale)
+      : rawStudio;
+
+  const showPreviewBanner =
+    rawStudio.lifecycleStatus === "pending_activation" &&
+    previewSession?.studioId === rawStudio.studioId;
+
   return (
-    <main className="min-h-screen">
-      <div className="mx-auto flex max-w-2xl flex-col items-center gap-6 px-4 py-8 text-center sm:gap-8 sm:py-16">
-        <StudioBrandHeader
-          name={studio.name}
-          bio={studio.bio}
-          logoUrl={studio.logoUrl}
-        />
-        <StudioSocialLinks socialLinks={studio.socialLinks} />
-        <Link href={`/${studio.slug}/book`}>
-          <Button size="lg">{dict.booking.bookCta}</Button>
-        </Link>
-      </div>
-    </main>
+    <StudioStorefront
+      studio={studio}
+      showPreviewBanner={showPreviewBanner}
+      showCareGuide={rawStudio.lifecycleStatus !== "pending_activation"}
+    />
   );
 }

@@ -5,7 +5,7 @@ import { useAppDictionary } from "@/components/providers/locale-provider";
 import { formatMessage } from "@/lib/i18n/format";
 import { getActiveProjectTimeSlot } from "@/lib/project/active-session-state";
 import { isAwaitingDepositPayment } from "@/lib/project/deposit-deadline";
-import { formatDepositDeadline, formatPrice } from "@/lib/project/format";
+import { formatDepositDeadline, formatStudioPrice } from "@/lib/project/format";
 import {
   formatSessionSlotLabel,
   getBookedSessionCount,
@@ -43,10 +43,12 @@ export function ActionBanner({
   project,
   studio,
   studioSlug,
+  previewMode = false,
 }: {
   project: Project;
   studio: Studio;
   studioSlug: string;
+  previewMode?: boolean;
 }) {
   const dict = useAppDictionary();
   const p = dict.project;
@@ -112,15 +114,16 @@ export function ActionBanner({
           <div className="grid gap-2 text-sm sm:grid-cols-2">
             <p>
               {getSessionPriceDisplayLabel(project, p)}：
-              {formatPrice(
+              {formatStudioPrice(
                 getCurrentSessionPricing(project)!.totalPrice,
-                dict.common,
+                studio,
+                dict,
               )}
             </p>
             <p>
               {p.sessionDeposit}：
               {requiresDepositForCurrentSession(project)
-                ? getCurrentSessionDepositLabel(project, dict)
+                ? getCurrentSessionDepositLabel(project, dict, studio)
                 : p.noDepositRequired}
             </p>
             <p>
@@ -169,11 +172,17 @@ export function ActionBanner({
                       {studio.paymentInfo}
                     </pre>
                   </div>
-                  <ClientDepositUpload
-                    projectId={project.projectId}
-                    studioSlug={studioSlug}
-                    totalSessions={totalSessions}
-                  />
+                  {!previewMode ? (
+                    <ClientDepositUpload
+                      projectId={project.projectId}
+                      studioSlug={studioSlug}
+                      totalSessions={totalSessions}
+                    />
+                  ) : (
+                    <p className="text-sm text-muted-foreground">
+                      {dict.preview.clientActionDisabled}
+                    </p>
+                  )}
                 </>
               )}
             </>
@@ -181,14 +190,35 @@ export function ActionBanner({
             <>
               {project.proposedTimeSlots &&
                 project.proposedTimeSlots.length > 0 && (
-                  <ClientSlotPicker
-                    projectId={project.projectId}
-                    studioSlug={studioSlug}
-                    slots={project.proposedTimeSlots}
-                    sessionIndex={sessionIndex}
-                    totalSessions={totalSessions}
-                    bookingTitle={sessionTitle}
-                  />
+                  previewMode ? (
+                    <div className="rounded-lg border bg-background/80 px-4 py-3 text-sm">
+                      <p className="font-medium">{dict.preview.proposedSlotsLabel}</p>
+                      <ul className="mt-2 space-y-1 text-muted-foreground">
+                        {project.proposedTimeSlots.map((slot) => (
+                          <li key={slot.startTime.toString()}>
+                            {formatSessionSlotLabel(
+                              project,
+                              slot,
+                              sessionIndex,
+                              dict,
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                        {dict.preview.clientActionDisabled}
+                      </p>
+                    </div>
+                  ) : (
+                    <ClientSlotPicker
+                      projectId={project.projectId}
+                      studioSlug={studioSlug}
+                      slots={project.proposedTimeSlots}
+                      sessionIndex={sessionIndex}
+                      totalSessions={totalSessions}
+                      bookingTitle={sessionTitle}
+                    />
+                  )
                 )}
               {!requiresDepositForCurrentSession(project) &&
                 project.proposedTimeSlots &&

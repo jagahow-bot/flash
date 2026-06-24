@@ -9,6 +9,7 @@ import {
   getActiveProjectDepositProof,
   getActiveProjectTimeSlot,
 } from "@/lib/project/active-session-state";
+import { formatStudioPrice } from "@/lib/project/format";
 import {
   formatSessionSlotLabel,
   getCurrentSessionIndex,
@@ -16,6 +17,7 @@ import {
   getSessionProgressLabel,
 } from "@/lib/project/session-schedule";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -25,7 +27,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function DepositReviewPanel({ project }: { project: Project }) {
+export function DepositReviewPanel({
+  project,
+  studio,
+}: {
+  project: Project;
+  studio?: Pick<Studio, "quoteCurrency"> | null;
+}) {
   const dict = useAppDictionary();
   const d = dict.dashboard;
   const dep = dict.deposit;
@@ -97,10 +105,11 @@ export function DepositReviewPanel({ project }: { project: Project }) {
         {getCurrentSessionPricing(project) && (
           <p className="text-sm">
             <span className="text-muted-foreground">{d.depositDue}</span>
-            NT${" "}
-            {Number(
-              getCurrentSessionPricing(project)!.depositRequired
-            ).toLocaleString("en-US")}
+            {formatStudioPrice(
+              getCurrentSessionPricing(project)!.depositRequired,
+              studio,
+              dict,
+            )}
             {sessionProgress
               ? formatMessage(dep.sessionSuffix, { index: sessionIndex })
               : ""}

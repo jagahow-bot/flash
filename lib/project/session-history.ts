@@ -5,7 +5,7 @@ import {
   getActiveProjectTimeSlot,
 } from "@/lib/project/active-session-state";
 import { isAwaitingDepositPayment } from "@/lib/project/deposit-deadline";
-import { formatPrice, formatTimeSlot } from "@/lib/project/format";
+import { formatStudioPrice, formatTimeSlot } from "@/lib/project/format";
 import {
   getCurrentSessionIndex,
   getCurrentSessionPricing,
@@ -16,6 +16,7 @@ import {
   requiresDepositForCurrentSession,
 } from "@/lib/project/session-schedule";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import type { SessionRecord } from "@/types/session-record";
 import type { TimeSlot } from "@/types/session-details";
 
@@ -81,7 +82,8 @@ export function shouldShowSessionHistory(project: Project): boolean {
 
 function getDepositInfo(
   project: Project,
-  common: AppDictionary["common"],
+  studio: Pick<Studio, "quoteCurrency"> | null | undefined,
+  dict: AppDictionary,
 ): {
   depositLabel?: string;
   depositWaived: boolean;
@@ -97,7 +99,7 @@ function getDepositInfo(
   }
 
   return {
-    depositLabel: formatPrice(deposit, common),
+    depositLabel: formatStudioPrice(deposit, studio, dict),
     depositWaived: false,
   };
 }
@@ -147,13 +149,14 @@ export function shouldShowSessionHistoryDepositAmount(
 export function buildSessionHistory(
   project: Project,
   dict: AppDictionary,
+  studio?: Pick<Studio, "quoteCurrency"> | null,
 ): SessionHistoryItem[] {
   const total = getTotalSessions(project);
   if (total <= 1) {
     return [];
   }
 
-  const { depositLabel, depositWaived } = getDepositInfo(project, dict.common);
+  const { depositLabel, depositWaived } = getDepositInfo(project, studio, dict);
   const recordsByIndex = new Map(
     getPersistedSessionRecords(project).map((record) => [
       record.sessionIndex,

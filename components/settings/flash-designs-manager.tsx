@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 interface DesignDraft {
   designId?: string;
   title: string;
@@ -67,7 +68,13 @@ function createEmptyDraft(sortOrder: number): DesignDraft {
   };
 }
 
-export function FlashDesignsManager({ studio }: { studio: Studio }) {
+export function FlashDesignsManager({
+  studio,
+  readOnly = false,
+}: {
+  studio: Studio;
+  readOnly?: boolean;
+}) {
   const dict = useAppDictionary();
   const f = dict.flash;
   const c = dict.common;
@@ -311,7 +318,12 @@ export function FlashDesignsManager({ studio }: { studio: Studio }) {
         <CardTitle>{f.settingsTitle}</CardTitle>
         <CardDescription>{f.settingsDescription}</CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col gap-6">
+      <CardContent
+        className={cn(
+          "flex flex-col gap-6",
+          readOnly && "pointer-events-none",
+        )}
+      >
         <div className="flex flex-col gap-4 rounded-lg border p-4">
           <label className="flex items-center gap-2 text-sm">
             <Checkbox
@@ -341,21 +353,25 @@ export function FlashDesignsManager({ studio }: { studio: Studio }) {
             </div>
           </div>
 
-          <Button
-            type="button"
-            onClick={() => void saveSettings()}
-            disabled={isSavingSettings}
-          >
-            {isSavingSettings ? c.saving : f.saveSettings}
-          </Button>
+          {!readOnly ? (
+            <Button
+              type="button"
+              onClick={() => void saveSettings()}
+              disabled={isSavingSettings}
+            >
+              {isSavingSettings ? c.saving : f.saveSettings}
+            </Button>
+          ) : null}
         </div>
 
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-medium">{f.designListTitle}</p>
-          <Button type="button" variant="outline" size="sm" onClick={addDesign}>
-            <Plus className="mr-1 size-4" aria-hidden />
-            {f.addDesign}
-          </Button>
+          {!readOnly ? (
+            <Button type="button" variant="outline" size="sm" onClick={addDesign}>
+              <Plus className="mr-1 size-4" aria-hidden />
+              {f.addDesign}
+            </Button>
+          ) : null}
         </div>
 
         {isLoading ? (
@@ -547,46 +563,48 @@ export function FlashDesignsManager({ studio }: { studio: Studio }) {
                         {f.active}
                       </label>
 
-                      <div className="flex flex-wrap gap-2">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          disabled={index === 0}
-                          onClick={() => moveDesign(draft, -1)}
-                          aria-label={c.moveUpAria}
-                        >
-                          <ChevronUp className="size-4" aria-hidden />
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          disabled={index === drafts.length - 1}
-                          onClick={() => moveDesign(draft, 1)}
-                          aria-label={c.moveDownAria}
-                        >
-                          <ChevronDown className="size-4" aria-hidden />
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => void deleteDesign(draft)}
-                        >
-                          <Trash2 className="mr-1 size-4" aria-hidden />
-                          {f.deleteDesign}
-                        </Button>
-                        <Button
-                          type="button"
-                          size="sm"
-                          className="ml-auto"
-                          disabled={savingDesignId === key}
-                          onClick={() => void saveDesign(draft)}
-                        >
-                          {savingDesignId === key ? c.saving : f.saveDesign}
-                        </Button>
-                      </div>
+                      {!readOnly ? (
+                        <div className="flex flex-wrap gap-2">
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            disabled={index === 0}
+                            onClick={() => moveDesign(draft, -1)}
+                            aria-label={c.moveUpAria}
+                          >
+                            <ChevronUp className="size-4" aria-hidden />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            disabled={index === drafts.length - 1}
+                            onClick={() => moveDesign(draft, 1)}
+                            aria-label={c.moveDownAria}
+                          >
+                            <ChevronDown className="size-4" aria-hidden />
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => void deleteDesign(draft)}
+                          >
+                            <Trash2 className="mr-1 size-4" aria-hidden />
+                            {f.deleteDesign}
+                          </Button>
+                          <Button
+                            type="button"
+                            size="sm"
+                            className="ml-auto"
+                            disabled={savingDesignId === key}
+                            onClick={() => void saveDesign(draft)}
+                          >
+                            {savingDesignId === key ? c.saving : f.saveDesign}
+                          </Button>
+                        </div>
+                      ) : null}
                     </div>
                   )}
                 </div>

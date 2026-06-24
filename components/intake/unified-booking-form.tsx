@@ -268,6 +268,7 @@ export function UnifiedBookingForm({
             designs={designs}
             flashUniformPrice={flashUniformPrice}
             isLoadingDesigns={isLoadingDesigns}
+            studio={studio}
           />
         )}
 

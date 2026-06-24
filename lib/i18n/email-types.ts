@@ -105,5 +105,15 @@ export interface EmailDictionary {
     dashboardButton: string;
     bookingPageButton: string;
   };
+  studioOutreach?: {
+    subject: string;
+    title: string;
+    body: string;
+    ctaTitle: string;
+    ctaBody: string;
+    claimButton: string;
+    previewButton: string;
+    storefrontButton: string;
+  };
   countHint: string;
 }

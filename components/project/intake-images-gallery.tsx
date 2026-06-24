@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useAppDictionary } from "@/components/providers/locale-provider";
 import { formatMessage } from "@/lib/i18n/format";
+import { toPublicImageSrc } from "@/lib/images/public-src";
 import type { IntakeForm } from "@/types/intake-form";
 
 export function IntakeImagesGallery({ intakeForm }: { intakeForm: IntakeForm }) {
@@ -24,14 +25,16 @@ export function IntakeImagesGallery({ intakeForm }: { intakeForm: IntakeForm }) 
       {hasPlacement && intakeForm.placementPhotoUrl && (
         <div className="flex flex-col gap-2">
           <p className="text-xs text-muted-foreground">{p.placementPhoto}</p>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg border bg-muted">
-            <Image
-              src={intakeForm.placementPhotoUrl}
-              alt={b.placementPhoto}
-              fill
-              className="object-contain"
-              sizes="(max-width: 672px) 100vw, 672px"
-            />
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="relative aspect-square overflow-hidden rounded-lg border bg-muted">
+              <Image
+                src={toPublicImageSrc(intakeForm.placementPhotoUrl)}
+                alt={b.placementPhoto}
+                fill
+                className="object-cover"
+                sizes="200px"
+              />
+            </div>
           </div>
         </div>
       )}
@@ -48,7 +51,7 @@ export function IntakeImagesGallery({ intakeForm }: { intakeForm: IntakeForm }) 
                 className="relative aspect-square overflow-hidden rounded-lg border bg-muted"
               >
                 <Image
-                  src={url}
+                  src={toPublicImageSrc(url)}
                   alt={`${b.referenceImages} ${index + 1}`}
                   fill
                   className="object-cover"

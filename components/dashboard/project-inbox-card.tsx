@@ -53,17 +53,22 @@ export function ProjectInboxCard({
   studio,
   artistName,
   unreadDiscussionCount = 0,
+  readonly = false,
+  projectHref,
 }: {
   project: Project;
   studio?: Studio;
   artistName?: string | null;
   unreadDiscussionCount?: number;
+  readonly?: boolean;
+  /** When set, card links here even in readonly preview mode. */
+  projectHref?: string;
 }) {
   const dict = useAppDictionary();
   const hasDanger = project.tattooBrief?.riskFlags.some(
     (flag) => flag.level === "danger",
   );
-  const sessionPriceLabel = getSessionInboxPriceLabel(project, dict);
+  const sessionPriceLabel = getSessionInboxPriceLabel(project, dict, studio);
   const { summary, riskFlags } = getInboxProjectSummary(project, dict);
   const sizeLabel = getInboxProjectSize(project);
   const statusLabel = getInboxStatusLabel(project, dict, studio);
@@ -90,15 +95,15 @@ export function ProjectInboxCard({
     { key: "artist", label: dict.dashboard.artist, value: artistName?.trim() || dict.dashboard.unassigned },
   ] as const;
 
-  return (
-    <Link
-      href={`/dashboard/projects/${project.projectId}`}
-      className={cn(
-        "group flex flex-col gap-3 rounded-xl border bg-card p-4 transition-colors hover:bg-muted/40",
-        unreadDiscussionCount > 0 &&
-          "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
-      )}
-    >
+  const cardClassName = cn(
+    "group flex flex-col gap-3 rounded-xl border bg-card p-4 transition-colors",
+    (!readonly || projectHref) && "hover:bg-muted/40",
+    unreadDiscussionCount > 0 &&
+      "border-amber-300 bg-amber-50/50 ring-1 ring-amber-200/80 dark:border-amber-800 dark:bg-amber-950/20",
+  );
+
+  const cardBody = (
+    <>
       <div className="flex flex-wrap items-center gap-2">
         <span
           className={cn(
@@ -171,9 +176,24 @@ export function ProjectInboxCard({
             </span>
           )}
           {sessionPriceLabel ? <span>{sessionPriceLabel}</span> : null}
-          <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          {(!readonly || projectHref) ? (
+            <ChevronRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+          ) : null}
         </div>
       </div>
+    </>
+  );
+
+  if (readonly && !projectHref) {
+    return <div className={cardClassName}>{cardBody}</div>;
+  }
+
+  const href =
+    projectHref ?? `/dashboard/projects/${project.projectId}`;
+
+  return (
+    <Link href={href} className={cardClassName}>
+      {cardBody}
     </Link>
   );
 }

@@ -21,6 +21,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useAppDictionary } from "@/components/providers/locale-provider";
+import { PlatformProspectStudioForm } from "@/components/platform/platform-prospect-studio-form";
+import { PlatformScraperImportForm } from "@/components/platform/platform-scraper-import-form";
 import type { PlatformStudioSummary } from "@/lib/firestore/platform-studios.server";
 import type { PlatformBillingTier, StudioBillingStatus } from "@/types/billing";
 
@@ -178,6 +180,18 @@ export function PlatformStudiosDashboard({
         <h1 className="text-2xl font-semibold tracking-tight">{pa.title}</h1>
         <p className="mt-2 text-muted-foreground">{pa.description}</p>
       </div>
+
+      <PlatformProspectStudioForm
+        onCreated={async () => {
+          await refreshStudios();
+        }}
+      />
+
+      <PlatformScraperImportForm
+        onImported={async () => {
+          await refreshStudios();
+        }}
+      />
 
       <Card>
         <CardHeader>

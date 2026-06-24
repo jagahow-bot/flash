@@ -111,6 +111,17 @@ const email: EmailDictionary = {
     dashboardButton: "Open dashboard",
     bookingPageButton: "View booking page",
   },
+  studioOutreach: {
+    subject: "Your FLASH studio preview for {studioName}",
+    title: "We prepared a FLASH workspace for you",
+    body: "Hi {studioName},\n\nWe set up a demo FLASH studio with sample bookings so you can see how intake, quoting, and scheduling work — before you commit.",
+    ctaTitle: "Claim your studio",
+    ctaBody:
+      "Use the secure link below to preview the dashboard (read-only) and activate your account with a password. The link expires in 7 days.",
+    claimButton: "Claim studio & preview dashboard",
+    previewButton: "Preview dashboard",
+    storefrontButton: "View booking page",
+  },
   countHint: " ({count} files)",
 };
 

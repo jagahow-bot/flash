@@ -68,6 +68,7 @@ interface ProjectQuoteFormProps {
   studioProjects: Project[];
   canAssignArtist: boolean;
   lockedArtistId?: string;
+  forcedReadOnly?: boolean;
 }
 
 export function ProjectQuoteForm({
@@ -77,6 +78,7 @@ export function ProjectQuoteForm({
   studioProjects,
   canAssignArtist,
   lockedArtistId,
+  forcedReadOnly = false,
 }: ProjectQuoteFormProps) {
   const dict = useAppDictionary();
   const q = dict.quote;
@@ -170,6 +172,7 @@ export function ProjectQuoteForm({
   const sessionLabelOptions = {
     sessionCountOverride: sessionCount,
     currentSessionIndexOverride: currentSessionIndex,
+    studio,
   };
   const sessionQuoteHelperText = getSessionQuoteHelperText(
     project,
@@ -256,6 +259,7 @@ export function ProjectQuoteForm({
     hasMoreSessionsToBook(project) && getCurrentSessionIndex(project) > 1;
 
   const readOnly =
+    forcedReadOnly ||
     projectStatus === "deposit_submitted" ||
     (projectStatus === "booked" && !canScheduleNextSession) ||
     projectStatus === "completed";

@@ -12,6 +12,7 @@ export const BUDGET_CURRENCIES = [
   "THB",
   "VND",
   "BRL",
+  "PHP",
 ] as const;
 export type BudgetCurrency = (typeof BUDGET_CURRENCIES)[number];
 export const DEFAULT_BUDGET_CURRENCY: BudgetCurrency = "TWD";

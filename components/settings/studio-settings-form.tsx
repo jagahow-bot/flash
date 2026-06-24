@@ -23,6 +23,11 @@ import { normalizeStudioSocialLinks } from "@/lib/studio/social-links";
 import { locales, localeLabels, defaultLocale } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
 import { DEFAULT_DEPOSIT_DEADLINE_DAYS } from "@/lib/project/deposit-deadline";
+import { resolveStudioQuoteCurrency } from "@/lib/currency/quote-currency";
+import {
+  BUDGET_CURRENCIES,
+  type BudgetCurrency,
+} from "@/types/intake-form";
 import type { Studio } from "@/types/studio";
 import type { StudioClosure } from "@/types/studio-closure";
 import type { StudioWeeklySchedule } from "@/types/operating-hours";
@@ -39,7 +44,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function StudioSettingsForm({ studio }: { studio: Studio }) {
+export function StudioSettingsForm({
+  studio,
+  readOnly = false,
+}: {
+  studio: Studio;
+  readOnly?: boolean;
+}) {
   const dict = useAppDictionary();
   const s = dict.settings;
   const e = dict.errors;
@@ -50,6 +61,9 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
   const [bio, setBio] = useState(studio.bio);
   const [preferredLocale, setPreferredLocale] = useState<Locale>(
     studio.preferredLocale ?? defaultLocale
+  );
+  const [quoteCurrency, setQuoteCurrency] = useState<BudgetCurrency>(
+    resolveStudioQuoteCurrency(studio),
   );
   const [paymentInfo, setPaymentInfo] = useState(studio.paymentInfo);
   const [depositDeadlineDays, setDepositDeadlineDays] = useState(
@@ -121,6 +135,7 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
           bookingCode: bookingCode.trim() ? bookingCode.trim().toUpperCase() : null,
           bio,
           preferredLocale,
+          quoteCurrency,
           paymentInfo,
           depositDeadlineDays: parsedDeadlineDays,
           careGuide,
@@ -157,7 +172,12 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-6"
+      aria-readonly={readOnly || undefined}
+    >
+      <div className={readOnly ? "pointer-events-none" : undefined}>
       <Card>
         <CardHeader>
           <CardTitle>{s.basicInfoTitle}</CardTitle>
@@ -239,6 +259,26 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
             </select>
             <p className="text-xs text-muted-foreground">
               {s.briefLanguageDescription}
+            </p>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label htmlFor="quoteCurrency">{s.quoteCurrencyLabel}</Label>
+            <select
+              id="quoteCurrency"
+              value={quoteCurrency}
+              onChange={(event) =>
+                setQuoteCurrency(event.target.value as BudgetCurrency)
+              }
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {BUDGET_CURRENCIES.map((currency) => (
+                <option key={currency} value={currency}>
+                  {dict.booking.budgetCurrencies[currency] ?? currency}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-muted-foreground">
+              {s.quoteCurrencyDescription}
             </p>
           </div>
           <label className="flex items-center gap-2 text-sm">
@@ -400,9 +440,13 @@ export function StudioSettingsForm({ studio }: { studio: Studio }) {
         </p>
       )}
 
-      <Button type="submit" disabled={isSubmitting} className="w-fit">
-        {isSubmitting ? c.saving : s.saveSettings}
-      </Button>
+      </div>
+
+      {!readOnly ? (
+        <Button type="submit" disabled={isSubmitting} className="w-fit">
+          {isSubmitting ? c.saving : s.saveSettings}
+        </Button>
+      ) : null}
     </form>
   );
 }

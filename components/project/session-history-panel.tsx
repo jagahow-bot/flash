@@ -15,6 +15,7 @@ import {
 } from "@/lib/project/session-history";
 import { getSessionProgressLabel } from "@/lib/project/session-schedule";
 import type { Project } from "@/types/project";
+import type { Studio } from "@/types/studio";
 import { cn } from "@/lib/utils";
 import {
   Card,
@@ -40,9 +41,11 @@ const PHASE_STYLES: Record<SessionHistoryItem["phase"], string> = {
 
 export function SessionHistoryPanel({
   project,
+  studio,
   audience = "client",
 }: {
   project: Project;
+  studio?: Pick<Studio, "quoteCurrency"> | null;
   audience?: "client" | "studio";
 }) {
   const dict = useAppDictionary();
@@ -52,7 +55,7 @@ export function SessionHistoryPanel({
     return null;
   }
 
-  const items = buildSessionHistory(project, dict);
+  const items = buildSessionHistory(project, dict, studio);
   const progress = getSessionProgressLabel(project, p);
 
   if (items.length === 0) {

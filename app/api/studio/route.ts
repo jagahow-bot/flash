@@ -17,6 +17,7 @@ import {
   weeklyScheduleToOperatingHours,
 } from "@/lib/availability/weekly-schedule";
 import { locales } from "@/lib/i18n/config";
+import { BUDGET_CURRENCIES } from "@/types/intake-form";
 import { normalizeStudioSocialLinks } from "@/lib/studio/social-links";
 import type { StudioWeeklySchedule } from "@/types/operating-hours";
 import type { StudioClosure } from "@/types/studio-closure";
@@ -62,6 +63,7 @@ const studioUpdateSchema = z.object({
   preSessionDocuments: z.array(preSessionDocumentSchema).optional(),
   socialLinks: z.union([studioSocialLinksSchema, z.null()]).optional(),
   preferredLocale: z.enum(locales).optional(),
+  quoteCurrency: z.enum(BUDGET_CURRENCIES).optional(),
   watermarkSketches: z.boolean().optional(),
   flashBookingEnabled: z.boolean().optional(),
   flashUniformPrice: z.number().min(0).nullable().optional(),

@@ -74,6 +74,7 @@ export default async function DashboardProjectPage({
 
       <ProjectOverviewHeader
         project={project}
+        studio={studio}
         artistName={artistName}
         clientUser={clientUser}
       />

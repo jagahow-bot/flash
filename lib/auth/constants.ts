@@ -4,6 +4,9 @@ export const SESSION_MAX_AGE_MS = 5 * 24 * 60 * 60 * 1000; // 5 days
 
 export const PROTECTED_ROUTES = ["/dashboard", "/setup", "/platform"] as const;
 
+/** Routes reachable without a studio session cookie. */
+export const PUBLIC_APP_ROUTES = ["/claim", "/preview"] as const;
+
 export const AUTH_ROUTES = [
   "/login",
   "/register",
