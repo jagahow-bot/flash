@@ -16,15 +16,13 @@ export function ClaimPageClient() {
   const c = dict.claim;
   const searchParams = useSearchParams();
   const router = useRouter();
+  const token = searchParams.get("token")?.trim() ?? "";
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "verifying" | "done">("idle");
+  const displayError = token ? error : c.missingToken;
 
   useEffect(() => {
-    const token = searchParams.get("token")?.trim();
-    if (!token) {
-      setError(c.missingToken);
-      return;
-    }
+    if (!token) return;
 
     let cancelled = false;
 
@@ -69,7 +67,7 @@ export function ClaimPageClient() {
     return () => {
       cancelled = true;
     };
-  }, [c.missingToken, c.verifyFailed, router, searchParams]);
+  }, [c.verifyFailed, router, token]);
 
   return (
     <main className="flex min-h-screen items-center justify-center p-6">
@@ -81,9 +79,9 @@ export function ClaimPageClient() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          {error ? (
+          {displayError ? (
             <p className="text-sm text-destructive" role="alert">
-              {error}
+              {displayError}
             </p>
           ) : (
             <p className="text-sm text-muted-foreground">{c.verifyingHint}</p>
